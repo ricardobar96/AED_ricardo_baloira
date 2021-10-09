@@ -1,0 +1,6 @@
+
+Zuleima;Wors;345e;34;55.0;165.0
+Mickael;Mur;34t;45;77.0;187.0
+Paula;Flor de Otono;456y;26;55.0;180.0
+ERTE;ruin;56y;75;78.0;167.0
+Cristina;Perez;456u;27;60.0;169.0
