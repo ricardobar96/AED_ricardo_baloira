@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<propietarios>
+    <propietario>
+        <apellidos>Lopez Tejeda</apellidos>
+        <casa>
+            <direccion>C/ Las Cabezas, numero 11</direccion>
+            <habitaciones>3</habitaciones>
+            <idCasa>1</idCasa>
+            <precio>80000.0</precio>
+        </casa>
+        <casa>
+            <direccion>C/ Nube, numero 15</direccion>
+            <habitaciones>2</habitaciones>
+            <idCasa>4</idCasa>
+            <precio>45000.0</precio>
+        </casa>
+        <idPropietario>1</idPropietario>
+        <nombre>Carla</nombre>
+    </propietario>
+    <propietario>
+        <apellidos>Barreto Lorenzo</apellidos>
+        <casa>
+            <direccion>C/ Fernandez, numero 18</direccion>
+            <habitaciones>5</habitaciones>
+            <idCasa>2</idCasa>
+            <precio>120000.0</precio>
+        </casa>
+        <idPropietario>2</idPropietario>
+        <nombre>Cristian</nombre>
+    </propietario>
+    <propietario>
+        <apellidos>Rodriguez Perez</apellidos>
+        <casa>
+            <direccion>C/ Fernandez, numero 18</direccion>
+            <habitaciones>5</habitaciones>
+            <idCasa>2</idCasa>
+            <precio>120000.0</precio>
+        </casa>
+        <idPropietario>3</idPropietario>
+        <nombre>Julio</nombre>
+    </propietario>
+    <propietario>
+        <apellidos>Perez Pais</apellidos>
+        <casa>
+            <direccion>C/ Triana, numero 6</direccion>
+            <habitaciones>2</habitaciones>
+            <idCasa>3</idCasa>
+            <precio>50000.0</precio>
+        </casa>
+        <idPropietario>4</idPropietario>
+        <nombre>Marta</nombre>
+    </propietario>
+    <propietario>
+        <apellidos>Diaz de la Fuente</apellidos>
+        <casa>
+            <direccion>C/ Triana, numero 6</direccion>
+            <habitaciones>2</habitaciones>
+            <idCasa>3</idCasa>
+            <precio>50000.0</precio>
+        </casa>
+        <idPropietario>5</idPropietario>
+        <nombre>Antonio</nombre>
+    </propietario>
+</propietarios>

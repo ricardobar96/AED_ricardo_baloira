@@ -65,6 +65,10 @@ public class MonedasXML {
 
         ManejoFichero mf = new ManejoFichero("miXML.txt");
         System.out.println("---- Guardando monedas e historicos en xml ----");
+        for (Moneda moneda : almacen.getMoneda()) {
+            System.out.println(monedaXML.objToStringXML(moneda));
+        }
+  
         mf.agregarAlmacen(almacen);
 
         System.out.println("\n---- Leyendo monedas e historicos ----");
