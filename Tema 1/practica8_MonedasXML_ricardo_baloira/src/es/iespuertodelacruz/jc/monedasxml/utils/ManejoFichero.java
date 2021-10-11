@@ -10,6 +10,7 @@ import es.iespuertodelacruz.jc.monedasxml.entities.Historico;
 import es.iespuertodelacruz.jc.monedasxml.entities.Moneda;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Date;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -39,15 +40,30 @@ public class ManejoFichero {
         }
     }
     
-    public boolean borrarYAgregar(String texto){
-        return false;    
+    public void borrarYAgregar(int idMoneda){
+        try{
+            Almacen datos = unmarshalAlmacen("miXML.txt");
+            datos.getMoneda().removeIf((Moneda monedaBorrar) -> idMoneda==(monedaBorrar.getIdMoneda()));
+            Moneda nuevaMoneda = new Moneda(4, "dolar", "eeuu");
+            Historico h = new Historico();
+            h.setMoneda(nuevaMoneda);
+            h.setEquivalenteEuro(0.2);
+            h.setFecha(new Date());
+            h.setIdHistorico(4);
+            nuevaMoneda.getHistoricos().add(h);
+            datos.getMoneda().add(nuevaMoneda);
+            marshalAlmacen(datos, "nuevoXML.txt");
+        }
+        catch(JAXBException ex){
+            System.out.println("Ha ocurrido un error");
+        }
     }
     
-    public void leerTodo(){
+    public void leerTodo(String archivoLeer){
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Almacen.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();        
-            Almacen almacen = (Almacen) jaxbUnmarshaller.unmarshal( new File("miXML.txt") );
+            Almacen almacen = (Almacen) jaxbUnmarshaller.unmarshal( new File(archivoLeer) );
             
             for(Moneda m : almacen.getMoneda()){
                 for (Historico h : m.getHistoricos()) {
@@ -58,5 +74,18 @@ public class ManejoFichero {
         catch (JAXBException e) {
             System.out.println("Ha ocurrido un error");
         } 
+    }
+    
+    private static Almacen unmarshalAlmacen(String archivo) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Almacen.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        return (Almacen) jaxbUnmarshaller.unmarshal(new File(archivo));
+    }
+    
+    private static void marshalAlmacen(Almacen datos, String archivo) throws JAXBException{
+        JAXBContext jaxbContext = JAXBContext.newInstance(Almacen.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(datos, new File(archivo));
     }
 }

@@ -66,7 +66,11 @@ public class CasasXML {
         mf.agregarPropietarios(propietarios);
 
         System.out.println("\n---- Leyendo casas y propietarios ----");
-        mf.leerTodo();
+        mf.leerTodo("CasasXML.txt");
+        
+        System.out.println("\n---- Borrando y agregando nueva casa y propietario ----");
+        mf.borrarYAgregar(1);
+        mf.leerTodo("nuevoPropietarioXML.txt");
     }
     
 }

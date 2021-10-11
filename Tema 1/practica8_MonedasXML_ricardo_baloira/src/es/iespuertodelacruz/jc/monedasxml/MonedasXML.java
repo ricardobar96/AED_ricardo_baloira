@@ -72,6 +72,10 @@ public class MonedasXML {
         mf.agregarAlmacen(almacen);
 
         System.out.println("\n---- Leyendo monedas e historicos ----");
-        mf.leerTodo();
+        mf.leerTodo("miXML.txt");
+        
+        System.out.println("\n---- Borrando y agregando nueva moneda e historico ----");
+        mf.borrarYAgregar(1);
+        mf.leerTodo("nuevoXML.txt");
     }  
 }
