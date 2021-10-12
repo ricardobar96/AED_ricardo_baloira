@@ -57,20 +57,20 @@ public class CasasXML {
         propietarios.getPropietario().add(p4);
         propietarios.getPropietario().add(p5);
         
-        ManejoFichero mf = new ManejoFichero("CasasXML.txt");
+        ManejoFichero mf = new ManejoFichero("CasasXML.xml");
         System.out.println("---- Guardando casas y propietarios en xml ----");
         for (Propietario propietario : propietarios.getPropietario()) {
             System.out.println(propietarioXML.objToStringXML(propietario));
         }
   
-        mf.agregarPropietarios(propietarios);
+        mf.marshalPropietarios(propietarios, "CasasXML.xml");
 
         System.out.println("\n---- Leyendo casas y propietarios ----");
-        mf.leerTodo("CasasXML.txt");
+        mf.leerTodo("CasasXML.xml");
         
         System.out.println("\n---- Borrando y agregando nueva casa y propietario ----");
         mf.borrarYAgregar(1);
-        mf.leerTodo("nuevoPropietarioXML.txt");
+        mf.leerTodo("nuevoPropietarioXML.xml");
     }
     
 }

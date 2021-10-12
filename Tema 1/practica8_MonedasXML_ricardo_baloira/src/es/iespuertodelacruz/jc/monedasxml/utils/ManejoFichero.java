@@ -28,21 +28,9 @@ public class ManejoFichero {
         file = new File(nombre);
     }
     
-    public void agregarAlmacen(Almacen almacen) throws FileNotFoundException, JAXBException{
-        try {
-            JAXBContext contexto = JAXBContext.newInstance(almacen.getClass());
-            Marshaller marshaller = contexto.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
-            marshaller.marshal(almacen, file);
-        } 
-        catch (JAXBException e) {
-            System.out.println("Ha ocurrido un error");
-        }
-    }
-    
     public void borrarYAgregar(int idMoneda){
         try{
-            Almacen datos = unmarshalAlmacen("miXML.txt");
+            Almacen datos = unmarshalAlmacen("miXML.xml");
             datos.getMoneda().removeIf((Moneda monedaBorrar) -> idMoneda==(monedaBorrar.getIdMoneda()));
             Moneda nuevaMoneda = new Moneda(4, "dolar", "eeuu");
             Historico h = new Historico();
@@ -52,7 +40,7 @@ public class ManejoFichero {
             h.setIdHistorico(4);
             nuevaMoneda.getHistoricos().add(h);
             datos.getMoneda().add(nuevaMoneda);
-            marshalAlmacen(datos, "nuevoXML.txt");
+            marshalAlmacen(datos, "nuevoXML.xml");
         }
         catch(JAXBException ex){
             System.out.println("Ha ocurrido un error");
@@ -61,11 +49,9 @@ public class ManejoFichero {
     
     public void leerTodo(String archivoLeer){
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Almacen.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();        
-            Almacen almacen = (Almacen) jaxbUnmarshaller.unmarshal( new File(archivoLeer) );
+            Almacen almacen = unmarshalAlmacen(file.toString());
             
-            for(Moneda m : almacen.getMoneda()){
+            for (Moneda m : almacen.getMoneda()){
                 for (Historico h : m.getHistoricos()) {
                     System.out.println("Id Moneda: " + m.getIdMoneda() + " || Nombre: " + m.getNombre() + " || Pais: " + m.getPais() + " || Id Historico: " + h.getIdHistorico() + " || Fecha: " + h.getFecha() + " || Equivalencia Euros: " + h.getEquivalenteEuro());
                 }             
@@ -76,16 +62,21 @@ public class ManejoFichero {
         } 
     }
     
-    private static Almacen unmarshalAlmacen(String archivo) throws JAXBException {
+    public Almacen unmarshalAlmacen(String archivo) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Almacen.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         return (Almacen) jaxbUnmarshaller.unmarshal(new File(archivo));
     }
     
-    private static void marshalAlmacen(Almacen datos, String archivo) throws JAXBException{
-        JAXBContext jaxbContext = JAXBContext.newInstance(Almacen.class);
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(datos, new File(archivo));
+    public void marshalAlmacen(Almacen datos, String archivo) throws JAXBException{
+        try{
+            JAXBContext jaxbContext = JAXBContext.newInstance(datos.getClass());
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(datos, new File(archivo));
+        }
+        catch(JAXBException e){
+            System.out.println("Ha ocurrido un error");
+        }
     }
 }
