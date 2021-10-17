@@ -6,8 +6,7 @@
 package leerpersonas;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
-import leerpersonas.controlador.Controlador;
+import leerpersonas.vista.Vista;
 
 /**
  *
@@ -16,38 +15,12 @@ import leerpersonas.controlador.Controlador;
 public class LeerPersonas {
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        Controlador controlador = new Controlador();
-        Scanner entrada = new Scanner(System.in);
-        boolean fin = false;
-        do{
-            try{
-               controlador.menu(); 
-               int opcion = entrada.nextInt();
-               switch(opcion){
-                   case 1:
-                       controlador.crearPersona();
-                       controlador.guardarPersonas();
-                       controlador.mostrarPersonas();
-                   break;
-                   case 2:
-                       controlador.leerPersonasFichero();
-                       controlador.mostrarPersonas();
-                   break;
-                   case 3:
-                       fin = true;
-                   break;
-                   default:
-                       System.out.println("Debes introducir una opcion del 1 al 3");
-                   break;
-               }
-            }
-            catch(Exception ex){
-                System.out.println("Ha ocurrido un error");
-            }
-        }
-        while(fin!=true);    
+  
+        Vista vista = new Vista();
+        vista.iniciarVista(); 
     }
     
 }

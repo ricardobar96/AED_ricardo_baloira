@@ -13,8 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import leerpersonas.modelo.Persona;
+import leerpersonas.vista.Vista;
 
 /**
  *
@@ -22,7 +22,7 @@ import leerpersonas.modelo.Persona;
  */
 public class Controlador {
     ArrayList<Persona> listaPersonas = new ArrayList<>();
-    Scanner entrada = new Scanner(System.in);
+    Vista vista = new Vista();
 
     public Controlador() {
     }
@@ -35,10 +35,13 @@ public class Controlador {
         this.listaPersonas = listaPersonas;
     }
     
-    public void leerPersonasFichero() throws FileNotFoundException{
+    public void registrarPersona(String nombre, String apellido, String dni, int edad, double peso, double altura){
+        Persona persona = new Persona(nombre, apellido, dni, edad, peso, altura);
+        listaPersonas.add(persona);
+    }
+    
+    public void leerPersonasFichero(String ruta) throws FileNotFoundException{
         try{
-            System.out.println("Especifica el fichero a leer con objetos Persona");
-            String ruta = entrada.nextLine();
             BufferedReader reader = new BufferedReader(new FileReader(ruta));
             String line;
             while((line = reader.readLine())!=null){
@@ -54,7 +57,7 @@ public class Controlador {
     public void mostrarPersonas(){
         int numero = 1;
         try{
-            for (Persona p : listaPersonas) {    
+            for (Persona p : listaPersonas) {                
                 System.out.println("\n--- PERSONA " + numero + " ---");
                 System.out.println("Nombre: " + p.getNombre());
                 System.out.println("Apellido: " + p.getApellido());
@@ -65,60 +68,18 @@ public class Controlador {
                 System.out.println("IMC: " + p.getPeso() / (p.getAltura() * p.getAltura()));
                 numero++;
             }
+            listaPersonas.clear();
         }
         catch(Exception ex){
             System.out.println("Ha ocurrido un error");
         }
-    }
-    
-    public void menu(){
-        System.out.println("\nElige una opcion: ");
-        System.out.println("1. Crear fichero con 5 objetos Persona");
-        System.out.println("2. Leer fichero Existente con objetos Persona");
-        System.out.println("3. Salir");
-    }
-    
-    public void crearPersona(){
-        Scanner entrada = new Scanner(System.in);
-        int contador = 0;
-        String nombre, apellido, dni;
-        int edad;
-        double peso, altura;
+    }  
+   
+    public void guardarPersonas(String ruta){
         try{
-            do{
-              System.out.println("\nPersona " + (contador+1));
-              System.out.println("Nombre: ");
-              nombre = entrada.nextLine();
-              System.out.println("Apellido: ");
-              apellido = entrada.nextLine();
-              System.out.println("DNI: ");
-              dni = entrada.nextLine();
-              System.out.println("Edad: ");
-              edad = entrada.nextInt();
-              System.out.println("Peso: ");
-              peso = entrada.nextDouble();
-              System.out.println("Altura: ");
-              altura = entrada.nextDouble();
-              Persona persona = new Persona(nombre, apellido, dni, edad, peso, altura);
-              listaPersonas.add(persona);  
-              contador++;
-              entrada.nextLine();
-            }
-            while(contador<5);
-            
-        }
-        catch(Exception ex){
-            System.out.println("Ha ocurrido un error");
-        }
-    }
-    
-    public void guardarPersonas(){
-        try{
-            System.out.println("Especifica el fichero donde guardar los objetos Persona creados");
-            String ruta = entrada.nextLine();
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(ruta)));
             for (Persona p : listaPersonas) {
-                pw.write("\n" + p.getNombre() + ";" + p.getApellido() + ";" + p.getDni() + ";" + p.getEdad() + ";" + p.getPeso() + ";" + p.getAltura());
+                pw.write(p.getNombre() + ";" + p.getApellido() + ";" + p.getDni() + ";" + p.getEdad() + ";" + p.getPeso() + ";" + p.getAltura()+"\n" );
             }
             pw.close();
         }
