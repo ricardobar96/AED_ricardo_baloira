@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.foro{
+ 	min-width: 400px;
+ 	height: 600px;
+ 	overflow: scroll;
+ 	background: #E0CDB9;
+ 		
+ 		
+ 	padding: 10px;
+
+	grid-row: 1/3;
+
+
+}
+
+
+p{
+	text-align: justify;
+	text-indent: 2rem;
+}
+.cabecera{
+	text-align: center;
+}
+
+.principal{
+	min-width: 700px;
+	max-width: 1300px;
+	margin: auto;
+	display: grid;
+	grid-template-columns: 5fr 1fr;
+	grid-auto-rows: minmax(200px, auto);
+	grid-gap: 10px;
+	background: lightgray;
+	padding: 20px;
+}
+
+.principal > form{
+	padding: 10px;
+	grid-column: 2/3;
+	background: #E9E9C2;
+}
+
+.conectados{
+	padding: 20px;
+	background: #ABD2C6;
+                             margin: 0;
+                             overflow: scroll;
+}
+
+#nombre{
+	width: 160px;
+}
+
+#mensaje{
+	width: 250px;
+	overflow: scroll;
+}
+                     
+.nombreUsuario{
+    color: blue;
+}
