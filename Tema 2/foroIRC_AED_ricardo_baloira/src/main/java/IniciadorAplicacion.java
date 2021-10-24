@@ -4,11 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpServlet;
-
 import es.iespuertodelacruz.ricardo.Foro.utils.GestorFichero;
 
 /**
@@ -16,7 +13,7 @@ import es.iespuertodelacruz.ricardo.Foro.utils.GestorFichero;
  *
  */
 public class IniciadorAplicacion implements ServletContextListener {
-	GestorFichero gf = new GestorFichero("C:\\Users\\Usuario\\Downloads\\foro.txt");
+	//GestorFichero gf = new GestorFichero("C:\\MIS DATOS\\DOCUMENTOS\\Eclipse Proyectos\\foroIRC\\src\\main\\webapp\\WEB-INF\\foro.txt");
 	
     /**
      * Default constructor. 
@@ -29,8 +26,8 @@ public class IniciadorAplicacion implements ServletContextListener {
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */
     public void contextDestroyed(ServletContextEvent sce)  { 	
-    	//String pathToWeb = sce.getServletContext().getRealPath(File.separator);
-    	//GestorFichero gf = new GestorFichero(pathToWeb + "WEB-INF/mensajes/foro.txt");
+    	String pathToWeb = sce.getServletContext().getRealPath(File.separator);
+    	GestorFichero gf = new GestorFichero(pathToWeb + "/WEB-INF/foro.txt");
     	
     	sce.getServletContext().getAttribute("mensajeforo"); 	
     	try {
@@ -45,8 +42,8 @@ public class IniciadorAplicacion implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
-    	//String pathToWeb = sce.getServletContext().getRealPath(File.separator);
-    	//GestorFichero gf = new GestorFichero(pathToWeb + "WEB-INF/mensajes/foro.txt");
+    	String pathToWeb = sce.getServletContext().getRealPath(File.separator);
+    	GestorFichero gf = new GestorFichero(pathToWeb + "/WEB-INF/foro.txt");
     	
     	if(gf.getFile().exists()) {
     		ArrayList<String> mensajeforo = new ArrayList<String>();
