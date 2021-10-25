@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1 class="cabecera">JUGAR</h1>
-	<form action="Apostar" method="POST"> 
+	<form action="Principal" method="GET"> 
 		<label for="apuesta">Apuesta: </label>
 	   	<input type="text" name="apuesta" id="apuesta" required>
 	   	<br>
@@ -18,7 +18,12 @@
 	   	<input type="submit" value="Apostar">
     </form>	
     <br>
-    <p>Hora del actual secreto: ${horaGenerada}</p>
-    <p>Número introducido: ${numeroIntroducido}    ${jugador}</p>
+    <p>Usuario: ${jugador}</p>
+    <p>Hora del actual secreto: ${horaSecreto}</p>
+    <p>Secreto actual: ${secreto}</p>
+    <br>
+    <c:forEach items="${apuestas}" var="intento">
+	   <p>Secreto ${intento.comparacion} ${intento.numero}</p>   
+	</c:forEach> 
 </body>
 </html>
