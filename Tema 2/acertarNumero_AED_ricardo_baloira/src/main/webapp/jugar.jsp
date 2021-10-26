@@ -19,11 +19,12 @@
     </form>	
     <br>
     <p>Usuario: ${jugador}</p>
+    <p>Último ganador: ${ganador}  ||  Secreto: ${secretoAcertado}  ||  Hora: ${horaGanado}</p>
     <p>Hora del actual secreto: ${horaSecreto}</p>
     <p>Secreto actual: ${secreto}</p>
     <br>
     <c:forEach items="${apuestas}" var="intento">
-	   <p>Secreto ${intento.comparacion} ${intento.numero}</p>   
+	   <p>${intento.comparacion} ${intento.numero}</p>   
 	</c:forEach> 
 </body>
 </html>

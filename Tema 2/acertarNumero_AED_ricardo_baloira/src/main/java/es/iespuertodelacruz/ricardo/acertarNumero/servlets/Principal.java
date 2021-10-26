@@ -17,6 +17,7 @@ import es.iespuertodelacruz.ricardo.acertarNumero.modelo.DatosApuesta;
  */
 public class Principal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	boolean acertado = false;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,7 +44,8 @@ public class Principal extends HttpServlet {
 			int compararSecreto = 0;
 			String comparacion = null;
 			
-			if (apuestas == null) {
+			
+			if (apuestas == null || acertado == true) {
 				apuestas = new ArrayList<DatosApuesta>();
 				int secreto = (int)(10000*Math.random());
 				request.getServletContext().setAttribute("secreto", secreto);
@@ -52,6 +54,8 @@ public class Principal extends HttpServlet {
 				horaSecreto = new Date(System.currentTimeMillis());
 				request.getServletContext().setAttribute("horaSecreto", horaSecreto);
 				request.setAttribute("horaSecreto", horaSecreto);
+				
+				acertado = false;
 			}
 			request.setAttribute("jugador", nombre);
 			request.setAttribute("horaSecreto", horaSecreto);
@@ -66,13 +70,25 @@ public class Principal extends HttpServlet {
 		    
 			compararSecreto = (int) request.getServletContext().getAttribute("secreto");
 		    if(numeroIntroducido>compararSecreto) {
-		    	comparacion = "<";
+		    	comparacion = "Secreto <";
 		    }
 		    if(numeroIntroducido<compararSecreto) {
-		    	comparacion = ">";
+		    	comparacion = "Secreto >";
 		    }
 		    if(numeroIntroducido==compararSecreto) {
-		    	comparacion = "==";
+		    	comparacion = "¡Acertaste! Secreto =";
+		    	acertado = true;
+		    	
+		    	String ganador = nombre;
+		    	request.getServletContext().setAttribute("ganador", ganador);
+		    	Date horaGanado = hora;
+		    	request.getServletContext().setAttribute("horaGanado", horaGanado);
+		    	int secretoAcertado = numeroIntroducido;
+		    	request.getServletContext().setAttribute("secretoAcertado", secretoAcertado);	
+		    	
+		    	request.setAttribute("ganador", ganador);
+		    	request.setAttribute("horaGanado", horaGanado);
+		    	request.setAttribute("secretoAcertado", secretoAcertado);
 		    }
 		    
 		    DatosApuesta datos = new DatosApuesta(nombre, numeroIntroducido, hora, comparacion);
