@@ -47,6 +47,4 @@ public class DatosApuesta {
 	public void setComparacion(String comparacion) {
 		this.comparacion = comparacion;
 	}
-	
-	
 }

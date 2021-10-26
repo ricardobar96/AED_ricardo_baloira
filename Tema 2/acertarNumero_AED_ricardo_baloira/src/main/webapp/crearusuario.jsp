@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1 class="cabecera">CREAR USUARIO</h1>
-	<form action="Principal" method="POST"> 
+	<form action="Principal" method="GET"> 
 		<label for="nombre">Nombre: </label>
 	   	<input type="text" name="nombre" id="nombre" required>
 	   	<input type="submit" value="Enviar">

@@ -6,11 +6,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <meta name="author" content="ricardo baloira"/>
-<title>Insert title here</title>
+<title>Jugar</title>
 </head>
 <body>
 	<h1 class="cabecera">JUGAR</h1>
-	<form action="Principal" method="GET"> 
+	<form action="Principal" method="POST"> 
 		<label for="apuesta">Apuesta: </label>
 	   	<input type="text" name="apuesta" id="apuesta" required>
 	   	<br>
