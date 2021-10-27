@@ -1,5 +1,6 @@
 package es.iespuertodelacruz.ricardo.acertarNumero.servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +19,8 @@ public class Principal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	boolean acertado = false;
 	boolean secretoExistente = false;
-	//String pathToWeb = getServletContext().getRealPath(File.separator);
-	//GestorFichero gf = new GestorFichero(pathToWeb + "/WEB-INF/ganadores.txt");
-	GestorFichero gf = new GestorFichero("C:\\Users\\Usuario\\Downloads\\ganadores.txt");
-       
+	GestorFichero gf;
+  
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,8 +34,9 @@ public class Principal extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		request.setCharacterEncoding("UTF-8");
+		String pathToWeb = request.getServletContext().getRealPath(File.separator);
+		gf = new GestorFichero(pathToWeb + "/WEB-INF/ganadores.txt");
 		
 		String nombre = (String) request.getSession().getAttribute("nombre");		
 		request.setAttribute("nombre", nombre);
@@ -58,9 +58,10 @@ public class Principal extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub	
-		
+		request.setCharacterEncoding("UTF-8");
 		String nombre = (String) request.getSession().getAttribute("nombre");	
-		ArrayList<DatosApuesta> apuestas = (ArrayList<DatosApuesta>) request.getServletContext().getAttribute("apuestas");
+		ArrayList<DatosApuesta> apuestas = (ArrayList<DatosApuesta>) request.getSession().getAttribute("apuestas");
+		request.getSession().setAttribute("apuestas", apuestas);
 		Date horaSecreto = null;
 		int compararSecreto = 0;
 		String comparacion = null;
@@ -122,7 +123,8 @@ public class Principal extends HttpServlet {
 		
 		DatosApuesta datos = new DatosApuesta(nombre, numeroIntroducido, hora, comparacion);
 		apuestas.add(datos);		    
-		request.getServletContext().setAttribute("apuestas", apuestas);	    
+		//request.getServletContext().setAttribute("apuestas", apuestas);	 
+		request.getSession().setAttribute("apuestas", apuestas);
 		    	
 		request.getRequestDispatcher("jugar.jsp").forward(request, response);
 		}
