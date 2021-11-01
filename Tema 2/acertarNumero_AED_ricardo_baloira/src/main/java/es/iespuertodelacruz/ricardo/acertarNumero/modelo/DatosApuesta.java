@@ -5,14 +5,12 @@ import java.util.Date;
 public class DatosApuesta {
 	String nombre;
 	int numero;
-	Date hora;
 	String comparacion;
 	
-	public DatosApuesta(String nombre, int numero, Date hora, String comparacion) {
+	public DatosApuesta(String nombre, int numero, String comparacion) {
 		super();
 		this.nombre = nombre;
 		this.numero = numero;
-		this.hora = hora;
 		this.comparacion = comparacion;
 	}
 	
@@ -30,14 +28,6 @@ public class DatosApuesta {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
-	}
-
-	public Date getHora() {
-		return hora;
-	}
-
-	public void setHora(Date hora) {
-		this.hora = hora;
 	}
 
 	public String getComparacion() {

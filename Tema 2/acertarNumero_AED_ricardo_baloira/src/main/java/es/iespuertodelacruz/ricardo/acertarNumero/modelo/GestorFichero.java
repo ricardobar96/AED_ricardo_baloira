@@ -24,7 +24,7 @@ public class GestorFichero {
 		this.file = file;
 	}
 
-	public void escribirFichero(String ganador, int secreto, String segundos) throws IOException {
+	public void escribirFichero(String ganador, int secreto, long segundos) throws IOException {
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(file, true);

@@ -2,11 +2,8 @@ package es.iespuertodelacruz.ricardo.acertarNumero.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +21,7 @@ public class Principal extends HttpServlet {
 	boolean secretoExistente = false;
 	GestorFichero gf;
 	long tiempoComienzo = 0;
-  
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -69,18 +66,16 @@ public class Principal extends HttpServlet {
 		Date horaSecreto = null;
 		int compararSecreto = 0;
 		String comparacion = null;
-			
+		
 		if (acertado == true || secretoExistente == false) {
 			apuestas = null;
 			secretoExistente = true;
 			int secreto = (int)(10000*Math.random());
 			tiempoComienzo = System.nanoTime();
 			request.getServletContext().setAttribute("secreto", secreto);
-			request.setAttribute("secreto", secreto);
 			horaSecreto = new Date(System.currentTimeMillis());
 			request.getServletContext().setAttribute("horaSecreto", horaSecreto);
-			request.setAttribute("horaSecreto", horaSecreto);
-				
+			request.setAttribute("horaSecreto", horaSecreto);	
 			acertado = false;
 			}
 		
@@ -90,8 +85,6 @@ public class Principal extends HttpServlet {
 			
 		request.setAttribute("jugador", nombre);
 		request.setAttribute("horaSecreto", horaSecreto);
-			
-		Date hora = new Date(System.currentTimeMillis());
 		    
 		String strNumero = request.getParameter("apuesta");
 		int numeroIntroducido = 0;
@@ -108,28 +101,24 @@ public class Principal extends HttpServlet {
 		if(numeroIntroducido<compararSecreto) {
 			comparacion = "Secreto >";
 		    }
+		
 		if(numeroIntroducido==compararSecreto) {
 			comparacion = "Acertaste! Secreto =";
-			acertado = true;
-		    	
+			acertado = true;		    	
 		    String ganador = (String) request.getSession().getAttribute("nombre");
 		    request.getServletContext().setAttribute("ganador", ganador);
-		    Date horaGanado = hora;
+		    Date horaGanado = new Date(System.currentTimeMillis());
 		    request.getServletContext().setAttribute("horaGanado", horaGanado);
 		    int secretoAcertado = numeroIntroducido;
 		    request.getServletContext().setAttribute("secretoAcertado", secretoAcertado);	
 		    long tiempoFinal = System.nanoTime();
-		    String segundos = (tiempoFinal - tiempoComienzo)/ 1000000000 + " segundos"; 
-		    request.setAttribute("ganador", ganador);
-		    request.setAttribute("horaGanado", horaGanado);
-		    request.setAttribute("secretoAcertado", secretoAcertado);
+		    long segundos = (tiempoFinal - tiempoComienzo)/ 1000000000; 
 		    gf.escribirFichero(ganador, secretoAcertado, segundos);
 		    }
 		
-		DatosApuesta datos = new DatosApuesta(nombre, numeroIntroducido, hora, comparacion);
-		apuestas.add(datos);		     
+		DatosApuesta datos = new DatosApuesta(nombre, numeroIntroducido, comparacion);
+		apuestas.add(datos);	
 		request.getSession().setAttribute("apuestas", apuestas);
-		    	
 		request.getRequestDispatcher("jugar.jsp").forward(request, response);
 		}
 	}
