@@ -2,8 +2,11 @@ package es.iespuertodelacruz.ricardo.acertarNumero.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,7 @@ public class Principal extends HttpServlet {
 	boolean acertado = false;
 	boolean secretoExistente = false;
 	GestorFichero gf;
+	long tiempoComienzo = 0;
   
     /**
      * @see HttpServlet#HttpServlet()
@@ -70,6 +74,7 @@ public class Principal extends HttpServlet {
 			apuestas = null;
 			secretoExistente = true;
 			int secreto = (int)(10000*Math.random());
+			tiempoComienzo = System.nanoTime();
 			request.getServletContext().setAttribute("secreto", secreto);
 			request.setAttribute("secreto", secreto);
 			horaSecreto = new Date(System.currentTimeMillis());
@@ -113,17 +118,16 @@ public class Principal extends HttpServlet {
 		    request.getServletContext().setAttribute("horaGanado", horaGanado);
 		    int secretoAcertado = numeroIntroducido;
 		    request.getServletContext().setAttribute("secretoAcertado", secretoAcertado);	
-		    	
+		    long tiempoFinal = System.nanoTime();
+		    String segundos = (tiempoFinal - tiempoComienzo)/ 1000000000 + " segundos"; 
 		    request.setAttribute("ganador", ganador);
 		    request.setAttribute("horaGanado", horaGanado);
 		    request.setAttribute("secretoAcertado", secretoAcertado);
-		    
-		    gf.escribirFichero(ganador, secretoAcertado, horaGanado);
+		    gf.escribirFichero(ganador, secretoAcertado, segundos);
 		    }
 		
 		DatosApuesta datos = new DatosApuesta(nombre, numeroIntroducido, hora, comparacion);
-		apuestas.add(datos);		    
-		//request.getServletContext().setAttribute("apuestas", apuestas);	 
+		apuestas.add(datos);		     
 		request.getSession().setAttribute("apuestas", apuestas);
 		    	
 		request.getRequestDispatcher("jugar.jsp").forward(request, response);

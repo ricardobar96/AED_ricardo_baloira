@@ -24,11 +24,11 @@ public class GestorFichero {
 		this.file = file;
 	}
 
-	public void escribirFichero(String ganador, int secreto, Date tiempo) throws IOException {
+	public void escribirFichero(String ganador, int secreto, String segundos) throws IOException {
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(file, true);
-			writer.write(ganador + "," + secreto + "," + tiempo + System.lineSeparator());
+			writer.write(ganador + ";" + secreto + ";" + segundos + System.lineSeparator());
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
