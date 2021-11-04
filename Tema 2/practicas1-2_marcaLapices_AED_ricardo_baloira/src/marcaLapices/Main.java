@@ -1,10 +1,6 @@
 package marcaLapices;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,7 +21,7 @@ public class Main {
 			marcaBuscar = entrada.nextLine();
 	
 			ArrayList<Lapiz> lapices = new ArrayList<>();
-			lapices = (ArrayList<Lapiz>) gl.leerTodos(marcaBuscar);
+			lapices = (ArrayList<Lapiz>) gl.obtenerLapicesPorMarca(marcaBuscar);
 			for (Lapiz lapiz : lapices) {
 				System.out.println(lapiz.getIdLapiz()+ " " +lapiz.getMarca() + " " + lapiz.getNumero());
 			}

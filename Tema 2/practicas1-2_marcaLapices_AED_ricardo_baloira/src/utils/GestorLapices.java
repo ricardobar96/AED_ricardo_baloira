@@ -20,18 +20,18 @@ GestorBBDD gestorBBDD;
 		this.gestorBBDD = gestorBBDD;
 	}
 	
-	public List<Lapiz>leerTodos(String marcaBuscar) throws SQLException{
+	public List<Lapiz>obtenerLapicesPorMarca(String marcaBuscar) throws SQLException{
 		ArrayList<Lapiz> lapices = new ArrayList<>();
 		Connection cn = gestorBBDD.getConnection();
 		Statement s = cn.createStatement();  
-        String sql = "select * from lapices WHERE marca = '" + marcaBuscar + "'";
+        String sql = "select idlapiz, marca, numero from lapices WHERE marca = '" + marcaBuscar + "'";
         ResultSet rs = s.executeQuery(sql);
         
         while(rs.next()){
         	 int id = rs.getInt("idlapiz");
         	 String marca = rs.getString("marca");
         	 int numero = rs.getInt("numero");
-        	 System.out.println("Lápiz: " + id + " " + marca + " " + numero);
+        	 lapices.add(new Lapiz(id, numero, marca));
         }
         
         s.close();
