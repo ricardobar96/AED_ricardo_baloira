@@ -42,8 +42,8 @@ public class Main {
 			nuevoNumero = entrada.nextInt();
 			modificar = new Lapiz(idModificar, nuevoNumero, nuevaMarca);
 
-			gl.modificarLapiz(modificar);
-			System.out.println(modificar.getIdLapiz()+ " " +modificar.getMarca() + " " + modificar.getNumero());
+			resultado = gl.modificarLapiz(modificar);
+			System.out.println(resultado.getIdLapiz()+ " " +resultado.getMarca() + " " + resultado.getNumero());
 		}
 		catch(Exception ex) {
 			System.out.println("Ha ocurrido un error");
