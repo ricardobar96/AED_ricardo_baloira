@@ -14,7 +14,8 @@ public class Main {
 		Scanner entrada = new Scanner(System.in);
 		int idBorrar, idModificar, nuevoNumero;
 		String nuevaMarca;
-		Lapiz resultado = new Lapiz();
+		Lapiz resultado;
+		Lapiz modificar;
 		GestorBBDD gestorBBDD = new GestorBBDD("oficina", "root", "");
 		GestorLapices gl = new GestorLapices(gestorBBDD);
 		
@@ -39,9 +40,10 @@ public class Main {
 			entrada.nextLine();
 			System.out.println("Introduzca nuevo numero para el lapiz: ");
 			nuevoNumero = entrada.nextInt();
+			modificar = new Lapiz(idModificar, nuevoNumero, nuevaMarca);
 
-			gl.modificarLapiz(idModificar, nuevaMarca, nuevoNumero);
-			System.out.println(resultado.getIdLapiz()+ " " +resultado.getMarca() + " " + resultado.getNumero());
+			gl.modificarLapiz(modificar);
+			System.out.println(modificar.getIdLapiz()+ " " +modificar.getMarca() + " " + modificar.getNumero());
 		}
 		catch(Exception ex) {
 			System.out.println("Ha ocurrido un error");

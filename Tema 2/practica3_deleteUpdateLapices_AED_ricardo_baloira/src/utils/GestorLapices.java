@@ -1,6 +1,7 @@
 package utils;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,19 +34,22 @@ GestorBBDD gestorBBDD;
         s.close();
 	}
 	
-	public void modificarLapiz(int idModificar, String nuevaMarca, int nuevoNumero) throws SQLException{
+	public Lapiz modificarLapiz(Lapiz l) throws SQLException{
 		Lapiz resultado = null;
 		Connection cn = gestorBBDD.getConnection();
-		Statement s = cn.createStatement();  
-        String sql = "UPDATE lapices SET marca = '" + nuevaMarca + "', numero = '" + nuevoNumero 
-        		+ "' WHERE idLapiz = " + idModificar;
-        s.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-        ResultSet rs = s.getGeneratedKeys();
-        
-        int count = s.getUpdateCount();
+		PreparedStatement ps = cn.prepareStatement("UPDATE lapices SET marca = ?, numero = ? WHERE idLapiz = ?");
+		
+		ps.setString(1, l.getMarca());
+		ps.setInt(2, l.getNumero());
+		ps.setInt(3, l.getIdLapiz());
+        ps.executeUpdate();
+       
+        int count = ps.getUpdateCount();
         System.out.println("Numero de filas actualizadas: "+ count);
+        resultado = new Lapiz(l.getIdLapiz(), l.getNumero(), l.getMarca());
         
-        s.close();
+        ps.close();
+        return resultado;
 	}
 	
 	public List<Lapiz>leerTodos() throws SQLException{
