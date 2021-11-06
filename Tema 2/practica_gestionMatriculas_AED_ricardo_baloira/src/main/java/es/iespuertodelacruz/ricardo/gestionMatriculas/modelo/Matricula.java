@@ -10,4 +10,33 @@ public class Matricula {
 	@JsonProperty("año")
 	int year;
 	ArrayList<Asignatura> asignaturas;
+	
+	public int getIdmatricula() {
+		return idmatricula;
+	}
+	public void setIdmatricula(int idmatricula) {
+		this.idmatricula = idmatricula;
+	}
+	public Alumno getAlumno() {
+		return alumno;
+	}
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
+	}
+	public int getYear() {
+		return year;
+	}
+	public void setYear(int year) {
+		this.year = year;
+	}
+	public ArrayList<Asignatura> getAsignaturas() {
+		return asignaturas;
+	}
+	public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
+		this.asignaturas = asignaturas;
+	}
+	
+	
 }
+
+

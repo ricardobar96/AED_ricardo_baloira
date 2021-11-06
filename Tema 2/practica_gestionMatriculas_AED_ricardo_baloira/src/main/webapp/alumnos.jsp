@@ -14,7 +14,7 @@
 <div class="formularios">
   <div class="agregar">
     <h4>Agregar alumno</h4>
-    <form name="formulario_agregar" action="consultas.php" method="post">
+    <form name="formulario_agregar" action="gestionAlumnos" method="post">
       <label for="nombre_agregar">*Nombre: </label>
       <input id="nombre_agregar" type="text"/>
       </br>
@@ -27,23 +27,23 @@
       <label for="dni_agregar">*DNI: </label>
       <input id="dni_agregar" type="text"/>
       </br>
-      <input id="boton_agregar" type="submit" value="Agregar" style="width:90%"/>
+      <input id="boton_agregar" name="botonAlumno" type="submit" value="Agregar" style="width:90%"/>
     </form>
   </div>
 
   <div class="borrar">
     <h4>Borrar alumno</h4>
-    <form name="formulario_borrar" action="consultas.php" method="post">
+    <form name="formulario_borrar" action="gestionAlumnos" method="post">
       <label for="dni_borrar">*DNI: </label>
       <input id="dni_borrar" type="text"/>
       </br>
-      <input id="boton_borrar" type="submit" value="Borrar" style="width:90%"/>
+      <input id="boton_borrar" name="botonAlumno" type="submit" value="Borrar" style="width:90%"/>
     </form>
   </div>
 
   <div class="editar">
     <h4>Editar alumno</h4>
-    <form name="formulario_editar" action="consultas.php" method="post">
+    <form name="formulario_editar" action="gestionAlumnos" method="post">
       <label for="nombre_editar">*Nombre: </label>
       <input id="nombre_editar" type="text"/>
       </br>
@@ -56,24 +56,28 @@
       <label for="dni_editar">*DNI: </label>
       <input id="dni_editar" type="text"/>
       </br>
-      <input id="boton_editar" type="submit" value="Editar" style="width:90%"/>
+      <input id="boton_editar" name="botonAlumno" type="submit" value="Editar" style="width:90%"/>
     </form>
   </div>
 
   <div class="mostrar">
     <h4>Mostrar alumnos:</h4>
     <h5>(escribir en uno de los campos únicamente)</h5>
-    <form name="formulario_mostrar" action="consultas.php" method="post">
+    <form name="formulario_mostrar" action="gestionAlumnos" method="post">
       <label for="nombre_mostrar">Nombre: </label>
       <input id="nombre_mostrar" type="text"/>
       </br>
       <label for="dni_mostrar">DNI: </label>
       <input id="dni_mostrar" type="text"/>
       </br>
-      <input id="boton_mostrar" type="submit" value="Mostrar" style="width:90%"/>
+      <input id="boton_mostrar" name="botonAlumno" type="submit" value="Mostrar" style="width:90%"/>
     </form>
   </div>
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>
+</div>
+</div>
+<div class="texto_gestion">
+  <textarea id="resultado" name="textoAlumno" cols="150" rows="15"></textarea>
 </div>
 </BODY>
 </HTML>

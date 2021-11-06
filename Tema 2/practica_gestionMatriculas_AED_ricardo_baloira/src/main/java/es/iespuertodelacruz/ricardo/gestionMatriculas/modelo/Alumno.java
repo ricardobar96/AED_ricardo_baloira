@@ -15,6 +15,13 @@ public class Alumno {
 	@JsonIgnore
 	ArrayList<Matricula> matriculas;
 	
+	public Alumno(String dni, String nombre, String apellidos, Date fechanacimiento) {
+		super();
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.fechanacimiento = fechanacimiento;
+	}
 	public String getDni() {
 		return dni;
 	}

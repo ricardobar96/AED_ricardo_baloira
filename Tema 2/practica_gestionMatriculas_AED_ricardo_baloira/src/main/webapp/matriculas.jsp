@@ -14,7 +14,7 @@
 <div class="formularios">
   <div class="agregar">
     <h4>Agregar matrícula</h4>
-    <form name="formulario_agregar" action="consultas.php" method="post">
+    <form name="formulario_agregar" action="enviarinfo" method="post">
       <label for="dni_agregar">*DNI alumno: </label>
       <input id="dni_agregar" type="text"/>
       </br>
@@ -29,8 +29,8 @@
   </div>
 
   <div class="borrar">
-    <h4>Borrar alumno</h4>
-    <form name="formulario_borrar" action="consultas.php" method="post">
+    <h4>Borrar matrícula</h4>
+    <form name="formulario_borrar" action="enviarinfo" method="post">
       <label for="id">*ID matrícula: </label>
       <input id="id" type="text"/>
       </br>
@@ -39,8 +39,8 @@
   </div>
 
   <div class="editar">
-    <h4>Editar alumno</h4>
-    <form name="formulario_editar" action="consultas.php" method="post">
+    <h4>Editar matrícula</h4>
+    <form name="formulario_editar" action="enviarinfo" method="post">
       <label for="id_editar">*ID matrícula: </label>
       <input id="nombre_editar" type="text"/>
       </br>
@@ -58,9 +58,9 @@
   </div>
 
   <div class="mostrar">
-    <h4>Mostrar alumnos:</h4>
+    <h4>Mostrar matrículas:</h4>
     <h5>(escribir en uno de los campos únicamente)</h5>
-    <form name="formulario_mostrar" action="consultas.php" method="post">
+    <form name="formulario_mostrar" action="enviarinfo" method="post">
       <label for="anio_mostrar">Año: </label>
       <input id="anio_mostrar" type="text"/>
       </br>
@@ -71,6 +71,9 @@
     </form>
   </div>
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>
+</div>
+<div class="texto_gestion">
+  <textarea id="resultado" cols="150" rows="15"></textarea>
 </div>
 </BODY>
 </HTML>

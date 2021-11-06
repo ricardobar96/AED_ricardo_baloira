@@ -13,9 +13,9 @@
 <h1>Gestionar Instituto</h1>
 <div class="enlaces">
 <ul type="disk">
-  <li> <a href="alumnos.html">Gestionar alumnos</a></li>
-  <li> <a href="asignaturas.html">Gestionar asignaturas</a></li>
-  <li> <a href="matriculas.html">Gestionar matrículas</a></li>
+  <li> <a href="alumnos.jsp">Gestionar alumnos</a></li>
+  <li> <a href="asignaturas.jsp">Gestionar asignaturas</a></li>
+  <li> <a href="matriculas.jsp">Gestionar matrículas</a></li>
 </ul>
 </div>
 </BODY>
