@@ -16,16 +16,16 @@
     <h4>Agregar alumno</h4>
     <form name="formulario_agregar" action="gestionAlumnos" method="post">
       <label for="nombre_agregar">*Nombre: </label>
-      <input id="nombre_agregar" type="text"/>
+      <input id="nombre_agregar" type="text" name="nombre_agregar"/>
       </br>
       <label for="apellidos_agregar">Apellidos: </label>
-      <input id="apellidos_agregar" type="text"/>
+      <input id="apellidos_agregar" type="text" name="apellidos_agregar"/>
       </br>
       <label for="nac_agregar">Nacimiento: </label>
-      <input id="nac_agregar" type="text"/>
+      <input id="nac_agregar" type="text" name="nac_agregar"/>
       </br>
       <label for="dni_agregar">*DNI: </label>
-      <input id="dni_agregar" type="text"/>
+      <input id="dni_agregar" type="text" name="dni_agregar"/>
       </br>
       <input id="boton_agregar" name="botonAlumno" type="submit" value="Agregar" style="width:90%"/>
     </form>
@@ -35,9 +35,13 @@
     <h4>Borrar alumno</h4>
     <form name="formulario_borrar" action="gestionAlumnos" method="post">
       <label for="dni_borrar">*DNI: </label>
-      <input id="dni_borrar" type="text"/>
+      <input id="dni_borrar" type="text" name="dni_borrar"/>
       </br>
       <input id="boton_borrar" name="botonAlumno" type="submit" value="Borrar" style="width:90%"/>
+      </br>
+      </br>
+      </br>
+      </br>
     </form>
   </div>
 
@@ -45,16 +49,16 @@
     <h4>Editar alumno</h4>
     <form name="formulario_editar" action="gestionAlumnos" method="post">
       <label for="nombre_editar">*Nombre: </label>
-      <input id="nombre_editar" type="text"/>
+      <input id="nombre_editar" type="text" name="nombre_editar"/>
       </br>
       <label for="apellidos_editar">Apellidos: </label>
-      <input id="apellidos_editar" type="text"/>
+      <input id="apellidos_editar" type="text" name="apellidos_editar"/>
       </br>
       <label for="nac_editar">Nacimiento: </label>
-      <input id="nac_editar" type="text"/>
+      <input id="nac_editar" type="text" name="nac_editar"/>
       </br>
       <label for="dni_editar">*DNI: </label>
-      <input id="dni_editar" type="text"/>
+      <input id="dni_editar" type="text" name="dni_editar"/>
       </br>
       <input id="boton_editar" name="botonAlumno" type="submit" value="Editar" style="width:90%"/>
     </form>
@@ -65,12 +69,16 @@
     <h5>(escribir en uno de los campos únicamente)</h5>
     <form name="formulario_mostrar" action="gestionAlumnos" method="post">
       <label for="nombre_mostrar">Nombre: </label>
-      <input id="nombre_mostrar" type="text"/>
+      <input id="nombre_mostrar" type="text" name="nombre_mostrar"/>
       </br>
       <label for="dni_mostrar">DNI: </label>
-      <input id="dni_mostrar" type="text"/>
+      <input id="dni_mostrar" type="text" name="dni_mostrar"/>
       </br>
       <input id="boton_mostrar" name="botonAlumno" type="submit" value="Mostrar" style="width:90%"/>
+      </br>
+      </br>
+      </br>
+      </br>
     </form>
   </div>
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,14 +32,19 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 				String dni = rs.getString("dni");
 				String nombre = rs.getString("nombre");
 				String apellidos = rs.getString("apellidos");
-				int nacimiento = rs.getInt("fechanacimiento");
-				
-				Date fechanacimiento = new Date(nacimiento);
-				alumno = new Alumno(dni, nombre, apellidos, (java.sql.Date) fechanacimiento);
+				Integer nacimiento = rs.getInt("fechanacimiento");
+				//Date fechanacimiento = rs.getDate("fechanacimiento");
+				SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMdd");
+				Date date = originalFormat.parse(nacimiento.toString());
+				//Date fechanacimiento = new Date(nacimiento);
+				alumno = new Alumno(dni, nombre, apellidos, (java.sql.Date) date);
 			}			
 			
 		} catch (SQLException e) {
 				e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return alumno;
 	}
@@ -74,7 +81,7 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 			ps.setString(1, obj.getDni());
 			ps.setString(2, obj.getNombre());
 			ps.setString(3, obj.getApellidos());
-			ps.setInt(4, (int) obj.getFechanacimiento().getTime());
+			ps.setInt(4, (int) obj.getFechanacimiento().getTime());	
 				
 			ps.executeUpdate();
 		} catch (SQLException e) {

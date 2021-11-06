@@ -38,6 +38,10 @@
       <input id="id_borrar" type="text"/>
       </br>
       <input id="boton_borrar" type="submit" value="Borrar" style="width:90%"/>
+      </br>
+      </br>
+      </br>
+      </br>
     </form>
   </div>
 
@@ -70,6 +74,10 @@
       <input id="matricula_mostrar" type="text"/>
       </br>
       <input id="boton_mostrar" type="submit" value="Mostrar" style="width:90%"/>
+      </br>
+      </br>
+      </br>
+      </br>
     </form>
   </div>
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>

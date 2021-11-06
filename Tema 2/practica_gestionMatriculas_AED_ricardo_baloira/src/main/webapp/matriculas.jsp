@@ -24,6 +24,9 @@
       <label for="asign_agregar">*Asignaturas: </label>
       <input id="asign_agregar" type="text"/>
       </br>
+      </br>
+      </br>
+      </br>
       <input id="boton_agregar" type="submit" value="Agregar" style="width:90%"/>
     </form>
   </div>
@@ -33,6 +36,9 @@
     <form name="formulario_borrar" action="enviarinfo" method="post">
       <label for="id">*ID matrícula: </label>
       <input id="id" type="text"/>
+      </br>
+      </br>
+      </br>
       </br>
       <input id="boton_borrar" type="submit" value="Borrar" style="width:90%"/>
     </form>
@@ -66,6 +72,9 @@
       </br>
       <label for="dni_mostrar">DNI alumno: </label>
       <input id="dni_mostrar" type="text"/>
+      </br>
+      </br>
+      </br>
       </br>
       <input id="boton_mostrar" type="submit" value="Mostrar" style="width:90%"/>
     </form>
