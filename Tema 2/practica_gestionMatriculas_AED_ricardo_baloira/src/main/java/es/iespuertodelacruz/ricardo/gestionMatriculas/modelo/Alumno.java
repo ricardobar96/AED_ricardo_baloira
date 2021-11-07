@@ -14,7 +14,7 @@ public class Alumno {
 	Date fechanacimiento;
 	@JsonIgnore
 	ArrayList<Matricula> matriculas;
-	
+
 	public Alumno(String dni, String nombre, String apellidos, Date fechanacimiento) {
 		super();
 		this.dni = dni;

@@ -64,12 +64,12 @@ public class gestionAlumnos extends HttpServlet {
 			String dni_mostrar = request.getParameter("dni_mostrar");
 			Alumno encontrado;
 			if((!dni_mostrar.isEmpty()) && (nombre_mostrar.isEmpty())) {
-				//System.out.println("Encontrado por dni");
+				System.out.println("Encontrado por dni");
 				encontrado = alumnoDao.findById(dni_mostrar);
 				System.out.println(encontrado.toString());
 			}
 			if((!nombre_mostrar.isEmpty()) && (dni_mostrar.isEmpty())) {
-				//System.out.println("Encontrado por nombre");
+				System.out.println("Encontrado por nombre");
 				encontrado = alumnoDao.findById(nombre_mostrar);
 				System.out.println(encontrado.toString());
 			}
@@ -113,7 +113,7 @@ public class gestionAlumnos extends HttpServlet {
 			if((nombre_editar!=null && !nombre_editar.isEmpty()) && (dni_editar!=null && !dni_editar.isEmpty())) {
 				boolean resultado = alumnoDao.update(new Alumno(dni_editar, nombre_editar, apellidos_editar, (java.sql.Date) sqlDate));
 				if(resultado==true) {
-					System.out.println("Editardo con exito");
+					System.out.println("Editado con exito");
 				}
 			}
 		}

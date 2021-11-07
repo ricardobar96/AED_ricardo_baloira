@@ -31,4 +31,9 @@ public class Asignatura {
 	public void setCurso(String curso) {
 		this.curso = curso;
 	}
+
+	@Override
+	public String toString() {
+		return "Asignatura [idasignatura=" + idasignatura + ", nombre=" + nombre + ", curso=" + curso + "]";
+	}
 }

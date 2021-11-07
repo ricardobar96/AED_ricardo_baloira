@@ -1,6 +1,5 @@
 package es.iespuertodelacruz.ricardo.gestionMatriculas.dao;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,18 +32,16 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 				String nombre = rs.getString("nombre");
 				String apellidos = rs.getString("apellidos");
 				Integer nacimiento = rs.getInt("fechanacimiento");
-				//Date fechanacimiento = rs.getDate("fechanacimiento");
 				SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMdd");
-				Date date = originalFormat.parse(nacimiento.toString());
-				//Date fechanacimiento = new Date(nacimiento);
-				alumno = new Alumno(dni, nombre, apellidos, (java.sql.Date) date);
+				Date fecha = originalFormat.parse(nacimiento.toString());
+
+				alumno = new Alumno(dni, nombre, apellidos, (java.sql.Date) fecha);
 			}			
 			
 		} catch (SQLException e) {
 				e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return alumno;
 	}

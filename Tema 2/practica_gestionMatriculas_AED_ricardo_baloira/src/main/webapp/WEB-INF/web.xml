@@ -18,6 +18,13 @@
     	<servlet-name>gestionAlumnos</servlet-name>
     	<servlet-class>es.iespuertodelacruz.ricardo.gestionMatriculas.matriculas.gestionAlumnos</servlet-class>
     </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>gestionAsignaturas</display-name>
+    	<servlet-name>gestionAsignaturas</servlet-name>
+    	<servlet-class>es.iespuertodelacruz.ricardo.gestionMatriculas.matriculas.gestionAsignaturas</servlet-class>
+    </servlet>
     <servlet-mapping>
     	<servlet-name>Principal</servlet-name>
     	<url-pattern>/Principal</url-pattern>
@@ -25,6 +32,10 @@
     <servlet-mapping>
     	<servlet-name>gestionAlumnos</servlet-name>
     	<url-pattern>/gestionAlumnos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>gestionAsignaturas</servlet-name>
+    	<url-pattern>/gestionAsignaturas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
