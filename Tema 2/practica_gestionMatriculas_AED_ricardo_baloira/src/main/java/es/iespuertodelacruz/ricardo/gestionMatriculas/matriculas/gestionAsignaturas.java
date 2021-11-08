@@ -78,9 +78,9 @@ public class gestionAsignaturas extends HttpServlet {
 			String cursoAsign_agregar = request.getParameter("cursoAsign_agregar");
 			String idAsign_agregar = request.getParameter("idAsign_agregar");
 			
-			if((nombreAsign_agregar!=null) 
-					&& (!idAsign_agregar.isEmpty())
-					&& (!cursoAsign_agregar.isEmpty())) {
+			if((idAsign_agregar!=null && !idAsign_agregar.isEmpty()) 
+					&& (cursoAsign_agregar!=null && !cursoAsign_agregar.isEmpty())
+					&& (nombreAsign_agregar!=null && !nombreAsign_agregar.isEmpty())) {
 				Asignatura agregado;
 				int idAsignatura = Integer.valueOf(idAsign_agregar); 
 				agregado = asignaturaDao.save(new Asignatura(idAsignatura, nombreAsign_agregar, cursoAsign_agregar));

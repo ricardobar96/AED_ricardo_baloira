@@ -16,13 +16,13 @@
     <h4>Agregar asignatura</h4>
     <form name="formulario_agregar" action="gestionAsignaturas" method="post">
       <label for="idAsign_agregar">*ID asignatura: </label>
-      <input id="idAsign_agregar" type="text" nombre="idAsign_agregar"/>
+      <input id="idAsign_agregar" type="text" name="idAsign_agregar"/>
       </br>
       <label for="nombreAsign_agregar">*Nombre: </label>
-      <input id="nombreAsign_agregar" type="text" nombre="nombreAsign_agregar"/>
+      <input id="nombreAsign_agregar" type="text" name="nombreAsign_agregar"/>
       </br>
       <label for="cursoAsign_agregar">*Curso: </label>
-      <input id="cursoAsign_agregar" type="text" nombre="cursoAsign_agregar"/>
+      <input id="cursoAsign_agregar" type="text" name="cursoAsign_agregar"/>
       </br>
       <input id="boton_agregar" name="botonAsignatura" type="submit" value="Agregar" style="width:90%"/>
     </form>
@@ -65,10 +65,10 @@
     <h5>(escribir en uno de los campos únicamente)</h5>
     <form name="formulario_mostrar" action="gestionAsignaturas" method="post">
     <label for="nombreAsign_mostrar">Nombre: </label>
-      <input id="nombreAsign_mostrar" type="text" nombre="nombreAsign_mostrar"/>
+      <input id="nombreAsign_mostrar" type="text" name="nombreAsign_mostrar"/>
       </br>
       <label for="cursoAsign_mostrar">Curso: </label>
-      <input id="cursoAsign_mostrar" type="text" nombre="cursoAsign_mostrar"/>
+      <input id="cursoAsign_mostrar" type="text" name="cursoAsign_mostrar"/>
       </br>
       <input id="boton_mostrar" name="botonAsignatura" type="submit" value="Mostrar" style="width:90%"/>
       </br>

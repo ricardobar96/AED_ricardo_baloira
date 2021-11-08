@@ -11,6 +11,13 @@ public class Matricula {
 	int year;
 	ArrayList<Asignatura> asignaturas;
 	
+	public Matricula(int idmatricula, Alumno alumno, int year) {
+		super();
+		this.idmatricula = idmatricula;
+		this.alumno = alumno;
+		this.year = year;
+	}
+	
 	public int getIdmatricula() {
 		return idmatricula;
 	}

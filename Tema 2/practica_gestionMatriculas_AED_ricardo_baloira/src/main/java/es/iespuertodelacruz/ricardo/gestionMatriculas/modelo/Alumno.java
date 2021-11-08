@@ -22,6 +22,12 @@ public class Alumno {
 		this.apellidos = apellidos;
 		this.fechanacimiento = fechanacimiento;
 	}
+	
+	public Alumno(String dni) {
+		super();
+		this.dni = dni;
+	}
+
 	public String getDni() {
 		return dni;
 	}
