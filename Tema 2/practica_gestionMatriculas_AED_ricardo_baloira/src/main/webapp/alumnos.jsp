@@ -22,7 +22,7 @@
       <input id="apellidos_agregar" type="text" name="apellidos_agregar"/>
       </br>
       <label for="nac_agregar">Nacimiento: </label>
-      <input id="nac_agregar" type="text" name="nac_agregar"/>
+      <input id="nac_agregar" type="text" name="nac_agregar" placeholder="yyyy-MM-dd"/>
       </br>
       <label for="dni_agregar">*DNI: </label>
       <input id="dni_agregar" type="text" name="dni_agregar"/>
@@ -55,7 +55,7 @@
       <input id="apellidos_editar" type="text" name="apellidos_editar"/>
       </br>
       <label for="nac_editar">Nacimiento: </label>
-      <input id="nac_editar" type="text" name="nac_editar"/>
+      <input id="nac_editar" type="text" name="nac_editar" placeholder="yyyy-MM-dd"/>
       </br>
       <label for="dni_editar">*DNI: </label>
       <input id="dni_editar" type="text" name="dni_editar"/>
@@ -85,7 +85,7 @@
 </div>
 </div>
 <div class="texto_gestion">
-  <textarea id="resultado" name="textoAlumno" cols="150" rows="15"></textarea>
+  <textarea id="resultado" cols="150" rows="15">${textoAlumno}</textarea>
 </div>
 </BODY>
 </HTML>

@@ -46,7 +46,7 @@ public class gestionAsignaturas extends HttpServlet {
 		AsignaturaDAO asignaturaDao = new AsignaturaDAO(gc);
 		
 		String boton = request.getParameter("botonAsignatura");
-		String texto = (String) request.getSession().getAttribute("textoAsignatura");
+		String textoAsignatura = (String) request.getSession().getAttribute("textoAsignatura");
 		
 		
 		if(boton.equalsIgnoreCase("Borrar")) {
@@ -54,37 +54,38 @@ public class gestionAsignaturas extends HttpServlet {
 			if(idAsign_borrar!=null && !idAsign_borrar.isEmpty()) {
 				boolean resultado = asignaturaDao.delete(idAsign_borrar);
 				if(resultado==true) {
-					System.out.println("Borrado con exito");
+					textoAsignatura += "Borrado con exito";
+					request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 				}
 			}
 		}
 		if(boton.equalsIgnoreCase("Mostrar")) {
-			String nombreAsign_mostrar= request.getParameter("nombreAsign_mostrar");
+			String idAsign_mostrar= request.getParameter("idAsign_mostrar");
 			String cursoAsign_mostrar = request.getParameter("cursoAsign_mostrar");
 			Asignatura encontrado;
-			if((!cursoAsign_mostrar.isEmpty()) && (nombreAsign_mostrar.isEmpty())) {
+			if((!cursoAsign_mostrar.isEmpty()) && (idAsign_mostrar.isEmpty())) {
 				System.out.println("Encontrado por curso");
-				encontrado = asignaturaDao.findById(cursoAsign_mostrar);
-				System.out.println(encontrado.toString());
+				encontrado = asignaturaDao.findByCurso(cursoAsign_mostrar);
+				textoAsignatura += encontrado.toString();
+				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 			}
-			if((!nombreAsign_mostrar.isEmpty()) && (cursoAsign_mostrar.isEmpty())) {
-				System.out.println("Encontrado por nombre");
-				encontrado = asignaturaDao.findById(nombreAsign_mostrar);
-				System.out.println(encontrado.toString());
+			if((!idAsign_mostrar.isEmpty()) && (cursoAsign_mostrar.isEmpty())) {
+				System.out.println("Encontrado por id");
+				encontrado = asignaturaDao.findById(idAsign_mostrar);
+				textoAsignatura += encontrado.toString();
+				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 			}
 		}
 		if(boton.equalsIgnoreCase("Agregar")) {
 			String nombreAsign_agregar = request.getParameter("nombreAsign_agregar");
 			String cursoAsign_agregar = request.getParameter("cursoAsign_agregar");
-			String idAsign_agregar = request.getParameter("idAsign_agregar");
 			
-			if((idAsign_agregar!=null && !idAsign_agregar.isEmpty()) 
-					&& (cursoAsign_agregar!=null && !cursoAsign_agregar.isEmpty())
+			if((cursoAsign_agregar!=null && !cursoAsign_agregar.isEmpty())
 					&& (nombreAsign_agregar!=null && !nombreAsign_agregar.isEmpty())) {
 				Asignatura agregado;
-				int idAsignatura = Integer.valueOf(idAsign_agregar); 
-				agregado = asignaturaDao.save(new Asignatura(idAsignatura, nombreAsign_agregar, cursoAsign_agregar));
-				System.out.println(agregado.toString());
+				agregado = asignaturaDao.save(new Asignatura(nombreAsign_agregar, cursoAsign_agregar));
+				textoAsignatura += agregado.toString();
+				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 			}
 		}
 		if(boton.equalsIgnoreCase("Editar")) {
@@ -99,10 +100,13 @@ public class gestionAsignaturas extends HttpServlet {
 				int idAsignatura = Integer.valueOf(idAsign_editar);
 				boolean resultado = asignaturaDao.update(new Asignatura(idAsignatura, nombreAsign_editar, cursoAsign_editar));
 				if(resultado==true) {
-					System.out.println("Editado con exito");
+					textoAsignatura += "Editado con exito";
+					request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 				}
 			}
 		}
+		textoAsignatura += "\n";
+		request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 		request.getRequestDispatcher("asignaturas.jsp").forward(request, response);
 	}
 

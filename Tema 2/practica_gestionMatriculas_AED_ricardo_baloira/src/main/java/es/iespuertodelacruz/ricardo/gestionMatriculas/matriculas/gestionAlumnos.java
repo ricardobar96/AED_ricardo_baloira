@@ -47,7 +47,7 @@ public class gestionAlumnos extends HttpServlet {
 		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
 		
 		String boton = request.getParameter("botonAlumno");
-		String texto = (String) request.getSession().getAttribute("textoAlumno");
+		String textoAlumno = (String) request.getSession().getAttribute("textoAlumno");
 		
 		
 		if(boton.equalsIgnoreCase("Borrar")) {
@@ -55,7 +55,8 @@ public class gestionAlumnos extends HttpServlet {
 			if(dni_borrar!=null && !dni_borrar.isEmpty()) {
 				boolean resultado = alumnoDao.delete(dni_borrar);
 				if(resultado==true) {
-					System.out.println("Borrado con exito");
+					textoAlumno += "Borrado con exito";
+					request.getSession().setAttribute("textoAlumno", textoAlumno);
 				}
 			}
 		}
@@ -64,14 +65,14 @@ public class gestionAlumnos extends HttpServlet {
 			String dni_mostrar = request.getParameter("dni_mostrar");
 			Alumno encontrado;
 			if((!dni_mostrar.isEmpty()) && (nombre_mostrar.isEmpty())) {
-				System.out.println("Encontrado por dni");
 				encontrado = alumnoDao.findById(dni_mostrar);
-				System.out.println(encontrado.toString());
+				textoAlumno += encontrado.toString();
+				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 			if((!nombre_mostrar.isEmpty()) && (dni_mostrar.isEmpty())) {
-				System.out.println("Encontrado por nombre");
-				encontrado = alumnoDao.findById(nombre_mostrar);
-				System.out.println(encontrado.toString());
+				encontrado = alumnoDao.findByName(nombre_mostrar);
+				textoAlumno += encontrado.toString();
+				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 		}
 		if(boton.equalsIgnoreCase("Agregar")) {
@@ -80,7 +81,7 @@ public class gestionAlumnos extends HttpServlet {
 			String apellidos_agregar = request.getParameter("apellidos_agregar");
 			String nac_agregar = request.getParameter("nac_agregar");
 
-			DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = null;
 			try {
 				date = formatter.parse(nac_agregar);
@@ -92,7 +93,8 @@ public class gestionAlumnos extends HttpServlet {
 			if((nombre_agregar!=null && !nombre_agregar.isEmpty()) && (dni_agregar!=null && !dni_agregar.isEmpty())) {
 				Alumno agregado;
 				agregado = alumnoDao.save(new Alumno(dni_agregar, nombre_agregar, apellidos_agregar, (java.sql.Date) sqlDate));
-				System.out.println(agregado.toString());
+				textoAlumno += agregado.toString();
+				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 		}
 		if(boton.equalsIgnoreCase("Editar")) {
@@ -101,7 +103,7 @@ public class gestionAlumnos extends HttpServlet {
 			String apellidos_editar = request.getParameter("apellidos_editar");
 			String nac_editar = request.getParameter("nac_editar");
 			
-			DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = null;
 			try {
 				date = formatter.parse(nac_editar);
@@ -113,10 +115,13 @@ public class gestionAlumnos extends HttpServlet {
 			if((nombre_editar!=null && !nombre_editar.isEmpty()) && (dni_editar!=null && !dni_editar.isEmpty())) {
 				boolean resultado = alumnoDao.update(new Alumno(dni_editar, nombre_editar, apellidos_editar, (java.sql.Date) sqlDate));
 				if(resultado==true) {
-					System.out.println("Editado con exito");
+					textoAlumno += "Editado con exito";
+					request.getSession().setAttribute("textoAlumno", textoAlumno);
 				}
 			}
 		}
+		textoAlumno += "\n";
+		request.getSession().setAttribute("textoAlumno", textoAlumno);
 		request.getRequestDispatcher("alumnos.jsp").forward(request, response);
 	}
 

@@ -14,12 +14,14 @@ public class GestorConexionDDBB {
     public Connection getConnection() {
         
         Connection con=null;
-        try {
-        	con = basicDataSource.getConnection();
-        } catch (SQLException ex) {
-            System.exit(1);
-        }
-        return con;
+        synchronized(basicDataSource) {
+        	try {
+            	con = basicDataSource.getConnection();
+            } catch (SQLException ex) {
+                System.exit(1);
+            }
+            return con;
+        }  
     }
     BasicDataSource basicDataSource;
     

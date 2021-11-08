@@ -15,15 +15,16 @@
   <div class="agregar">
     <h4>Agregar asignatura</h4>
     <form name="formulario_agregar" action="gestionAsignaturas" method="post">
-      <label for="idAsign_agregar">*ID asignatura: </label>
-      <input id="idAsign_agregar" type="text" name="idAsign_agregar"/>
-      </br>
       <label for="nombreAsign_agregar">*Nombre: </label>
       <input id="nombreAsign_agregar" type="text" name="nombreAsign_agregar"/>
       </br>
       <label for="cursoAsign_agregar">*Curso: </label>
       <input id="cursoAsign_agregar" type="text" name="cursoAsign_agregar"/>
       </br>
+      </br>
+      </br>
+      </br>
+      </br> 
       <input id="boton_agregar" name="botonAsignatura" type="submit" value="Agregar" style="width:90%"/>
     </form>
   </div>
@@ -56,6 +57,7 @@
       </br>
       </br>
       </br>
+      </br>
       <input id="boton_editar" name="botonAsignatura" type="submit" value="Editar" style="width:90%"/>
     </form>
   </div>
@@ -64,8 +66,8 @@
     <h4>Mostrar asignaturas:</h4>
     <h5>(escribir en uno de los campos únicamente)</h5>
     <form name="formulario_mostrar" action="gestionAsignaturas" method="post">
-    <label for="nombreAsign_mostrar">Nombre: </label>
-      <input id="nombreAsign_mostrar" type="text" name="nombreAsign_mostrar"/>
+    <label for="idAsign_mostrar">Id: </label>
+      <input id="idAsign_mostrar" type="text" name="idAsign_mostrar"/>
       </br>
       <label for="cursoAsign_mostrar">Curso: </label>
       <input id="cursoAsign_mostrar" type="text" name="cursoAsign_mostrar"/>
@@ -80,7 +82,7 @@
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>
 </div>
 <div class="texto_gestion">
-  <textarea id="resultado" name="textoAsignatura" cols="150" rows="15"></textarea>
+  <textarea id="resultado" cols="150" rows="15">${textoAsignatura}</textarea>
 </div>
 </BODY>
 </HTML>
