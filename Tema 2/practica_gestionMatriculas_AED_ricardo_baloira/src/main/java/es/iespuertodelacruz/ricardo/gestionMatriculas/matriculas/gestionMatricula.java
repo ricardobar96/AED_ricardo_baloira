@@ -1,6 +1,10 @@
 package es.iespuertodelacruz.ricardo.gestionMatriculas.matriculas;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,14 +48,18 @@ public class gestionMatricula extends HttpServlet {
 		MatriculaDAO matriculaDao = new MatriculaDAO(gc);
 		
 		String boton = request.getParameter("botonMatricula");
-		String texto = (String) request.getSession().getAttribute("textoMatricula");
+		String textoMatricula = (String) request.getSession().getAttribute("textoMatricula");
+		if(textoMatricula == null) {
+			textoMatricula = "";
+		}
 		
 		if(boton.equalsIgnoreCase("Borrar")) {
 			String idMat_borrar = request.getParameter("idMat_borrar");
 			if(idMat_borrar!=null && !idMat_borrar.isEmpty()) {
 				boolean resultado = matriculaDao.delete(idMat_borrar);
 				if(resultado==true) {
-					System.out.println("Borrado con exito");
+					textoMatricula += "Editado con exito";
+					request.getSession().setAttribute("textoMatricula", textoMatricula);
 				}
 			}
 		}
@@ -59,15 +67,19 @@ public class gestionMatricula extends HttpServlet {
 			String anioMat_mostrar= request.getParameter("anioMat_mostrar");
 			String dniMat_mostrar = request.getParameter("dniMat_mostrar");
 			Matricula encontrado;
+			List<Matricula> encontrados;
 			if((!anioMat_mostrar.isEmpty()) && (dniMat_mostrar.isEmpty())) {
-				System.out.println("Encontrado por anio");
-				encontrado = matriculaDao.findById(anioMat_mostrar);
-				System.out.println(encontrado.toString());
+				encontrados = matriculaDao.findByYear(anioMat_mostrar);
+				for (Matricula m : encontrados) {
+					textoMatricula += m.toString();
+					textoMatricula += "\n";
+				}
+				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
 			if((!dniMat_mostrar.isEmpty()) && (anioMat_mostrar.isEmpty())) {
-				System.out.println("Encontrado por dni");
 				encontrado = matriculaDao.findById(dniMat_mostrar);
-				System.out.println(encontrado.toString());
+				textoMatricula += encontrado.toString();
+				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
 		}
 		if(boton.equalsIgnoreCase("Agregar")) {
@@ -80,8 +92,16 @@ public class gestionMatricula extends HttpServlet {
 					&& (asignMat_agregar!=null && !asignMat_agregar.isEmpty())) {
 				Matricula agregado;
 				int anioMatricula = Integer.valueOf(anioMat_agregar); 
-				//agregado = matriculaDao.save(new Matricula(asignMat_agregar, new Alumno(dniMat_agregar), anioMatricula));
-				//System.out.println(agregado.toString());
+				List<String> strAsign = Arrays.asList(asignMat_agregar.split("\\s*,\\s*"));
+				ArrayList<Asignatura> asignaturas = null;
+				
+				//for (String str : strAsign) {
+					//asignaturas.add((Asignatura) strAsign);
+				//}
+
+				agregado = matriculaDao.save(new Matricula(new Alumno(dniMat_agregar), anioMatricula, asignaturas));
+				textoMatricula += agregado.toString();
+				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
 		}
 		if(boton.equalsIgnoreCase("Editar")) {
@@ -95,14 +115,23 @@ public class gestionMatricula extends HttpServlet {
 					&& (idMat_editar!=null && !idMat_editar.isEmpty())
 					&& (anioMat_editar!=null && !anioMat_editar.isEmpty())
 					&& (asignMat_editar!=null && !asignMat_editar.isEmpty())) {
+				
 				int idMatricula = Integer.valueOf(idMat_editar);
 				int anioMatricula = Integer.valueOf(anioMat_editar);
-				//boolean resultado = matriculaDao.update(new Matricula(idAsignatura, nombreAsign_editar, cursoAsign_editar));
-				//if(resultado==true) {
-					//System.out.println("Editado con exito");
-				//}
+				List<String> strAsign = Arrays.asList(asignMat_editar.split("\\s*,\\s*"));
+				ArrayList<Asignatura> asignaturas = null;
+				
+				boolean resultado = matriculaDao.update(new Matricula(idMatricula, new Alumno(dniMat_editar), anioMatricula, 
+						asignaturas));
+				
+				if(resultado==true) {
+					textoMatricula += "Editado con exito";
+					request.getSession().setAttribute("textoMatricula", textoMatricula);
+				}
 			}
 		}
+		textoMatricula += "\n";
+		request.getSession().setAttribute("textoMatricula", textoMatricula);
 		request.getRequestDispatcher("matriculas.jsp").forward(request, response);
 	}
 

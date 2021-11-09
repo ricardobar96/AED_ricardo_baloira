@@ -19,6 +19,11 @@ public class Asignatura {
 		this.curso = curso;
 	}
 
+	public Asignatura(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+
 	public int getIdasignatura() {
 		return idasignatura;
 	}

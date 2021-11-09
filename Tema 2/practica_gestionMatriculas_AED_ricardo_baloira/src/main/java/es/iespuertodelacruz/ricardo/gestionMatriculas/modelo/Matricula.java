@@ -16,8 +16,31 @@ public class Matricula {
 		this.idmatricula = idmatricula;
 		this.alumno = alumno;
 		this.year = year;
-	}
+	}	
 	
+	
+	public Matricula(int idmatricula, Alumno alumno, int year, ArrayList<Asignatura> asignaturas) {
+		super();
+		this.idmatricula = idmatricula;
+		this.alumno = alumno;
+		this.year = year;
+		this.asignaturas = asignaturas;
+	}
+
+
+	public Matricula(Alumno alumno, int year, ArrayList<Asignatura> asignaturas) {
+		super();
+		this.alumno = alumno;
+		this.year = year;
+		this.asignaturas = asignaturas;
+	}
+
+	public Matricula(Alumno alumno, int year) {
+		super();
+		this.alumno = alumno;
+		this.year = year;
+	}
+
 	public int getIdmatricula() {
 		return idmatricula;
 	}

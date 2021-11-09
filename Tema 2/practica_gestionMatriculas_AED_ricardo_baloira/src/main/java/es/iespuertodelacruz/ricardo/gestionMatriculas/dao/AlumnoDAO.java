@@ -34,22 +34,18 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 				String nombre = rs.getString("nombre");
 				String apellidos = rs.getString("apellidos");
 				long nacimiento = rs.getLong("fechanacimiento");
-				SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-				Date fecha = originalFormat.parse(String.valueOf(nacimiento));
-
-				alumno = new Alumno(dni, nombre, apellidos, (java.sql.Date) fecha);
+				Date fecha = new Date(nacimiento);
+				alumno = new Alumno(dni, nombre, apellidos, fecha);
 			}			
 			
 		} catch (SQLException e) {
-				e.printStackTrace();
-		} catch (ParseException e) {
 				e.printStackTrace();
 		}
 		return alumno;
 	}
 	
-	public Alumno findByName(String nombreBuscar) {
-		Alumno alumno = null;
+	public List<Alumno> findByName(String nombreBuscar) {
+		ArrayList<Alumno> alumnos = new ArrayList<>();
 		String query = "SELECT dni, nombre, apellidos, fechanacimiento FROM alumnos WHERE nombre = ?";	
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
@@ -63,18 +59,15 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 				String nombre = rs.getString("nombre");
 				String apellidos = rs.getString("apellidos");
 				long nacimiento = rs.getLong("fechanacimiento");
-				SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-				Date fecha = originalFormat.parse(String.valueOf(nacimiento));
+				Date fecha = new Date(nacimiento);
 
-				alumno = new Alumno(dni, nombre, apellidos, (java.sql.Date) fecha);
+				alumnos.add(new Alumno(dni, nombre, apellidos, fecha));
 			}			
 			
 		} catch (SQLException e) {
 				e.printStackTrace();
-		} catch (ParseException e) {
-				e.printStackTrace();
-		}
-		return alumno;
+		} 
+		return alumnos;
 	}
 
 	@Override
@@ -91,7 +84,7 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 				int nacimiento = rs.getInt("fechanacimiento");
 				
 				Date fechanacimiento = new Date(nacimiento);
-				alumnos.add(new Alumno(dni, nombre, apellidos, (java.sql.Date)fechanacimiento));
+				alumnos.add(new Alumno(dni, nombre, apellidos, fechanacimiento));
 			}
 			
 			
@@ -109,7 +102,7 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 			ps.setString(1, obj.getDni());
 			ps.setString(2, obj.getNombre());
 			ps.setString(3, obj.getApellidos());
-			ps.setLong(4, (long) obj.getFechanacimiento().getTime());	
+			ps.setLong(4, (long) obj.getFechanacimiento().getTime());
 				
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -146,13 +139,20 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 		int respuesta;
 		boolean resultado = false;
 		String query = "DELETE FROM alumnos WHERE dni = ?";	
+		//String querySelectMatricula = "SELECT idmatricula FROM matriculas WHERE dni = ?";
+		//String queryDeleteAsignaturaMatricula = "DELETE FROM asignatura_matricula WHERE idmatricula = ?";
 		try (Connection cn = gc.getConnection();
-				PreparedStatement ps = cn.prepareStatement(query);){
+				PreparedStatement ps = cn.prepareStatement(query);
+				//PreparedStatement psSelectMat = cn.prepareStatement(querySelectMatricula);
+				//PreparedStatement psDeleteAsignMat = cn.prepareStatement(queryDeleteAsignaturaMatricula);
+				){
 			ps.setString(1, id);
-				
+			
+			//ResultSet rs = ps.executeQuery();
+			
 			respuesta = ps.executeUpdate();
 			if(respuesta>0) {
-					resultado = true;
+				resultado = true;
 			}
 				
 		} catch (SQLException e) {

@@ -14,7 +14,7 @@
 <div class="formularios">
   <div class="agregar">
     <h4>Agregar matrícula</h4>
-    <form name="formulario_agregar" action="enviarinfo" method="post">
+    <form name="formulario_agregar" action="gestionMatricula" method="post">
       <label for="dniMat_agregar">*DNI alumno: </label>
       <input id="dniMat_agregar" type="text" name="dniMat_agregar"/>
       </br>

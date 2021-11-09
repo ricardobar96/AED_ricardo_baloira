@@ -1,6 +1,6 @@
 package es.iespuertodelacruz.ricardo.gestionMatriculas.modelo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,12 +15,12 @@ public class Alumno {
 	@JsonIgnore
 	ArrayList<Matricula> matriculas;
 
-	public Alumno(String dni, String nombre, String apellidos, Date fechanacimiento) {
+	public Alumno(String dni, String nombre, String apellidos, Date fecha) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.fechanacimiento = fechanacimiento;
+		this.fechanacimiento = fecha;
 	}
 	
 	public Alumno(String dni) {

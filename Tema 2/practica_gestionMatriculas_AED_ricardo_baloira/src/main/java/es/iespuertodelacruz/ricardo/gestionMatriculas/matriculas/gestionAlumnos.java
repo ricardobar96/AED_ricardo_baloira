@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,7 +50,9 @@ public class gestionAlumnos extends HttpServlet {
 		
 		String boton = request.getParameter("botonAlumno");
 		String textoAlumno = (String) request.getSession().getAttribute("textoAlumno");
-		
+		if(textoAlumno == null) {
+			textoAlumno = "";
+		}
 		
 		if(boton.equalsIgnoreCase("Borrar")) {
 			String dni_borrar = request.getParameter("dni_borrar");
@@ -63,6 +67,7 @@ public class gestionAlumnos extends HttpServlet {
 		if(boton.equalsIgnoreCase("Mostrar")) {
 			String nombre_mostrar = request.getParameter("nombre_mostrar");
 			String dni_mostrar = request.getParameter("dni_mostrar");
+			List<Alumno> encontrados;
 			Alumno encontrado;
 			if((!dni_mostrar.isEmpty()) && (nombre_mostrar.isEmpty())) {
 				encontrado = alumnoDao.findById(dni_mostrar);
@@ -70,8 +75,11 @@ public class gestionAlumnos extends HttpServlet {
 				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 			if((!nombre_mostrar.isEmpty()) && (dni_mostrar.isEmpty())) {
-				encontrado = alumnoDao.findByName(nombre_mostrar);
-				textoAlumno += encontrado.toString();
+				encontrados = alumnoDao.findByName(nombre_mostrar);
+				for (Alumno a : encontrados) {
+					textoAlumno += a.toString();
+					textoAlumno += "\n";
+				}				
 				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 		}
@@ -82,17 +90,17 @@ public class gestionAlumnos extends HttpServlet {
 			String nac_agregar = request.getParameter("nac_agregar");
 
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			java.util.Date date = null;
+			Date date = null;
 			try {
 				date = formatter.parse(nac_agregar);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			Date sqlDate = new Date(date.getTime());
 			
 			if((nombre_agregar!=null && !nombre_agregar.isEmpty()) && (dni_agregar!=null && !dni_agregar.isEmpty())) {
 				Alumno agregado;
-				agregado = alumnoDao.save(new Alumno(dni_agregar, nombre_agregar, apellidos_agregar, (java.sql.Date) sqlDate));
+				agregado = alumnoDao.save(new Alumno(dni_agregar, nombre_agregar, apellidos_agregar, sqlDate));
 				textoAlumno += agregado.toString();
 				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
@@ -104,16 +112,16 @@ public class gestionAlumnos extends HttpServlet {
 			String nac_editar = request.getParameter("nac_editar");
 			
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			java.util.Date date = null;
+			Date date = null;
 			try {
 				date = formatter.parse(nac_editar);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			Date sqlDate = new Date(date.getTime());
 			
 			if((nombre_editar!=null && !nombre_editar.isEmpty()) && (dni_editar!=null && !dni_editar.isEmpty())) {
-				boolean resultado = alumnoDao.update(new Alumno(dni_editar, nombre_editar, apellidos_editar, (java.sql.Date) sqlDate));
+				boolean resultado = alumnoDao.update(new Alumno(dni_editar, nombre_editar, apellidos_editar, sqlDate));
 				if(resultado==true) {
 					textoAlumno += "Editado con exito";
 					request.getSession().setAttribute("textoAlumno", textoAlumno);

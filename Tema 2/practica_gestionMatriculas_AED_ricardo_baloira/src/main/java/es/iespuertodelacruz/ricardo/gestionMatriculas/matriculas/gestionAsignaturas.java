@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
+import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Alumno;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Asignatura;
 
 /**
@@ -47,6 +49,9 @@ public class gestionAsignaturas extends HttpServlet {
 		
 		String boton = request.getParameter("botonAsignatura");
 		String textoAsignatura = (String) request.getSession().getAttribute("textoAsignatura");
+		if(textoAsignatura == null) {
+			textoAsignatura = "";
+		}
 		
 		
 		if(boton.equalsIgnoreCase("Borrar")) {
@@ -62,11 +67,14 @@ public class gestionAsignaturas extends HttpServlet {
 		if(boton.equalsIgnoreCase("Mostrar")) {
 			String idAsign_mostrar= request.getParameter("idAsign_mostrar");
 			String cursoAsign_mostrar = request.getParameter("cursoAsign_mostrar");
+			List<Asignatura> encontrados;
 			Asignatura encontrado;
 			if((!cursoAsign_mostrar.isEmpty()) && (idAsign_mostrar.isEmpty())) {
-				System.out.println("Encontrado por curso");
-				encontrado = asignaturaDao.findByCurso(cursoAsign_mostrar);
-				textoAsignatura += encontrado.toString();
+				encontrados = asignaturaDao.findByCurso(cursoAsign_mostrar);
+				for (Asignatura a : encontrados) {
+					textoAsignatura += a.toString();
+					textoAsignatura += "\n";
+				}
 				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 			}
 			if((!idAsign_mostrar.isEmpty()) && (cursoAsign_mostrar.isEmpty())) {

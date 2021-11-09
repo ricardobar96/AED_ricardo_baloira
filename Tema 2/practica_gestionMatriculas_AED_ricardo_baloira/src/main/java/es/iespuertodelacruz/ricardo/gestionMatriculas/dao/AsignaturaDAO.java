@@ -41,8 +41,8 @@ public class AsignaturaDAO implements Crud<Asignatura, String> {
 		return asignatura;
 	}
 	
-	public Asignatura findByCurso(String buscarCurso) {
-		Asignatura asignatura = null;
+	public List<Asignatura> findByCurso(String buscarCurso) {
+		ArrayList<Asignatura> asignaturas = new ArrayList<>();
 		String query = "SELECT idasignatura, nombre, curso FROM asignaturas WHERE curso = ?";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
@@ -55,13 +55,13 @@ public class AsignaturaDAO implements Crud<Asignatura, String> {
 				int idasignatura = rs.getInt("idasignatura");
 				String nombre = rs.getString("nombre");
 				String curso = rs.getString("curso");
-				asignatura = new Asignatura(idasignatura, nombre, curso);
+				asignaturas.add(new Asignatura(idasignatura, nombre, curso));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return asignatura;
+		return asignaturas;
 	}
 
 	@Override
