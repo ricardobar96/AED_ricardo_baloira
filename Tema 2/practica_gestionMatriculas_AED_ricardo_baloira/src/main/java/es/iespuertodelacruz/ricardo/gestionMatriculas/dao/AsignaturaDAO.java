@@ -136,14 +136,28 @@ public class AsignaturaDAO implements Crud<Asignatura, String> {
 
 	@Override
 	public boolean delete(String id) {
-		int respuesta;
+		int respuesta = 0;
+		String idasign = null;
 		boolean resultado = false;
-		String query = "DELETE FROM asignaturas WHERE idasignatura = ?";
-		try (Connection cn = gc.getConnection(); PreparedStatement ps = cn.prepareStatement(query);) {
+		String querySelect = "SELECT idasignatura FROM asignatura_matricula WHERE idasignatura = ?";
+		String queryDelete = "DELETE FROM asignaturas WHERE idasignatura = ?";
+		try (Connection cn = gc.getConnection(); 
+				PreparedStatement ps = cn.prepareStatement(querySelect);
+				PreparedStatement ps2 = cn.prepareStatement(queryDelete);
+				) {
 			int idBuscar = Integer.parseInt(id);
 			ps.setInt(1, idBuscar);
-
-			respuesta = ps.executeUpdate();
+			ps2.setInt(1, idBuscar);
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				idasign = String.valueOf(rs.getInt("idasignatura"));				
+			}
+			
+			if (idasign==null) {
+				respuesta = ps2.executeUpdate();
+			}
+			
 			if (respuesta > 0) {
 				resultado = true;
 			}

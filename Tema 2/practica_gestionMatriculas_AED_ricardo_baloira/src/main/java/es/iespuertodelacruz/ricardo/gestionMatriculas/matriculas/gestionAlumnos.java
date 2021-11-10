@@ -62,6 +62,10 @@ public class gestionAlumnos extends HttpServlet {
 					textoAlumno += "Borrado con exito";
 					request.getSession().setAttribute("textoAlumno", textoAlumno);
 				}
+				if(resultado==false) {
+					textoAlumno += "Error al borrar";
+					request.getSession().setAttribute("textoAlumno", textoAlumno);
+				}
 			}
 		}
 		if(boton.equalsIgnoreCase("Mostrar")) {
@@ -124,6 +128,10 @@ public class gestionAlumnos extends HttpServlet {
 				boolean resultado = alumnoDao.update(new Alumno(dni_editar, nombre_editar, apellidos_editar, sqlDate));
 				if(resultado==true) {
 					textoAlumno += "Editado con exito";
+					request.getSession().setAttribute("textoAlumno", textoAlumno);
+				}
+				if(resultado==false) {
+					textoAlumno += "Error al editar";
 					request.getSession().setAttribute("textoAlumno", textoAlumno);
 				}
 			}

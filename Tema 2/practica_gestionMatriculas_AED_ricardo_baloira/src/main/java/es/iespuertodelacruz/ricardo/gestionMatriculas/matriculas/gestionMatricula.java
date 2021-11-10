@@ -58,7 +58,11 @@ public class gestionMatricula extends HttpServlet {
 			if(idMat_borrar!=null && !idMat_borrar.isEmpty()) {
 				boolean resultado = matriculaDao.delete(idMat_borrar);
 				if(resultado==true) {
-					textoMatricula += "Editado con exito";
+					textoMatricula += "Borrado con exito";
+					request.getSession().setAttribute("textoMatricula", textoMatricula);
+				}
+				if(resultado==false) {
+					textoMatricula += "Error al borrar";
 					request.getSession().setAttribute("textoMatricula", textoMatricula);
 				}
 			}
@@ -66,7 +70,6 @@ public class gestionMatricula extends HttpServlet {
 		if(boton.equalsIgnoreCase("Mostrar")) {
 			String anioMat_mostrar= request.getParameter("anioMat_mostrar");
 			String dniMat_mostrar = request.getParameter("dniMat_mostrar");
-			Matricula encontrado;
 			List<Matricula> encontrados;
 			if((!anioMat_mostrar.isEmpty()) && (dniMat_mostrar.isEmpty())) {
 				encontrados = matriculaDao.findByYear(anioMat_mostrar);
@@ -77,8 +80,11 @@ public class gestionMatricula extends HttpServlet {
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
 			if((!dniMat_mostrar.isEmpty()) && (anioMat_mostrar.isEmpty())) {
-				encontrado = matriculaDao.findById(dniMat_mostrar);
-				textoMatricula += encontrado.toString();
+				encontrados = matriculaDao.findByDni(dniMat_mostrar);
+				for (Matricula m : encontrados) {
+					textoMatricula += m.toString();
+					textoMatricula += "\n";
+				}
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
 		}
@@ -126,6 +132,10 @@ public class gestionMatricula extends HttpServlet {
 				
 				if(resultado==true) {
 					textoMatricula += "Editado con exito";
+					request.getSession().setAttribute("textoMatricula", textoMatricula);
+				}
+				if(resultado==false) {
+					textoMatricula += "Error al editar";
 					request.getSession().setAttribute("textoMatricula", textoMatricula);
 				}
 			}

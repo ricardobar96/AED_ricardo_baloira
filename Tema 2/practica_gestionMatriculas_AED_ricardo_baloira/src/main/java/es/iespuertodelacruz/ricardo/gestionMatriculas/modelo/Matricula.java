@@ -65,6 +65,12 @@ public class Matricula {
 	public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
 		this.asignaturas = asignaturas;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Matricula [idmatricula=" + idmatricula + ", alumno=" + alumno + ", year=" + year + "]";
+	}
 	
 	
 }

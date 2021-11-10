@@ -62,6 +62,10 @@ public class gestionAsignaturas extends HttpServlet {
 					textoAsignatura += "Borrado con exito";
 					request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 				}
+				if(resultado==false) {
+					textoAsignatura += "Error al borrar";
+					request.getSession().setAttribute("textoAsignatura", textoAsignatura);
+				}
 			}
 		}
 		if(boton.equalsIgnoreCase("Mostrar")) {
@@ -109,6 +113,10 @@ public class gestionAsignaturas extends HttpServlet {
 				boolean resultado = asignaturaDao.update(new Asignatura(idAsignatura, nombreAsign_editar, cursoAsign_editar));
 				if(resultado==true) {
 					textoAsignatura += "Editado con exito";
+					request.getSession().setAttribute("textoAsignatura", textoAsignatura);
+				}
+				if(resultado==false) {
+					textoAsignatura += "Error al editar";
 					request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 				}
 			}

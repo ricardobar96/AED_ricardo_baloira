@@ -25,6 +25,7 @@
       </br>
       </br>
       </br> 
+      </br>
       <input id="boton_agregar" name="botonAsignatura" type="submit" value="Agregar" style="width:90%"/>
     </form>
   </div>
@@ -35,11 +36,11 @@
       <label for="idAsign_borrar">*ID asignatura: </label>
       <input id="idAsign_borrar" type="text" name="idAsign_borrar"/>
       </br>
-      <input id="boton_borrar" name="botonAsignatura" type="submit" value="Borrar" style="width:90%"/>
       </br>
       </br>
       </br>
       </br>
+      <input id="boton_borrar" name="botonAsignatura" type="submit" value="Borrar" style="width:90%"/>  
     </form>
   </div>
 
@@ -72,11 +73,11 @@
       <label for="cursoAsign_mostrar">Curso: </label>
       <input id="cursoAsign_mostrar" type="text" name="cursoAsign_mostrar"/>
       </br>
+      </br>
+      </br>
+      </br>
+      </br>
       <input id="boton_mostrar" name="botonAsignatura" type="submit" value="Mostrar" style="width:90%"/>
-      </br>
-      </br>
-      </br>
-      </br>
     </form>
   </div>
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>

@@ -33,7 +33,7 @@
 
   <div class="borrar">
     <h4>Borrar matrícula</h4>
-    <form name="formulario_borrar" action="enviarinfo" method="post">
+    <form name="formulario_borrar" action="gestionMatricula" method="post">
       <label for="idMat_borrar">*ID matrícula: </label>
       <input id="idMat_borrar" type="text" name="idMat_borrar"/>
       </br>
@@ -46,7 +46,7 @@
 
   <div class="editar">
     <h4>Editar matrícula</h4>
-    <form name="formulario_editar" action="enviarinfo" method="post">
+    <form name="formulario_editar" action="gestionMatricula" method="post">
       <label for="idMat_editar">*ID matrícula: </label>
       <input id="idMat_editar" type="text" name="idMat_editar"/>
       </br>
@@ -66,7 +66,7 @@
   <div class="mostrar">
     <h4>Mostrar matrículas:</h4>
     <h5>(escribir en uno de los campos únicamente)</h5>
-    <form name="formulario_mostrar" action="enviarinfo" method="post">
+    <form name="formulario_mostrar" action="gestionMatricula" method="post">
       <label for="anioMat_mostrar">Año: </label>
       <input id="anioMat_mostrar" type="text" name="anioMat_mostrar"/>
       </br>
@@ -82,7 +82,7 @@
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>
 </div>
 <div class="texto_gestion">
-  <textarea id="resultado" name="textoMatricula" cols="150" rows="15"></textarea>
+  <textarea id="resultado" cols="150" rows="15">${textoMatricula}</textarea>
 </div>
 </BODY>
 </HTML>

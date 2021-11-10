@@ -60,7 +60,6 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 				String apellidos = rs.getString("apellidos");
 				long nacimiento = rs.getLong("fechanacimiento");
 				Date fecha = new Date(nacimiento);
-
 				alumnos.add(new Alumno(dni, nombre, apellidos, fecha));
 			}			
 			
@@ -136,21 +135,29 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 
 	@Override
 	public boolean delete(String id) {
-		int respuesta;
+		int respuesta = 0;
+		String dniAlumn = null;
 		boolean resultado = false;
-		String query = "DELETE FROM alumnos WHERE dni = ?";	
-		//String querySelectMatricula = "SELECT idmatricula FROM matriculas WHERE dni = ?";
+		String queryDelete = "DELETE FROM alumnos WHERE dni = ?";	
+		String querySelect = "SELECT idmatricula FROM matriculas WHERE dni = ?";
 		//String queryDeleteAsignaturaMatricula = "DELETE FROM asignatura_matricula WHERE idmatricula = ?";
+		
 		try (Connection cn = gc.getConnection();
-				PreparedStatement ps = cn.prepareStatement(query);
-				//PreparedStatement psSelectMat = cn.prepareStatement(querySelectMatricula);
-				//PreparedStatement psDeleteAsignMat = cn.prepareStatement(queryDeleteAsignaturaMatricula);
+				PreparedStatement ps = cn.prepareStatement(querySelect);
+				PreparedStatement ps2 = cn.prepareStatement(queryDelete);
 				){
 			ps.setString(1, id);
+			ps2.setString(1, id);
 			
-			//ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				dniAlumn = rs.getString("dni");
+			}
 			
-			respuesta = ps.executeUpdate();
+			if(dniAlumn == null) {
+				respuesta = ps2.executeUpdate();
+			}
+
 			if(respuesta>0) {
 				resultado = true;
 			}

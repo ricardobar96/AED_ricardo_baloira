@@ -19,6 +19,8 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	@Override
 	public Matricula findById(String id) {
 		Matricula matricula = null;
+		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
+		Alumno alumno;
 		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE dni = ?";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
@@ -30,9 +32,9 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 
 			while (rs.next()) {
 				int idmatricula = rs.getInt("idmatricula");
-				String dni = rs.getString("dni");
+				alumno = alumnoDao.findById(id);
 				int anio = rs.getInt("year");
-				matricula = new Matricula(idmatricula, new Alumno(dni), anio);
+				matricula = new Matricula(idmatricula, alumno, anio);
 			}
 
 		} catch (SQLException e) {
@@ -64,6 +66,8 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	
 	public List<Matricula> findByYear(String anio) {
 		ArrayList<Matricula> matriculas = new ArrayList<>();
+		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
+		Alumno alumno;
 		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE year = ?";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
@@ -73,10 +77,35 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int idmatricula = rs.getInt("idmatricula");
+				int idmatricula = rs.getInt("idmatricula");				
 				String dni = rs.getString("dni");
+				alumno = alumnoDao.findById(dni);
 				int year = rs.getInt("year");
-				matriculas.add(new Matricula(idmatricula, new Alumno(dni), year));
+				matriculas.add(new Matricula(idmatricula, alumno, year));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return matriculas;
+	}
+	
+	public List<Matricula> findByDni(String dni) {
+		ArrayList<Matricula> matriculas = new ArrayList<>();
+		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
+		Alumno alumno;
+		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE dni = ?";
+		try (Connection cn = gc.getConnection();
+				PreparedStatement ps = cn.prepareStatement(query);
+				) {
+			ps.setString(1, dni);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int idmatricula = rs.getInt("idmatricula");
+				alumno = alumnoDao.findById(dni);
+				int anio = rs.getInt("year");
+				matriculas.add(new Matricula(idmatricula, alumno, anio));
 			}
 
 		} catch (SQLException e) {
@@ -89,7 +118,7 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	public Matricula save(Matricula obj) {
 		Matricula matricula = null;
 		String query = "INSERT INTO matriculas (dni, year) VALUES (?, ?)";	
-		//String queryINsertAsignMat = "INSERT INTO asignaturas_matriculas";
+		//String queryINsertAsignMat = "INSERT INTO asignaturas_matriculas idmatricula";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);){
 			Integer id = null;
@@ -102,7 +131,10 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 			if (rs.next()) {
 				id = rs.getInt(1);
 			}	
-			//matricula = new Matricula(id, obj.getAlumno().getDni(), obj.getYear());
+			
+			AlumnoDAO alumnodao = new AlumnoDAO(gc);
+			Alumno alumno  = alumnodao.findById(obj.getAlumno().getDni());
+			matricula = new Matricula(id, alumno, obj.getYear());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -136,6 +168,7 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 		int respuesta;
 		boolean resultado = false;
 		String query = "DELETE FROM matriculas WHERE idmatricula = ?";
+		String queryDeleteAsignMat = "DELETE FROM asignatura_matricula  WHERE idmatricula = ?";
 		try (Connection cn = gc.getConnection(); PreparedStatement ps = cn.prepareStatement(query);) {
 			int idBuscar = Integer.parseInt(id);
 			ps.setInt(1, idBuscar);
