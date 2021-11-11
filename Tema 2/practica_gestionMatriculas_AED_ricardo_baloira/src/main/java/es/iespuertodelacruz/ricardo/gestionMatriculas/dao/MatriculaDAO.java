@@ -116,45 +116,112 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	
 	@Override
 	public Matricula save(Matricula obj) {
+		AlumnoDAO alumnodao = new AlumnoDAO(gc);
 		Matricula matricula = null;
-		String query = "INSERT INTO matriculas (dni, year) VALUES (?, ?)";	
-		//String queryINsertAsignMat = "INSERT INTO asignaturas_matriculas idmatricula";
+		String dniAlumno = null;
+		int respuesta = 0;
+		ArrayList<Asignatura> asignaturas;
+		String queryInsertMat = "INSERT INTO matriculas (dni, year) VALUES (?, ?)";	
+		String querySelect = "SELECT dni FROM alumnos WHERE dni = ?";
+		String queryInsertAsignMat = "INSERT INTO asignaturas_matriculas (idmatricula, idasignatura) VALUES (?, ?)";
 		try (Connection cn = gc.getConnection();
-				PreparedStatement ps = cn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);){
+				PreparedStatement psSelect = cn.prepareStatement(querySelect);
+				PreparedStatement psInsertAsignMat = 
+						cn.prepareStatement(queryInsertAsignMat, PreparedStatement.RETURN_GENERATED_KEYS);
+				PreparedStatement psInsertMat = 
+						cn.prepareStatement(queryInsertMat, PreparedStatement.RETURN_GENERATED_KEYS);){
+			cn.setAutoCommit(false);
+			
 			Integer id = null;
 			
-			ps.setString(1, obj.getAlumno().getDni());
-			ps.setInt(2, obj.getYear());
-			ps.executeUpdate();
+			psInsertMat.setString(1, obj.getAlumno().getDni());
+			psInsertMat.setInt(2, obj.getYear());
+			psSelect.setString(1, obj.getAlumno().getDni());
 			
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				id = rs.getInt(1);
-			}	
+			ResultSet rsSelectDni = psSelect.executeQuery();
+			while(rsSelectDni.next()) {
+				dniAlumno = rsSelectDni.getString("dni");
+			}
 			
-			AlumnoDAO alumnodao = new AlumnoDAO(gc);
-			Alumno alumno  = alumnodao.findById(obj.getAlumno().getDni());
-			matricula = new Matricula(id, alumno, obj.getYear());
+			if(dniAlumno != null) {
+				ResultSet rs = psInsertMat.getGeneratedKeys();
+				if (rs.next()) {
+					id = rs.getInt(1);
+				}	
+				
+				respuesta = psInsertMat.executeUpdate();
+			}
+			
+			if(respuesta > 0) {
+				asignaturas = obj.getAsignaturas();
+				ResultSet rsAsignMat = psInsertAsignMat.getGeneratedKeys();
+				for (Asignatura a : asignaturas) {
+					if (rsAsignMat.next()) {
+						id = rsAsignMat.getInt(1);
+					}	
+					psInsertAsignMat.setInt(1, obj.getIdmatricula());
+					psInsertAsignMat.setInt(2, a.getIdasignatura());
+					psInsertAsignMat.executeUpdate();
+				}
+				
+				Alumno alumno  = alumnodao.findById(obj.getAlumno().getDni());
+				matricula = new Matricula(id, alumno, obj.getYear());
+				cn.commit();
+				cn.setAutoCommit(true);
+				
+			}		
+			else {
+				cn.rollback();
+				cn.setAutoCommit(true);
+			}
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return obj;
+		return matricula;
 	}
 	
 	@Override
 	public boolean update(Matricula obj) {
+		ArrayList<Asignatura> asignaturas;
 		int respuesta;
 		boolean resultado = false;
-		String query = "UPDATE matriculas SET dni = ?, year = ? WHERE idmatricula = ?";
-		try (Connection cn = gc.getConnection(); PreparedStatement ps = cn.prepareStatement(query);) {
-			ps.setString(1, obj.getAlumno().getDni());
-			ps.setInt(2, obj.getYear());
-			ps.setInt(3, obj.getIdmatricula());
-
-			respuesta = ps.executeUpdate();
+		String queryDelete = "DELETE FROM asignatura_matricula WHERE idmatricula = ?";
+		String queryUpdate = "UPDATE matriculas SET dni= ?, year= ? WHERE idmatricula = ?";
+		String queryInsert = "INSERT INTO asignatura_matricula (idasignatura,idmatricula) VALUES (?, ?)";
+		try (Connection cn = gc.getConnection(); 
+				PreparedStatement psDelete = cn.prepareStatement(queryDelete);
+				PreparedStatement psUpdate = cn.prepareStatement(queryUpdate);
+				PreparedStatement psInsert = cn.prepareStatement(queryInsert);
+				) {
+			cn.setAutoCommit(false);
+			
+			psDelete.setInt(1, obj.getIdmatricula());
+			respuesta = psDelete.executeUpdate();
+			
+			psUpdate.setString(1, obj.getAlumno().getDni());
+			psUpdate.setInt(2, obj.getYear());
+			psUpdate.setInt(3, obj.getIdmatricula());
+			
+			respuesta = psUpdate.executeUpdate();
+			
 			if (respuesta > 0) {
+				
+				asignaturas = obj.getAsignaturas();
+				for (Asignatura a : asignaturas) {
+					psInsert.setInt(1, a.getIdasignatura());
+					psInsert.setInt(2, obj.getIdmatricula());
+					psInsert.executeUpdate();
+				}
+
+				cn.commit();
+				cn.setAutoCommit(true);
 				resultado = true;
+			}
+			else{
+				cn.rollback();
+				cn.setAutoCommit(true);
 			}
 
 		} catch (SQLException e) {
@@ -167,15 +234,33 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	public boolean delete(String id) {
 		int respuesta;
 		boolean resultado = false;
-		String query = "DELETE FROM matriculas WHERE idmatricula = ?";
+		String queryDeleteMat = "DELETE FROM matriculas WHERE idmatricula = ?";
 		String queryDeleteAsignMat = "DELETE FROM asignatura_matricula  WHERE idmatricula = ?";
-		try (Connection cn = gc.getConnection(); PreparedStatement ps = cn.prepareStatement(query);) {
+		try (Connection cn = gc.getConnection(); 
+				PreparedStatement psDeleteMat = cn.prepareStatement(queryDeleteMat);
+				PreparedStatement psDeleteAsignMat = cn.prepareStatement(queryDeleteAsignMat);) {
+			
+			cn.setAutoCommit(false);
+			
 			int idBuscar = Integer.parseInt(id);
-			ps.setInt(1, idBuscar);
+			
+			psDeleteAsignMat.setInt(1, idBuscar);
+			psDeleteMat.setInt(1, idBuscar);
 
-			respuesta = ps.executeUpdate();
+			respuesta = psDeleteAsignMat.executeUpdate();
 			if (respuesta > 0) {
+				respuesta = psDeleteMat.executeUpdate();
+			}
+			
+			if(respuesta > 0) {
+				cn.commit();
+				cn.setAutoCommit(true);
 				resultado = true;
+			}
+			
+			else{
+				cn.rollback();
+				cn.setAutoCommit(true);
 			}
 
 		} catch (SQLException e) {

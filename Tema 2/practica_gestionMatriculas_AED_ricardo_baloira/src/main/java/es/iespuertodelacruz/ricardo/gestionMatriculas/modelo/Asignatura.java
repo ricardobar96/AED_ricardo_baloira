@@ -24,6 +24,11 @@ public class Asignatura {
 		this.nombre = nombre;
 	}
 
+	public Asignatura(int idasignatura) {
+		super();
+		this.idasignatura = idasignatura;
+	}
+
 	public int getIdasignatura() {
 		return idasignatura;
 	}

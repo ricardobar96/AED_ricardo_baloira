@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.MatriculaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Alumno;
@@ -89,6 +90,7 @@ public class gestionMatricula extends HttpServlet {
 			}
 		}
 		if(boton.equalsIgnoreCase("Agregar")) {
+			AsignaturaDAO asignaturaDao = new AsignaturaDAO(gc);
 			String dniMat_agregar = request.getParameter("dniMat_agregar");
 			String anioMat_agregar = request.getParameter("anioMat_agregar");
 			String asignMat_agregar = request.getParameter("asignMat_agregar");
@@ -99,11 +101,11 @@ public class gestionMatricula extends HttpServlet {
 				Matricula agregado;
 				int anioMatricula = Integer.valueOf(anioMat_agregar); 
 				List<String> strAsign = Arrays.asList(asignMat_agregar.split("\\s*,\\s*"));
-				ArrayList<Asignatura> asignaturas = null;
+				ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
 				
-				//for (String str : strAsign) {
-					//asignaturas.add((Asignatura) strAsign);
-				//}
+				for (String str : strAsign) {
+					asignaturas.add(asignaturaDao.findById(str));
+				}
 
 				agregado = matriculaDao.save(new Matricula(new Alumno(dniMat_agregar), anioMatricula, asignaturas));
 				textoMatricula += agregado.toString();
@@ -111,12 +113,13 @@ public class gestionMatricula extends HttpServlet {
 			}
 		}
 		if(boton.equalsIgnoreCase("Editar")) {
+			AsignaturaDAO asignaturaDao = new AsignaturaDAO(gc);
+			boolean resultado = false;
 			String dniMat_editar = request.getParameter("dniMat_editar");
 			String idMat_editar = request.getParameter("idMat_editar");
 			String anioMat_editar = request.getParameter("anioMat_editar");
 			String asignMat_editar = request.getParameter("asignMat_editar");
-
-			
+		
 			if((dniMat_editar!=null && !dniMat_editar.isEmpty()) 
 					&& (idMat_editar!=null && !idMat_editar.isEmpty())
 					&& (anioMat_editar!=null && !anioMat_editar.isEmpty())
@@ -125,9 +128,13 @@ public class gestionMatricula extends HttpServlet {
 				int idMatricula = Integer.valueOf(idMat_editar);
 				int anioMatricula = Integer.valueOf(anioMat_editar);
 				List<String> strAsign = Arrays.asList(asignMat_editar.split("\\s*,\\s*"));
-				ArrayList<Asignatura> asignaturas = null;
+				ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
 				
-				boolean resultado = matriculaDao.update(new Matricula(idMatricula, new Alumno(dniMat_editar), anioMatricula, 
+				for (String str : strAsign) {
+					asignaturas.add(asignaturaDao.findById(str));
+				}
+				
+				resultado = matriculaDao.update(new Matricula(idMatricula, new Alumno(dniMat_editar), anioMatricula, 
 						asignaturas));
 				
 				if(resultado==true) {
