@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AlumnoDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.MatriculaDAO;
@@ -90,6 +91,7 @@ public class gestionMatricula extends HttpServlet {
 			}
 		}
 		if(boton.equalsIgnoreCase("Agregar")) {
+			AlumnoDAO alumnoDao = new AlumnoDAO(gc);
 			AsignaturaDAO asignaturaDao = new AsignaturaDAO(gc);
 			String dniMat_agregar = request.getParameter("dniMat_agregar");
 			String anioMat_agregar = request.getParameter("anioMat_agregar");
@@ -99,6 +101,7 @@ public class gestionMatricula extends HttpServlet {
 					&& (anioMat_agregar!=null && !anioMat_agregar.isEmpty())
 					&& (asignMat_agregar!=null && !asignMat_agregar.isEmpty())) {
 				Matricula agregado;
+				Alumno alumno = alumnoDao.findById(dniMat_agregar);
 				int anioMatricula = Integer.valueOf(anioMat_agregar); 
 				List<String> strAsign = Arrays.asList(asignMat_agregar.split("\\s*,\\s*"));
 				ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
@@ -106,8 +109,8 @@ public class gestionMatricula extends HttpServlet {
 				for (String str : strAsign) {
 					asignaturas.add(asignaturaDao.findById(str));
 				}
-
-				agregado = matriculaDao.save(new Matricula(new Alumno(dniMat_agregar), anioMatricula, asignaturas));
+				
+				agregado = matriculaDao.save(new Matricula(alumno, anioMatricula, asignaturas));
 				textoMatricula += agregado.toString();
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}

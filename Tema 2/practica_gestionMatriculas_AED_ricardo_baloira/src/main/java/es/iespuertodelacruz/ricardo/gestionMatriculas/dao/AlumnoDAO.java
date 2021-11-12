@@ -140,7 +140,6 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 		boolean resultado = false;
 		String queryDelete = "DELETE FROM alumnos WHERE dni = ?";	
 		String querySelect = "SELECT idmatricula FROM matriculas WHERE dni = ?";
-		//String queryDeleteAsignaturaMatricula = "DELETE FROM asignatura_matricula WHERE idmatricula = ?";
 		
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(querySelect);

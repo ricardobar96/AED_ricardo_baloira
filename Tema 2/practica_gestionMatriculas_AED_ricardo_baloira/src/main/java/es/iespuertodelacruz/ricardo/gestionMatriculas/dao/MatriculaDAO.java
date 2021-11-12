@@ -116,14 +116,13 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	
 	@Override
 	public Matricula save(Matricula obj) {
-		AlumnoDAO alumnodao = new AlumnoDAO(gc);
 		Matricula matricula = null;
 		String dniAlumno = null;
 		int respuesta = 0;
 		ArrayList<Asignatura> asignaturas;
 		String queryInsertMat = "INSERT INTO matriculas (dni, year) VALUES (?, ?)";	
 		String querySelect = "SELECT dni FROM alumnos WHERE dni = ?";
-		String queryInsertAsignMat = "INSERT INTO asignaturas_matriculas (idmatricula, idasignatura) VALUES (?, ?)";
+		String queryInsertAsignMat = "INSERT INTO asignatura_matricula (idmatricula, idasignatura) VALUES (?, ?)";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement psSelect = cn.prepareStatement(querySelect);
 				PreparedStatement psInsertAsignMat = 
@@ -144,32 +143,32 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 			}
 			
 			if(dniAlumno != null) {
+				
+				respuesta = psInsertMat.executeUpdate();
+				
 				ResultSet rs = psInsertMat.getGeneratedKeys();
 				if (rs.next()) {
 					id = rs.getInt(1);
 				}	
-				
-				respuesta = psInsertMat.executeUpdate();
+						
 			}
 			
 			if(respuesta > 0) {
 				asignaturas = obj.getAsignaturas();
-				ResultSet rsAsignMat = psInsertAsignMat.getGeneratedKeys();
 				for (Asignatura a : asignaturas) {
-					if (rsAsignMat.next()) {
-						id = rsAsignMat.getInt(1);
-					}	
-					psInsertAsignMat.setInt(1, obj.getIdmatricula());
+					psInsertAsignMat.setInt(1, id);
 					psInsertAsignMat.setInt(2, a.getIdasignatura());
-					psInsertAsignMat.executeUpdate();
+					respuesta = psInsertAsignMat.executeUpdate();
 				}
 				
-				Alumno alumno  = alumnodao.findById(obj.getAlumno().getDni());
-				matricula = new Matricula(id, alumno, obj.getYear());
+			}
+			
+			if(respuesta > 0) {
+				matricula = new Matricula(id, obj.getAlumno(), obj.getYear());
 				cn.commit();
 				cn.setAutoCommit(true);
-				
-			}		
+			}
+			
 			else {
 				cn.rollback();
 				cn.setAutoCommit(true);
