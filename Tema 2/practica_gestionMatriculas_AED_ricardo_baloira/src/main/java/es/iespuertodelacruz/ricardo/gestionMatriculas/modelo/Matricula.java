@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Matricula {
 	int idmatricula;
 	Alumno alumno;
-	@JsonProperty("aÃ±o")
+	@JsonProperty("año")
 	int year;
 	ArrayList<Asignatura> asignaturas;
 	

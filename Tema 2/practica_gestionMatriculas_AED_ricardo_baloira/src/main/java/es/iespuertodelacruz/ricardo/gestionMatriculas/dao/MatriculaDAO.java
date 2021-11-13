@@ -19,11 +19,16 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	@Override
 	public Matricula findById(String id) {
 		Matricula matricula = null;
+		ArrayList<Asignatura> asignaturas = new ArrayList<>();
+		ArrayList<Integer> idAsign = new ArrayList<>();
 		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
+		AsignaturaDAO asignaturaDao = new AsignaturaDAO(gc);
 		Alumno alumno;
-		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE dni = ?";
+		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE idmatricula = ?";
+		String querySelectAsign = "SELECT idasignatura FROM asignatura_matricula WHERE idmatricula = ?";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
+				PreparedStatement psSelectAsign = cn.prepareStatement(querySelectAsign);
 				) {
 
 			int idBuscar = Integer.parseInt(id);
@@ -34,7 +39,18 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 				int idmatricula = rs.getInt("idmatricula");
 				alumno = alumnoDao.findById(id);
 				int anio = rs.getInt("year");
-				matricula = new Matricula(idmatricula, alumno, anio);
+				
+				psSelectAsign.setInt(1, idmatricula);
+				ResultSet rsSelectAsign = psSelectAsign.executeQuery();
+				while(rsSelectAsign.next()) {
+					int idAsignatura = rsSelectAsign.getInt("idasignatura");
+					idAsign.add(idAsignatura);
+				}
+				for (int asign : idAsign) {
+					asignaturas.add(asignaturaDao.findById(String.valueOf(asign)));
+				}
+				
+				matricula = new Matricula(idmatricula, alumno, anio, asignaturas);
 			}
 
 		} catch (SQLException e) {
@@ -44,6 +60,7 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	}
 	@Override
 	public List<Matricula> findAll() {
+		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
 		ArrayList<Matricula> matriculas = new ArrayList<>();
 		String query = "SELECT idmatricula, dni, year FROM matriculas";
 		try (Connection cn = gc.getConnection();
@@ -55,7 +72,8 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 				int idmatricula = rs.getInt("idmatricula");
 				String dni = rs.getString("dni");
 				int anio = rs.getInt("year");
-				matriculas.add(new Matricula(idmatricula, new Alumno(dni), anio));
+				Alumno alumno = alumnoDao.findById(dni);
+				matriculas.add(new Matricula(idmatricula, alumno, anio));
 			}
 
 		} catch (SQLException e) {
@@ -67,7 +85,10 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	public List<Matricula> findByYear(String anio) {
 		ArrayList<Matricula> matriculas = new ArrayList<>();
 		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
+		MatriculaDAO matriculaDao = new MatriculaDAO(gc);
+		
 		Alumno alumno;
+		Matricula matricula;
 		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE year = ?";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
@@ -80,8 +101,9 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 				int idmatricula = rs.getInt("idmatricula");				
 				String dni = rs.getString("dni");
 				alumno = alumnoDao.findById(dni);
+				matricula = matriculaDao.findById(String.valueOf(idmatricula));
 				int year = rs.getInt("year");
-				matriculas.add(new Matricula(idmatricula, alumno, year));
+				matriculas.add(new Matricula(idmatricula, alumno, year, matricula.getAsignaturas()));
 			}
 
 		} catch (SQLException e) {
@@ -92,8 +114,10 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 	
 	public List<Matricula> findByDni(String dni) {
 		ArrayList<Matricula> matriculas = new ArrayList<>();
+		MatriculaDAO matriculaDao = new MatriculaDAO(gc);
 		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
 		Alumno alumno;
+		Matricula matricula;
 		String query = "SELECT idmatricula, dni, year FROM matriculas WHERE dni = ?";
 		try (Connection cn = gc.getConnection();
 				PreparedStatement ps = cn.prepareStatement(query);
@@ -103,9 +127,10 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 
 			while (rs.next()) {
 				int idmatricula = rs.getInt("idmatricula");
+				matricula = matriculaDao.findById(String.valueOf(idmatricula));
 				alumno = alumnoDao.findById(dni);
 				int anio = rs.getInt("year");
-				matriculas.add(new Matricula(idmatricula, alumno, anio));
+				matriculas.add(new Matricula(idmatricula, alumno, anio, matricula.getAsignaturas()));
 			}
 
 		} catch (SQLException e) {
@@ -164,7 +189,7 @@ public class MatriculaDAO implements Crud<Matricula, String>{
 			}
 			
 			if(respuesta > 0) {
-				matricula = new Matricula(id, obj.getAlumno(), obj.getYear());
+				matricula = new Matricula(id, obj.getAlumno(), obj.getYear(), obj.getAsignaturas());
 				cn.commit();
 				cn.setAutoCommit(true);
 			}

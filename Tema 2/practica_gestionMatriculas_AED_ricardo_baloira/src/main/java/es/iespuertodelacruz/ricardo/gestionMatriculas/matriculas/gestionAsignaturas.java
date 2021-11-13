@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Alumno;
@@ -76,7 +78,9 @@ public class gestionAsignaturas extends HttpServlet {
 			if((!cursoAsign_mostrar.isEmpty()) && (idAsign_mostrar.isEmpty())) {
 				encontrados = asignaturaDao.findByCurso(cursoAsign_mostrar);
 				for (Asignatura a : encontrados) {
-					textoAsignatura += a.toString();
+					ObjectMapper mapper = new ObjectMapper();
+					String strAsignCurso = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(a);
+					textoAsignatura += strAsignCurso;
 					textoAsignatura += "\n";
 				}
 				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
@@ -84,7 +88,10 @@ public class gestionAsignaturas extends HttpServlet {
 			if((!idAsign_mostrar.isEmpty()) && (cursoAsign_mostrar.isEmpty())) {
 				System.out.println("Encontrado por id");
 				encontrado = asignaturaDao.findById(idAsign_mostrar);
-				textoAsignatura += encontrado.toString();
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String strAsignId = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(encontrado);
+				textoAsignatura += strAsignId;
 				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 			}
 		}
@@ -96,7 +103,10 @@ public class gestionAsignaturas extends HttpServlet {
 					&& (nombreAsign_agregar!=null && !nombreAsign_agregar.isEmpty())) {
 				Asignatura agregado;
 				agregado = asignaturaDao.save(new Asignatura(nombreAsign_agregar, cursoAsign_agregar));
-				textoAsignatura += agregado.toString();
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String strAsign = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(agregado);
+				textoAsignatura += strAsign;
 				request.getSession().setAttribute("textoAsignatura", textoAsignatura);
 			}
 		}

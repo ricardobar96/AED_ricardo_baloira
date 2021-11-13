@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AlumnoDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
@@ -76,7 +78,9 @@ public class gestionMatricula extends HttpServlet {
 			if((!anioMat_mostrar.isEmpty()) && (dniMat_mostrar.isEmpty())) {
 				encontrados = matriculaDao.findByYear(anioMat_mostrar);
 				for (Matricula m : encontrados) {
-					textoMatricula += m.toString();
+					ObjectMapper mapper = new ObjectMapper();
+					String strMatAnio = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(m);
+					textoMatricula += strMatAnio;
 					textoMatricula += "\n";
 				}
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
@@ -84,7 +88,9 @@ public class gestionMatricula extends HttpServlet {
 			if((!dniMat_mostrar.isEmpty()) && (anioMat_mostrar.isEmpty())) {
 				encontrados = matriculaDao.findByDni(dniMat_mostrar);
 				for (Matricula m : encontrados) {
-					textoMatricula += m.toString();
+					ObjectMapper mapper = new ObjectMapper();
+					String strMatDni = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(m);
+					textoMatricula += strMatDni;
 					textoMatricula += "\n";
 				}
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
@@ -111,7 +117,9 @@ public class gestionMatricula extends HttpServlet {
 				}
 				
 				agregado = matriculaDao.save(new Matricula(alumno, anioMatricula, asignaturas));
-				textoMatricula += agregado.toString();
+				ObjectMapper mapper = new ObjectMapper();
+				String strMat = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(agregado);
+				textoMatricula += strMat;
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
 		}

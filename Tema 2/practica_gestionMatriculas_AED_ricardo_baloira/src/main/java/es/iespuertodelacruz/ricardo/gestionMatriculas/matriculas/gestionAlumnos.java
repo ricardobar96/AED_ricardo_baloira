@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AlumnoDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Alumno;
@@ -75,13 +77,19 @@ public class gestionAlumnos extends HttpServlet {
 			Alumno encontrado;
 			if((!dni_mostrar.isEmpty()) && (nombre_mostrar.isEmpty())) {
 				encontrado = alumnoDao.findById(dni_mostrar);
-				textoAlumno += encontrado.toString();
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String strAluDni = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(encontrado);
+				
+				textoAlumno += strAluDni;
 				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 			if((!nombre_mostrar.isEmpty()) && (dni_mostrar.isEmpty())) {
 				encontrados = alumnoDao.findByName(nombre_mostrar);
 				for (Alumno a : encontrados) {
-					textoAlumno += a.toString();
+					ObjectMapper mapper = new ObjectMapper();
+					String strAluNombre = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(a);
+					textoAlumno += strAluNombre;
 					textoAlumno += "\n";
 				}				
 				request.getSession().setAttribute("textoAlumno", textoAlumno);
@@ -105,7 +113,11 @@ public class gestionAlumnos extends HttpServlet {
 			if((nombre_agregar!=null && !nombre_agregar.isEmpty()) && (dni_agregar!=null && !dni_agregar.isEmpty())) {
 				Alumno agregado;
 				agregado = alumnoDao.save(new Alumno(dni_agregar, nombre_agregar, apellidos_agregar, sqlDate));
-				textoAlumno += agregado.toString();
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String strAlu = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(agregado);
+				
+				textoAlumno += strAlu;
 				request.getSession().setAttribute("textoAlumno", textoAlumno);
 			}
 		}
