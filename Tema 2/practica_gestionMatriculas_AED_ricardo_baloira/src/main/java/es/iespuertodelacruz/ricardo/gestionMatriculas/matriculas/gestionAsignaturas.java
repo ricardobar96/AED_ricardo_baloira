@@ -1,9 +1,6 @@
 package es.iespuertodelacruz.ricardo.gestionMatriculas.matriculas;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
-import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Alumno;
 import es.iespuertodelacruz.ricardo.gestionMatriculas.modelo.Asignatura;
 
 /**

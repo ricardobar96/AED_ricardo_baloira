@@ -82,7 +82,7 @@
   <spam class="nota"><strong>Nota:</strong> Los campos marcados con asterisco * son obligatorios</spam>
 </div>
 <div class="texto_gestion">
-  <textarea id="resultado" cols="150" rows="15">${textoMatricula}</textarea>
+  <textarea id="resultado" cols="150" rows="15" readonly>${textoMatricula}</textarea>
 </div>
 </BODY>
 </HTML>

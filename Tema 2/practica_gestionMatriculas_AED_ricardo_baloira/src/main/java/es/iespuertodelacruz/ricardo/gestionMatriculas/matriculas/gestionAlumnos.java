@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +99,7 @@ public class gestionAlumnos extends HttpServlet {
 			String dni_agregar = request.getParameter("dni_agregar");
 			String apellidos_agregar = request.getParameter("apellidos_agregar");
 			String nac_agregar = request.getParameter("nac_agregar");
+			Date sqlDate = null;
 
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = null;
@@ -108,7 +108,9 @@ public class gestionAlumnos extends HttpServlet {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			Date sqlDate = new Date(date.getTime());
+			if(date != null) {
+				sqlDate = new Date(date.getTime());
+			}
 			
 			if((nombre_agregar!=null && !nombre_agregar.isEmpty()) && (dni_agregar!=null && !dni_agregar.isEmpty())) {
 				Alumno agregado;
@@ -126,6 +128,7 @@ public class gestionAlumnos extends HttpServlet {
 			String dni_editar = request.getParameter("dni_editar");
 			String apellidos_editar = request.getParameter("apellidos_editar");
 			String nac_editar = request.getParameter("nac_editar");
+			Date sqlDate = null;
 			
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = null;
@@ -134,7 +137,9 @@ public class gestionAlumnos extends HttpServlet {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			Date sqlDate = new Date(date.getTime());
+			if(date != null) {
+				sqlDate = new Date(date.getTime());
+			}
 			
 			if((nombre_editar!=null && !nombre_editar.isEmpty()) && (dni_editar!=null && !dni_editar.isEmpty())) {
 				boolean resultado = alumnoDao.update(new Alumno(dni_editar, nombre_editar, apellidos_editar, sqlDate));

@@ -85,7 +85,7 @@
 </div>
 </div>
 <div class="texto_gestion">
-  <textarea id="resultado" cols="150" rows="15">${textoAlumno}</textarea>
+  <textarea id="resultado" cols="150" rows="15" readonly>${textoAlumno}</textarea>
 </div>
 </BODY>
 </HTML>

@@ -29,7 +29,7 @@ public class arrancarPool implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
-    	GestorConexionDDBB gc = new GestorConexionDDBB("instituto", "root", "");
+    	GestorConexionDDBB gc = new GestorConexionDDBB("instituto", "root", "1q2w3e4r");
         sce.getServletContext().setAttribute("gc", gc);
     }
 	

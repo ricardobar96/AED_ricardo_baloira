@@ -99,7 +99,12 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 			ps.setString(1, obj.getDni());
 			ps.setString(2, obj.getNombre());
 			ps.setString(3, obj.getApellidos());
-			ps.setLong(4, (long) obj.getFechanacimiento().getTime());
+			if(obj.getFechanacimiento() != null) {
+				ps.setLong(4, (long) obj.getFechanacimiento().getTime());
+			}
+			else {
+				ps.setString(4, null);
+			}
 				
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -117,9 +122,16 @@ public class AlumnoDAO implements Crud<Alumno, String>{
 			PreparedStatement ps = cn.prepareStatement(query);){
 			ps.setString(1, obj.getNombre());
 			ps.setString(2, obj.getApellidos());
-			ps.setLong(3, (long) obj.getFechanacimiento().getTime());
-			ps.setString(4, obj.getDni());
 			
+			if(obj.getFechanacimiento() != null) {
+				ps.setLong(3, (long) obj.getFechanacimiento().getTime());
+			}
+			else{
+				ps.setString(3, null);
+			}
+			
+			ps.setString(4, obj.getDni());
+	
 			respuesta = ps.executeUpdate();
 			if(respuesta>0) {
 				resultado = true;

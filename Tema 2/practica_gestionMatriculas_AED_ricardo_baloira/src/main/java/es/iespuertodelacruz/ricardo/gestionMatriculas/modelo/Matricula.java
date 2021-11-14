@@ -35,12 +35,6 @@ public class Matricula {
 		this.asignaturas = asignaturas;
 	}
 
-	public Matricula(Alumno alumno, int year) {
-		super();
-		this.alumno = alumno;
-		this.year = year;
-	}
-
 	public int getIdmatricula() {
 		return idmatricula;
 	}

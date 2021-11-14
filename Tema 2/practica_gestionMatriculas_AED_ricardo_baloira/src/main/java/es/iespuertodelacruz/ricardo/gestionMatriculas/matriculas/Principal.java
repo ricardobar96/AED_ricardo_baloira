@@ -6,11 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AlumnoDAO;
-import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.AsignaturaDAO;
-import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.GestorConexionDDBB;
-import es.iespuertodelacruz.ricardo.gestionMatriculas.dao.MatriculaDAO;
-
 /**
  * Servlet implementation class Principal
  */
@@ -30,12 +25,6 @@ public class Principal extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		GestorConexionDDBB gc = (GestorConexionDDBB) request.getServletContext().getAttribute("gc");
-		
-		AlumnoDAO alumnoDao = new AlumnoDAO(gc);
-		MatriculaDAO matriculaDao = new MatriculaDAO(gc);
-		AsignaturaDAO asignaturaDao = new AsignaturaDAO(gc);
-		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
