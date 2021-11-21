@@ -9,6 +9,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Bienvenido a la aplicación matriculasJPA</h1>
+        Para acceder se debe realizar login: <a href="login.jsp">login</a>
     </body>
 </html>

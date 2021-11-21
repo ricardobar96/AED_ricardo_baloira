@@ -4,6 +4,7 @@
 		<class>es.iespuertodelacruz.ricardo.matriculasJPA.entities.Alumno</class>
 		<class>es.iespuertodelacruz.ricardo.matriculasJPA.entities.Asignatura</class>
 		<class>es.iespuertodelacruz.ricardo.matriculasJPA.entities.Matricula</class>
+		<class>es.iespuertodelacruz.ricardo.matriculasJPA.entities.Usuario</class>
 		<properties>
 	      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/instituto?serverTimezone=UTC"/>
 	      <property name="javax.persistence.jdbc.user" value="root"/>
