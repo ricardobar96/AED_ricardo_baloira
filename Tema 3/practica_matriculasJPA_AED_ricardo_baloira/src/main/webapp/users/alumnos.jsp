@@ -9,9 +9,9 @@
 <body>
 	<h1>Lista de alumnos</h1>
 	<ul>
-		<c:forEach items="${listaAlumno}" var="alumno">
+		<c:forEach items="${listaAlumnos}" var="alumno">
 			<li>
-				<a href="gestionAlumno?id=" + ${alumno.getDni()}>${alumno.getNombre()}</a>
+				<a href="../gestionAlumno?dni=${alumno.getDni()}"> ${alumno.getNombre()} ${alumno.getApellidos()}</a>
 			</li>
 		</c:forEach>   
 	</ul>

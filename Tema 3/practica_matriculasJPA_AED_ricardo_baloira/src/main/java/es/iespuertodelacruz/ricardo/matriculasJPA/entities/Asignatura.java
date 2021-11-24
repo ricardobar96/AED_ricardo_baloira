@@ -67,4 +67,10 @@ public class Asignatura implements Serializable {
 		this.matriculas = matriculas;
 	}
 
+	@Override
+	public String toString() {
+		return "Asignatura [curso=" + curso + ", nombre=" + nombre + ", matriculas=" + matriculas + "]";
+	}
+	
+	
 }

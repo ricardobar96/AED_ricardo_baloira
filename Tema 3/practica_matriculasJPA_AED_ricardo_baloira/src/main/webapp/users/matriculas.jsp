@@ -8,5 +8,12 @@
 </head>
 <body>
 	<h1>Lista de matriculas</h1>
+	<ul>
+		<c:forEach items="${listaMatriculas}" var="matricula">
+			<li>
+				<a href="../gestionMatricula?idmatricula=${matricula.getIdmatricula()}"> ${matricula.getAlumno().getNombre()} ${matricula.getYear()}</a>
+			</li>
+		</c:forEach>   
+	</ul>
 </body>
 </html>

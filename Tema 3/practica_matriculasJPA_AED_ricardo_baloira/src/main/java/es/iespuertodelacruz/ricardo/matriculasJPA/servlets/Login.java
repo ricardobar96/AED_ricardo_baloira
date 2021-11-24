@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.ricardo.matriculasJPA.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -11,8 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
-
+import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Alumno;
+import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Asignatura;
+import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Matricula;
 import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Usuario;
+import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.AlumnoRepository;
+import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.AsignaturaRepository;
+import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.MatriculaRepository;
 import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.UsuarioRepository;
 
 /**
@@ -62,6 +68,19 @@ public class Login extends HttpServlet {
 
 				if( okLogin) {
 					request.getSession().setAttribute("user", usuario);
+					
+					AlumnoRepository alumnoRepository = new AlumnoRepository(emf);
+					List<Alumno> findAllAlumnos = alumnoRepository.findAll();
+					request.getSession().setAttribute("listaAlumnos", findAllAlumnos);
+					
+					AsignaturaRepository asignaturaRepository = new AsignaturaRepository(emf);
+					List<Asignatura> findAllAsignaturas = asignaturaRepository.findAll();
+					request.getSession().setAttribute("listaAsignaturas", findAllAsignaturas);
+					
+					MatriculaRepository matriculaRepository = new MatriculaRepository(emf);
+					List<Matricula> findAllMatriculas = matriculaRepository.findAll();
+					request.getSession().setAttribute("listaMatriculas", findAllMatriculas);
+					
 					redirect="users/inicio.jsp";
 				}
 				

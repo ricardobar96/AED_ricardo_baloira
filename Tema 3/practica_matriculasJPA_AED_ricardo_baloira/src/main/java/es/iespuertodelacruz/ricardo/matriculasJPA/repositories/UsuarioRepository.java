@@ -7,7 +7,7 @@ import javax.persistence.EntityManagerFactory;
 
 import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Usuario;
 
-public class UsuarioRepository implements JACRUD<Usuario, Integer>{
+public class UsuarioRepository implements JPACRUD<Usuario, Integer>{
 
 	private EntityManagerFactory emf;
 

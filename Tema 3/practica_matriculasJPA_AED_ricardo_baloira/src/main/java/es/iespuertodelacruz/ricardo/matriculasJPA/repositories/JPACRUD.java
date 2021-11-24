@@ -2,7 +2,7 @@ package es.iespuertodelacruz.ricardo.matriculasJPA.repositories;
 
 import java.util.List;
 
-public interface JACRUD<T,E> {
+public interface JPACRUD<T,E> {
 	List<T> findAll();
 	
 	T findById(E id);
