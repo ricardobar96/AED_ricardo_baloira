@@ -28,7 +28,8 @@ public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
 	public Asignatura findById(String id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Asignatura asignatura = em.find(Asignatura.class, id);
+		int idBuscar = Integer.valueOf(id);
+		Asignatura asignatura = em.find(Asignatura.class, idBuscar);
 		em.getTransaction().commit();
 		em.close();
 		return asignatura;

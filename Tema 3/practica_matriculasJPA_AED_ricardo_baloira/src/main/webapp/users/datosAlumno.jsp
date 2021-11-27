@@ -7,6 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:out value="${alumno.toString()}"></c:out>
+	Nombre: ${nombre}
+	<br>
+	Apellidos: ${apellidos}
+	<br>
+	Fecha Nacimiento: ${fechaNac}
+	<br>
+	DNI: ${dni}
 </body>
 </html>

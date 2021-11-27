@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.AsignaturaRepository;
 
 /**
@@ -31,9 +33,13 @@ public class gestionAsignatura extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EntityManagerFactory emf =(EntityManagerFactory)request.getServletContext().getAttribute("emf");
 		AsignaturaRepository asignaturaRepository = new AsignaturaRepository(emf);
+		Asignatura asignatura;
 		String idasignatura = request.getParameter("idasignatura");
-		request.setAttribute("asignatura", asignaturaRepository.findById(idasignatura));
-		response.sendRedirect("users/datosAsignatura.jsp");
+		asignatura = asignaturaRepository.findById(idasignatura);
+		request.setAttribute("nombreAsig", asignatura.getNombre());
+		request.setAttribute("cursoAsig", asignatura.getCurso());
+		//request.setAttribute("asignatura", asignaturaRepository.findById(idasignatura));
+		request.getRequestDispatcher("users/datosAsignatura.jsp").forward(request, response);
 	}
 
 	/**

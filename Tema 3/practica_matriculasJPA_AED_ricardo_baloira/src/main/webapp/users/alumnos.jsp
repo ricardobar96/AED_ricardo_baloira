@@ -11,7 +11,7 @@
 	<ul>
 		<c:forEach items="${listaAlumnos}" var="alumno">
 			<li>
-				<a href="../gestionAlumno?dni=${alumno.getDni()}"> ${alumno.getNombre()} ${alumno.getApellidos()}</a>
+				<a href="../gestionAlumno?id=${alumno.getDni()}"> ${alumno.getNombre()} ${alumno.getApellidos()}</a>
 			</li>
 		</c:forEach>   
 	</ul>

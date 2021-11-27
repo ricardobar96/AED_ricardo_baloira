@@ -28,7 +28,8 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 	public Matricula findById(String id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Matricula matricula = em.find(Matricula.class, id);
+		int idBuscar = Integer.valueOf(id);
+		Matricula matricula = em.find(Matricula.class, idBuscar);
 		em.getTransaction().commit();
 		em.close();
 		return matricula;
