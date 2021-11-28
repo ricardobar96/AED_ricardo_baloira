@@ -14,5 +14,15 @@
 	Fecha Nacimiento: ${fechaNac}
 	<br>
 	DNI: ${dni}
+	<br>
+	Matriculas:
+	<br>
+	<ul>
+		<c:forEach items="${matriculas}" var="matricula">
+			<li>
+				<a href="../gestionAlumno?id=${matricula.getIdmatricula()}"> Id matricula: ${matricula.getIdmatricula()} || Anio: ${matricula.getYear()}</a>
+			</li>
+		</c:forEach>   
+	</ul>
 </body>
 </html>

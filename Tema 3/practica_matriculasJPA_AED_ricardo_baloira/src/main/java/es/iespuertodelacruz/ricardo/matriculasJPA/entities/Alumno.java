@@ -89,10 +89,6 @@ public class Alumno implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Alumno [dni=" + dni + ", apellidos=" + apellidos + ", fechanacimiento=" + fechanacimiento + ", nombre="
-				+ nombre + "]";
+		return "Alumno [matriculas=" + matriculas + "]";
 	}
-	
-	
-
 }

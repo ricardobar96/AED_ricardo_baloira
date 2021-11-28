@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+
 import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Matricula;
 
 public class MatriculaRepository implements JPACRUD<Matricula,String>{
@@ -33,6 +35,20 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 		em.getTransaction().commit();
 		em.close();
 		return matricula;
+	}
+	
+	public List<Matricula> findByDni(String dni) {
+		List<Matricula> matriculas = null;
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tr = em.getTransaction();
+		tr.begin();
+		String query = "SELECT m FROM Matricula m WHERE m.alumno.dni = :dni";
+		matriculas = em.createQuery(query, Matricula.class)
+				.setParameter("dni", dni)
+				.getResultList();
+		tr.commit();
+		em.close();
+		return matriculas;
 	}
 
 	@Override
