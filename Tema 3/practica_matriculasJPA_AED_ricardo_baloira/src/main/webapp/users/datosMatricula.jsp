@@ -10,5 +10,15 @@
 	Anio: ${year}
 	<br>
 	Alumno:  ${alumnoMat}
+	<br>
+	Asignaturas:
+	<br>
+	<ul>
+		<c:forEach items="${asignaturas}" var="asignatura">
+			<li>
+				<a href="./gestionAsignatura?idasignatura=${asignatura.getIdasignatura()}"> ${asignatura.getNombre()} ${asignatura.getCurso()}</a>
+			</li>
+		</c:forEach>   
+	</ul>
 </body>
 </html>

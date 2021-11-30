@@ -15,8 +15,6 @@
 <div class="enlaces">
 <ul type="disk">
   <li> <a href="alumnos.jsp">Lista de alumnos</a></li>
-  <li> <a href="asignaturas.jsp">Lista de asignaturas</a></li>
-  <li> <a href="matriculas.jsp">Lista de matrículas</a></li>
 </ul>
 </br>
 <p>Para cerrar sesion actual: <a href="../Logout">logout</a></p>

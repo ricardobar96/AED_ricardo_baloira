@@ -20,7 +20,7 @@
 	<ul>
 		<c:forEach items="${matriculas}" var="matricula">
 			<li>
-				<a href="../gestionAlumno?id=${matricula.getIdmatricula()}"> Id matricula: ${matricula.getIdmatricula()} || Anio: ${matricula.getYear()}</a>
+				<a href="./gestionMatricula?idmatricula=${matricula.getIdmatricula()}"> Id matricula: ${matricula.getIdmatricula()} || Anio: ${matricula.getYear()}</a>
 			</li>
 		</c:forEach>   
 	</ul>

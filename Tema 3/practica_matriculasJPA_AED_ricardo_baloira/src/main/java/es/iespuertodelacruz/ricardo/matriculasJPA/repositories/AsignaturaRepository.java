@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+
 import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Asignatura;
 
 public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
@@ -33,6 +35,23 @@ public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
 		em.getTransaction().commit();
 		em.close();
 		return asignatura;
+	}
+	
+	public List<Asignatura> findByIdMatricula(String id) {
+		List<Asignatura> asignaturas = null;
+		int idmatricula = Integer.valueOf(id);
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tr = em.getTransaction();
+		tr.begin();
+		String query = "SELECT a FROM Asignatura a WHERE a.idmatricula = idmatricula";
+		//String query = "SELECT a FROM Asignatura a RIGHT JOIN Matricula m on a.idasignatura = :idmatricula";
+		//String query = "SELECT a FROM Asignatura a WHERE a.idasignatura = :idmatricula";
+		asignaturas = em.createQuery(query, Asignatura.class)
+				.setParameter("idmatricula", idmatricula)
+				.getResultList();
+		tr.commit();
+		em.close();
+		return asignaturas;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Matricula;
+import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.AsignaturaRepository;
 import es.iespuertodelacruz.ricardo.matriculasJPA.repositories.MatriculaRepository;
 
 /**
@@ -38,6 +41,8 @@ public class gestionMatricula extends HttpServlet {
 		EntityManagerFactory emf =(EntityManagerFactory)request.getServletContext().getAttribute("emf");
 		MatriculaRepository matriculaRepository = new MatriculaRepository(emf);
 		Matricula matricula;
+		Asignatura asignatura;
+		AsignaturaRepository asignaturaRepository = new AsignaturaRepository(emf);
 		String idmatricula = request.getParameter("idmatricula");
 		matricula = matriculaRepository.findById(idmatricula);
 		
@@ -60,6 +65,16 @@ public class gestionMatricula extends HttpServlet {
 		request.setAttribute("alumnoMat", " || Nombre: " + matricula.getAlumno().getNombre() + " " 
 		+ matricula.getAlumno().getApellidos() + " || DNI: " + matricula.getAlumno().getDni() 
 		+ " || Fecha Nacimiento: " + String.valueOf(fechaNac));
+		
+		List<Asignatura> asignaturas;
+		//asignaturas = asignaturaRepository.findByIdMatricula(idmatricula);
+		asignaturas = asignaturaRepository.findAll();
+		
+		//matricula = matriculaRepository.findById(idmatricula);
+		//asignaturas = matricula.getAsignaturas();
+		
+		request.setAttribute("asignaturas", asignaturas);
+		
 		request.getRequestDispatcher("users/datosMatricula.jsp").forward(request, response);
 	}
 
