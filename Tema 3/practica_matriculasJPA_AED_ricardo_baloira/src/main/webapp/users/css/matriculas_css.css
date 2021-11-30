@@ -1,0 +1,15 @@
+html {background-color:	#7fffd4;}
+h1 {text-align: center; color: #006400; padding:30px; background-color: #add8e6; margin: 0;}
+h3 {text-align: center; background-color: #5f9ea0; color: black; padding: 15px; margin: 0;}
+h4 {margin-bottom: 40px}
+h5 {margin-top: -35px;}
+.formularios {background-color:	#7fffd4; margin: 0; padding: 50px; display: grid; grid-template-columns: 1fr; grid-gap: 5px;}
+.agregar {background-color: #add8e6; text-align: center; position: relative; padding-top: 50px;}
+.borrar {background-color: #5f9ea0; text-align: center; position: relative;}
+.editar {background-color: #add8e6; text-align: center;}
+.mostrar {background-color: #5f9ea0; text-align: center; position: relative;}
+.nota {bottom: 0; font-size: 11px; margin-left: -30px; margin-bottom: -60px;}
+input {margin-bottom: 10px; font-size: 12px;}
+label{cursor: pointer; display: inline-block; padding: 3px 6px; text-align: right; width: 100px; vertical-align: top; font-size: 15px}
+#boton_borrar, #boton_mostrar, #boton_agregar {bottom: 0; left: 0;}
+.texto_gestion {display: block; margin-left: auto; margin-right: auto; margin-top: 40px; text-align: center;}

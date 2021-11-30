@@ -7,12 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Anio: ${year}
-	<br>
-	Alumno:  ${alumnoMat}
-	<br>
-	Asignaturas:
-	<br>
+	<h1 style="text-align:center;">Datos de la matricula</h1>
+	<p>Anio: ${year}</p>
+
+	<p>Alumno:  ${alumnoMat}</p>
+
+	<p>Asignaturas:</p>
 	<ul>
 		<c:forEach items="${asignaturas}" var="asignatura">
 			<li>
@@ -20,5 +20,8 @@
 			</li>
 		</c:forEach>   
 	</ul>
+	<br>
+	<p><a href="users/editarMatricula.jsp">Editar matricula</a></p>
+	<p><a href="users/crearMatricula.jsp">Borrar matricula</a></p>
 </body>
 </html>

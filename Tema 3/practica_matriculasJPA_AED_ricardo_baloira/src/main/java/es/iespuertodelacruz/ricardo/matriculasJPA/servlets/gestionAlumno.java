@@ -49,12 +49,14 @@ public class gestionAlumno extends HttpServlet {
 		alumno = alumnoRepository.findById(id);
 		String fechaL = String.valueOf(alumno.getFechanacimiento());
 		Date fechaNac = null;
+		Long convertirFecha = Long.parseLong(fechaL);
+		Date fechaD = new Date(convertirFecha);
 		
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		
 		try {
-			date = formatter.parse(fechaL);
+			date = formatter.parse(String.valueOf(fechaD));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +66,7 @@ public class gestionAlumno extends HttpServlet {
 		
 		request.setAttribute("nombre", alumno.getNombre());
 		request.setAttribute("apellidos", alumno.getApellidos());
-		request.setAttribute("fechaNac", String.valueOf(fechaNac));
+		request.setAttribute("fechaNac", fechaD);
 		request.setAttribute("dni", alumno.getDni());
 		
 		List<Matricula> matriculas;

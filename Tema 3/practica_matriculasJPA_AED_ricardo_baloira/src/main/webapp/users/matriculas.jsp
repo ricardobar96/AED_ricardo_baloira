@@ -7,7 +7,7 @@
 <title>Matriculas</title>
 </head>
 <body>
-	<h1>Lista de matriculas</h1>
+	<h1 style="text-align:center;">Lista de matriculas</h1>
 	<ul>
 		<c:forEach items="${listaMatriculas}" var="matricula">
 			<li>

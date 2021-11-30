@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class gestionMatricula extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EntityManagerFactory emf =(EntityManagerFactory)request.getServletContext().getAttribute("emf");
+		EntityManagerFactory emf =(EntityManagerFactory)request.getServletContext().getAttribute("emf");		
 		MatriculaRepository matriculaRepository = new MatriculaRepository(emf);
 		Matricula matricula;
 		Asignatura asignatura;
@@ -47,6 +49,8 @@ public class gestionMatricula extends HttpServlet {
 		matricula = matriculaRepository.findById(idmatricula);
 		
 		String fechaL = String.valueOf(matricula.getAlumno().getFechanacimiento());
+		Long convertirFecha = Long.parseLong(fechaL);
+		Date fechaD = new Date(convertirFecha);
 		Date fechaNac = null;
 		
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,14 +68,10 @@ public class gestionMatricula extends HttpServlet {
 		request.setAttribute("year", matricula.getYear());
 		request.setAttribute("alumnoMat", " || Nombre: " + matricula.getAlumno().getNombre() + " " 
 		+ matricula.getAlumno().getApellidos() + " || DNI: " + matricula.getAlumno().getDni() 
-		+ " || Fecha Nacimiento: " + String.valueOf(fechaNac));
+		+ " || Fecha Nacimiento: " + fechaD);
 		
 		List<Asignatura> asignaturas;
-		//asignaturas = asignaturaRepository.findByIdMatricula(idmatricula);
-		asignaturas = asignaturaRepository.findAll();
-		
-		//matricula = matriculaRepository.findById(idmatricula);
-		//asignaturas = matricula.getAsignaturas();
+		asignaturas = matricula.getAsignaturas();
 		
 		request.setAttribute("asignaturas", asignaturas);
 		
@@ -83,7 +83,22 @@ public class gestionMatricula extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
+		
+		String boton = request.getParameter("botonMatricula");
+		String textoMatricula = (String) request.getSession().getAttribute("textoMatricula");
+		if(textoMatricula == null) {
+			textoMatricula = "";
+		}
+		if(boton.equalsIgnoreCase("Agregar")) {
+			//
+		}
+		if(boton.equalsIgnoreCase("Editar")) {
+			//
+		}
+		textoMatricula += "\n";
+		request.getSession().setAttribute("textoMatricula", textoMatricula);
+		request.getRequestDispatcher("users/crearMatricula.jsp").forward(request, response);
 	}
 
 }

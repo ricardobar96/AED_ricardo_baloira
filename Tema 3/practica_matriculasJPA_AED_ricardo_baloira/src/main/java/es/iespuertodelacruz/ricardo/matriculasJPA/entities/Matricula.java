@@ -28,7 +28,7 @@ public class Matricula implements Serializable {
 	private Alumno alumno;
 
 	//bi-directional many-to-many association to Asignatura
-	@ManyToMany(mappedBy="matriculas")
+	@ManyToMany(mappedBy="matriculas", fetch = FetchType.EAGER)
 	private List<Asignatura> asignaturas;
 
 	public Matricula() {

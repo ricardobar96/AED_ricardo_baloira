@@ -7,9 +7,13 @@
 <title>Login</title>
 </head>
 <body>
-	<form method="post" action="Login">
+	<h1 style="text-align:center;">Login</h1>
+	<br>
+	<form method="post" action="Login" style="text-align:center;">
 		<input type="text" name="user" id="user" placeholder="nick usuario" /><br>
+		<br>
 		<input type="password" name="password" id="password" placeholder="contraseña" /><br>
+		<br>
 		<input type="submit" name="submit" id="submit" />
 	</form>
 </body>

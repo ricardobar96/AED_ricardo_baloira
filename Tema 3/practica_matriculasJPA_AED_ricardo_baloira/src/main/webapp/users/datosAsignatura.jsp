@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Nombre: ${nombreAsig}
-	<br>
-	Curso: ${cursoAsig}
+	<h1 style="text-align:center;">Datos de la asignatura</h1>
+	<p>Nombre: ${nombreAsig}</p>
 
+	<p>Curso: ${cursoAsig}</p>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <title>Asignaturas</title>
 </head>
 <body>
-	<h1>Lista de asignaturas</h1>
+	<h1 style="text-align:center;">Lista de asignaturas</h1>
 	<ul>
 		<c:forEach items="${listaAsignaturas}" var="asignatura">
 			<li>

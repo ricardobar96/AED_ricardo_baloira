@@ -7,16 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Nombre: ${nombre}
-	<br>
-	Apellidos: ${apellidos}
-	<br>
-	Fecha Nacimiento: ${fechaNac}
-	<br>
-	DNI: ${dni}
-	<br>
-	Matriculas:
-	<br>
+	<h1 style="text-align:center;">Datos del alumno</h1>
+	<p>Nombre: ${nombre}</p>
+
+	<p>Apellidos: ${apellidos}</p>
+
+	<p>Fecha Nacimiento: ${fechaNac}</p>
+
+	<p>DNI: ${dni}</p>
+
+	<p>Matriculas:</p>
 	<ul>
 		<c:forEach items="${matriculas}" var="matricula">
 			<li>
@@ -24,5 +24,7 @@
 			</li>
 		</c:forEach>   
 	</ul>
+	<br>
+	<p>Para crear una nueva matricula: <a href="users/crearMatricula.jsp">Crear matricula</a></p>
 </body>
 </html>

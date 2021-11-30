@@ -36,7 +36,7 @@ public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
 		em.close();
 		return asignatura;
 	}
-	
+	/*
 	public List<Asignatura> findByIdMatricula(String id) {
 		List<Asignatura> asignaturas = null;
 		int idmatricula = Integer.valueOf(id);
@@ -53,7 +53,7 @@ public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
 		em.close();
 		return asignaturas;
 	}
-
+	*/
 	@Override
 	public Asignatura save(Asignatura obj) {
 		// TODO Auto-generated method stub
