@@ -12,7 +12,7 @@
 	<h1>Crear Matricula</h1>
 	<div class="formularios">
   		<div class="agregar">
-    		<form name="formulario_agregar" action="gestionMatricula" method="post">
+    		<form name="formulario_agregar" action="../gestionMatricula" method="post">
 		      <label for="dniMat_agregar">*DNI alumno: </label>
 		      <input id="dniMat_agregar" type="text" name="dniMat_agregar"/>
 		      </br>

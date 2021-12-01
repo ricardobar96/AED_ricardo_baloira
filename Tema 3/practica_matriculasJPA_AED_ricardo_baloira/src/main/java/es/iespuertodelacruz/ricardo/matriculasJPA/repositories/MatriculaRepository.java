@@ -53,8 +53,13 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 
 	@Override
 	public Matricula save(Matricula obj) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tr = em.getTransaction();
+		tr.begin();
+		em.persist(obj);
+		tr.commit();
+		em.close();
+		return obj;
 	}
 
 	@Override

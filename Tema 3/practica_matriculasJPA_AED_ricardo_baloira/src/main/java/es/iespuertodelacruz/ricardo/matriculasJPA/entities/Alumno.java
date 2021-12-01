@@ -27,10 +27,19 @@ public class Alumno implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Matricula
-	@OneToMany(mappedBy="alumno")
+	@OneToMany(mappedBy="alumno") 
 	private List<Matricula> matriculas;
 
 	public Alumno() {
+	}	
+	
+	public Alumno(String dni, String apellidos, BigInteger fechanacimiento, String nombre, List<Matricula> matriculas) {
+		super();
+		this.dni = dni;
+		this.apellidos = apellidos;
+		this.fechanacimiento = fechanacimiento;
+		this.nombre = nombre;
+		this.matriculas = matriculas;
 	}
 
 	public String getDni() {

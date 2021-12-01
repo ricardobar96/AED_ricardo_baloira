@@ -14,7 +14,7 @@
 	<div class="formularios">
 	<div class="editar">
     <h4>Editar matrícula</h4>
-    <form name="formulario_editar" action="gestionMatricula" method="post">
+    <form name="formulario_editar" action="../gestionMatricula" method="post">
       <label for="idMat_editar">*ID matrícula: </label>
       <input id="idMat_editar" type="text" name="idMat_editar"/>
       </br>
