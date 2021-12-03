@@ -70,7 +70,11 @@ public class gestionAlumno extends HttpServlet {
 		request.setAttribute("dni", alumno.getDni());
 		
 		List<Matricula> matriculas;
-		matriculas = matriculaRepository.findByDni(alumno.getDni());
+		matriculas = matriculaRepository.findByDni(alumno.getDni()); //Original NO CAMBIAR
+
+		String dniBuscar = "87654321X";		
+		//matriculas = matriculaRepository.findbyJoin(dniBuscar); // buscar matriculas de alumno X con JOIN
+		
 		request.setAttribute("matriculas", matriculas);
 		
 		request.getRequestDispatcher("users/datosAlumno.jsp").forward(request, response);

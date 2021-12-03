@@ -51,6 +51,20 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 		return matriculas;
 	}
 
+	public List<Matricula> findbyJoin(String dni){
+		List<Matricula> matriculas = null;
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tr = em.getTransaction();
+		tr.begin();
+		String query = "SELECT DISTINCT m FROM Matricula m JOIN Alumno a on m.alumno.dni = :dni";
+		matriculas = em.createQuery(query, Matricula.class)
+				.setParameter("dni", dni)
+				.getResultList();
+		tr.commit();
+		em.close();
+		return matriculas;
+	}
+	
 	@Override
 	public Matricula save(Matricula obj) {
 		EntityManager em = emf.createEntityManager();

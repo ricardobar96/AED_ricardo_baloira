@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.ricardo.matriculasJPA.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -81,6 +82,10 @@ public class Login extends HttpServlet {
 					List<Matricula> findAllMatriculas = matriculaRepository.findAll();
 					request.getSession().setAttribute("listaMatriculas", findAllMatriculas);
 					
+					Alumno alumnoX = alumnoRepository.findById("87654321X");
+					List<Alumno> listaX = new ArrayList<>();
+					listaX.add(alumnoX);
+					request.getSession().setAttribute("listaX", listaX);
 					redirect="users/inicio.jsp";
 				}
 				

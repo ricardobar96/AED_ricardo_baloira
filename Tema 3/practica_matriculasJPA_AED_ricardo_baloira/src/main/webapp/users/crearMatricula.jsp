@@ -14,7 +14,7 @@
   		<div class="agregar">
     		<form name="formulario_agregar" action="../gestionMatricula" method="post">
 		      <label for="dniMat_agregar">*DNI alumno: </label>
-		      <input id="dniMat_agregar" type="text" name="dniMat_agregar"/>
+		      <input id="dniMat_agregar" type="text" name="dniMat_agregar" disabled/>
 		      </br>
 		      <label for="anioMat_agregar">*Anio: </label>
 		      <input id="anioMat_agregar" type="text" name="anioMat_agregar"/>

@@ -15,8 +15,6 @@
 <div class="enlaces">
 <ul style="list-style: none;">
   <li> <a href="alumnos.jsp">Lista de alumnos</a></li>
-  <li> <a href="asignaturas.jsp">Lista de asignaturas</a></li>
-  <li> <a href="matriculas.jsp">Lista de matriculas</a></li>
 </ul>
 </br>
 <p>Para cerrar sesion actual: <a href="../Logout">logout</a></p>

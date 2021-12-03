@@ -100,8 +100,7 @@ public class gestionMatricula extends HttpServlet {
 			String anioMat_agregar = request.getParameter("anioMat_agregar");
 			String asignMat_agregar = request.getParameter("asignMat_agregar");
 			
-			if((dniMat_agregar!=null && !dniMat_agregar.isEmpty()) 
-					&& (anioMat_agregar!=null && !anioMat_agregar.isEmpty())
+			if((anioMat_agregar!=null && !anioMat_agregar.isEmpty())
 					&& (asignMat_agregar!=null && !asignMat_agregar.isEmpty())) {
 				Matricula agregado;
 				Matricula resultado;
