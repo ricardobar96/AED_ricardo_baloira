@@ -96,7 +96,7 @@ public class gestionMatricula extends HttpServlet {
 			textoMatricula = "";
 		}
 		if(boton.equalsIgnoreCase("Agregar")) {
-			String dniMat_agregar = request.getParameter("dniMat_agregar");
+			String dniMat_agregar = (String)request.getSession().getAttribute("dniCrear");
 			String anioMat_agregar = request.getParameter("anioMat_agregar");
 			String asignMat_agregar = request.getParameter("asignMat_agregar");
 			

@@ -27,7 +27,7 @@ public class Alumno implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Matricula
-	@OneToMany(mappedBy="alumno") 
+	@OneToMany(mappedBy="alumno", fetch = FetchType.EAGER) 
 	private List<Matricula> matriculas;
 
 	public Alumno() {
@@ -96,8 +96,10 @@ public class Alumno implements Serializable {
 		return matricula;
 	}
 
+	/*
 	@Override
 	public String toString() {
 		return "Alumno [matriculas=" + matriculas + "]";
 	}
+	*/
 }

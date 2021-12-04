@@ -16,7 +16,7 @@
     <h4>Editar matrícula</h4>
     <form name="formulario_editar" action="../gestionMatricula" method="post">
       <label for="idMat_editar">*ID matrícula: </label>
-      <input id="idMat_editar" type="text" name="idMat_editar"/>
+      <input id="idMat_editar" type="text" name="idMat_editar" disabled/>
       </br>
       <label for="dniMat_editar">*DNI alumno: </label>
       <input id="dniMat_editar" type="text" name="dniMat_editar"/>

@@ -47,6 +47,9 @@ public class gestionAlumno extends HttpServlet {
 		Matricula matricula;
 		String id = request.getParameter("id");
 		alumno = alumnoRepository.findById(id);
+
+		request.getSession().setAttribute("dniCrear", id);
+		
 		String fechaL = String.valueOf(alumno.getFechanacimiento());
 		Date fechaNac = null;
 		Long convertirFecha = Long.parseLong(fechaL);
@@ -70,10 +73,7 @@ public class gestionAlumno extends HttpServlet {
 		request.setAttribute("dni", alumno.getDni());
 		
 		List<Matricula> matriculas;
-		matriculas = matriculaRepository.findByDni(alumno.getDni()); //Original NO CAMBIAR
-
-		String dniBuscar = "87654321X";		
-		//matriculas = matriculaRepository.findbyJoin(dniBuscar); // buscar matriculas de alumno X con JOIN
+		matriculas = matriculaRepository.findByDni(alumno.getDni());
 		
 		request.setAttribute("matriculas", matriculas);
 		

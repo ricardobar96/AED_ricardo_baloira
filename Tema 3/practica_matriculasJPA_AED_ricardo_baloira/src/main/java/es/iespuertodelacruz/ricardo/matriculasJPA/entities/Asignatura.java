@@ -24,7 +24,7 @@ public class Asignatura implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-many association to Matricula
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
 	@JoinTable( name="asignatura_matricula",
 	joinColumns = @JoinColumn(name="idasignatura"),
 	inverseJoinColumns = @JoinColumn(name="idmatricula")

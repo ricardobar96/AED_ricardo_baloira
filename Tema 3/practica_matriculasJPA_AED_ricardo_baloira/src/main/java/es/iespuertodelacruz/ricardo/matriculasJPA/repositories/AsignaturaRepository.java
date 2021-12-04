@@ -56,8 +56,13 @@ public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
 	*/
 	@Override
 	public Asignatura save(Asignatura obj) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tr = em.getTransaction();
+		em.persist(obj);
+		tr.begin();
+		tr.commit();
+		em.close();
+		return obj;
 	}
 
 	@Override

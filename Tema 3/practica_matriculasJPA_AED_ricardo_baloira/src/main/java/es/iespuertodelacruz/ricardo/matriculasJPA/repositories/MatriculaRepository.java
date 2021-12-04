@@ -2,10 +2,12 @@ package es.iespuertodelacruz.ricardo.matriculasJPA.repositories;
 
 import java.util.List;
 
+import javax.persistence.Embeddable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
+import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasJPA.entities.Matricula;
 
 public class MatriculaRepository implements JPACRUD<Matricula,String>{
@@ -67,10 +69,16 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 	
 	@Override
 	public Matricula save(Matricula obj) {
+		AsignaturaRepository asignaturaRepository = new AsignaturaRepository(emf);
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tr = em.getTransaction();
 		tr.begin();
-		em.persist(obj);
+		
+		for(Asignatura asignatura: obj.getAsignaturas()) {
+			asignatura.getMatriculas().add(obj);
+			}	
+		
+		em.merge(obj);
 		tr.commit();
 		em.close();
 		return obj;
