@@ -55,6 +55,7 @@ public class gestionAlumno extends HttpServlet {
 		Long convertirFecha = Long.parseLong(fechaL);
 		Date fechaD = new Date(convertirFecha);
 		
+		/*
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		
@@ -66,6 +67,7 @@ public class gestionAlumno extends HttpServlet {
 		if(date != null) {
 			fechaNac = new Date(date.getTime());
 		}
+		*/
 		
 		request.setAttribute("nombre", alumno.getNombre());
 		request.setAttribute("apellidos", alumno.getApellidos());

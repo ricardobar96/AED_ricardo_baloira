@@ -48,11 +48,14 @@ public class gestionMatricula extends HttpServlet {
 		Asignatura asignatura;
 		AsignaturaRepository asignaturaRepository = new AsignaturaRepository(emf);
 		String idmatricula = request.getParameter("idmatricula");
+		request.getSession().setAttribute("idEditar", idmatricula);
 		matricula = matriculaRepository.findById(idmatricula);
 		
 		String fechaL = String.valueOf(matricula.getAlumno().getFechanacimiento());
 		Long convertirFecha = Long.parseLong(fechaL);
 		Date fechaD = new Date(convertirFecha);
+		
+		/*
 		Date fechaNac = null;
 		
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -66,6 +69,7 @@ public class gestionMatricula extends HttpServlet {
 		if(date != null) {
 			fechaNac = new Date(date.getTime());
 		}
+		*/
 		
 		request.setAttribute("year", matricula.getYear());
 		request.setAttribute("alumnoMat", " || Nombre: " + matricula.getAlumno().getNombre() + " " 
@@ -117,7 +121,7 @@ public class gestionMatricula extends HttpServlet {
 				agregado = new Matricula(anioMatricula, alumno, asignaturas);
 				resultado = matriculaRepository.save(agregado);
 				
-				textoMatricula += "Matricula creada: " + resultado.toString();
+				textoMatricula += "Matricula creada con exito";
 				textoMatricula += "\n";
 				request.getSession().setAttribute("textoMatricula", textoMatricula);
 			}
@@ -130,15 +134,40 @@ public class gestionMatricula extends HttpServlet {
 			response.sendRedirect("users/crearMatricula.jsp");
 		}
 		if(boton.equalsIgnoreCase("Editar")) {
-			System.out.print("editado");
-			textoMatricula += "\n";
-			request.getSession().setAttribute("textoMatricula", textoMatricula);
+			Matricula resultado = null;
+			String dniMat_editar = (String)request.getSession().getAttribute("dniCrear");
+			String idMat_editar = (String)request.getSession().getAttribute("idEditar");
+			String anioMat_editar = request.getParameter("anioMat_editar");
+			String asignMat_editar = request.getParameter("asignMat_editar");
+			
+			if((anioMat_editar!=null && !anioMat_editar.isEmpty())
+					&& (asignMat_editar!=null && !asignMat_editar.isEmpty())) {
+				
+				int idMatricula = Integer.valueOf(idMat_editar);
+				int anioMatricula = Integer.valueOf(anioMat_editar);
+				List<String> strAsign = Arrays.asList(asignMat_editar.split("\\s*,\\s*"));
+				ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
+				Matricula editar;
+				
+				for (String str : strAsign) {
+					asignaturas.add(asignaturaRepository.findById(str));
+				}
+				
+				Alumno alumno = alumnoRepository.findById(dniMat_editar);
+				editar = new Matricula(idMatricula, anioMatricula, alumno, asignaturas);
+				resultado = matriculaRepository.update(editar);
+				textoMatricula += "Editado con exito";
+				textoMatricula += "\n";
+				request.getSession().setAttribute("textoMatricula", textoMatricula);
+			}
+			
+			else {
+				textoMatricula += "Error al editar matricula, rellene todos los campos por favor";
+				textoMatricula += "\n";
+				request.getSession().setAttribute("textoMatricula", textoMatricula);
+			}
 			response.sendRedirect("users/editarMatricula.jsp");
-
-			textoMatricula += "\n";
-			request.getSession().setAttribute("textoMatricula", textoMatricula);
 		}
-		//request.getRequestDispatcher("users/crearMatricula.jsp").forward(request, response);
 	}
 
 }

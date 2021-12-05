@@ -86,8 +86,19 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 
 	@Override
 	public Matricula update(Matricula obj) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tr = em.getTransaction();
+		tr.begin();
+		
+		for(Asignatura asignatura: obj.getAsignaturas()) {
+			asignatura.getMatriculas().add(obj);
+			}	
+		em.merge(obj);
+
+		tr.commit();
+		em.close();
+		
+		return obj;
 	}
 
 	@Override

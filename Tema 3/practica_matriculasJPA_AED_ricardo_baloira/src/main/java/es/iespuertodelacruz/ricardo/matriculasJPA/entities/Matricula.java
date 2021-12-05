@@ -41,6 +41,14 @@ public class Matricula implements Serializable {
 		this.asignaturas = asignaturas;
 	}
 
+	public Matricula(int idmatricula, int year, Alumno alumno, List<Asignatura> asignaturas) {
+		super();
+		this.idmatricula = idmatricula;
+		this.year = year;
+		this.alumno = alumno;
+		this.asignaturas = asignaturas;
+	}
+
 	public int getIdmatricula() {
 		return this.idmatricula;
 	}
