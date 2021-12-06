@@ -103,7 +103,20 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		MatriculaRepository matriculaRepository = new MatriculaRepository(emf);
+		Matricula borrar = matriculaRepository.findById(id);
+		EntityTransaction tr = em.getTransaction();
+		tr.begin();
+		
+		em.remove(em.merge(borrar));
+		
+		for(Asignatura asignatura: borrar.getAsignaturas()) {
+			em.remove(em.merge(asignatura));
+			}	
+
+		tr.commit();
+		em.close();		
 		return false;
 	}
 

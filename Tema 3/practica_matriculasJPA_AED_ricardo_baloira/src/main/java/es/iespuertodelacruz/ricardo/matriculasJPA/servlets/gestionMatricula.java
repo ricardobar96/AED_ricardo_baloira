@@ -168,6 +168,12 @@ public class gestionMatricula extends HttpServlet {
 			}
 			response.sendRedirect("users/editarMatricula.jsp");
 		}
+		
+		if(boton.equalsIgnoreCase("Borrar matricula")) {
+			String idMat_borrar = (String)request.getSession().getAttribute("idEditar");
+			matriculaRepository.delete(idMat_borrar);
+			response.sendRedirect("users/alumnos.jsp");
+		}
 	}
 
 }
