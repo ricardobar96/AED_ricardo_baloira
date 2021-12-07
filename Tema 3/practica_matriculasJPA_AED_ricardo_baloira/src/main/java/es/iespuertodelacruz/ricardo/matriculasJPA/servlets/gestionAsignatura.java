@@ -38,7 +38,6 @@ public class gestionAsignatura extends HttpServlet {
 		asignatura = asignaturaRepository.findById(idasignatura);
 		request.setAttribute("nombreAsig", asignatura.getNombre());
 		request.setAttribute("cursoAsig", asignatura.getCurso());
-		//request.setAttribute("asignatura", asignaturaRepository.findById(idasignatura));
 		request.getRequestDispatcher("users/datosAsignatura.jsp").forward(request, response);
 	}
 

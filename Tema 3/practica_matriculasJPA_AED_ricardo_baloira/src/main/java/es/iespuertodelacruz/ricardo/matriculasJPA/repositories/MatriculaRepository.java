@@ -87,12 +87,20 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 	@Override
 	public Matricula update(Matricula obj) {
 		EntityManager em = emf.createEntityManager();
+		MatriculaRepository matriculaRepository = new MatriculaRepository(emf);
+		Matricula existente = matriculaRepository.findById(String.valueOf(obj.getIdmatricula()));
 		EntityTransaction tr = em.getTransaction();
 		tr.begin();
+		
+		for(Asignatura asignaturaE: existente.getAsignaturas()) {
+			asignaturaE.getMatriculas().remove(existente);
+			em.merge(asignaturaE);
+			}
 		
 		for(Asignatura asignatura: obj.getAsignaturas()) {
 			asignatura.getMatriculas().add(obj);
 			}	
+		
 		em.merge(obj);
 
 		tr.commit();
@@ -112,7 +120,9 @@ public class MatriculaRepository implements JPACRUD<Matricula,String>{
 		em.remove(em.merge(borrar));
 		
 		for(Asignatura asignatura: borrar.getAsignaturas()) {
-			em.remove(em.merge(asignatura));
+			asignatura.getMatriculas().remove(borrar);
+			em.merge(asignatura);
+			//em.remove(em.merge(asignatura));
 			}	
 
 		tr.commit();

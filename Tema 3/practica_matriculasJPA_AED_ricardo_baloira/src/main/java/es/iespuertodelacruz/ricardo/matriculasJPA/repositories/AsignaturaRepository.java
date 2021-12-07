@@ -36,33 +36,10 @@ public class AsignaturaRepository implements JPACRUD<Asignatura,String>{
 		em.close();
 		return asignatura;
 	}
-	/*
-	public List<Asignatura> findByIdMatricula(String id) {
-		List<Asignatura> asignaturas = null;
-		int idmatricula = Integer.valueOf(id);
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tr = em.getTransaction();
-		tr.begin();
-		String query = "SELECT a FROM Asignatura a WHERE a.idmatricula = idmatricula";
-		//String query = "SELECT a FROM Asignatura a RIGHT JOIN Matricula m on a.idasignatura = :idmatricula";
-		//String query = "SELECT a FROM Asignatura a WHERE a.idasignatura = :idmatricula";
-		asignaturas = em.createQuery(query, Asignatura.class)
-				.setParameter("idmatricula", idmatricula)
-				.getResultList();
-		tr.commit();
-		em.close();
-		return asignaturas;
-	}
-	*/
+	
 	@Override
 	public Asignatura save(Asignatura obj) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tr = em.getTransaction();
-		em.persist(obj);
-		tr.begin();
-		tr.commit();
-		em.close();
-		return obj;
+		return null;
 	}
 
 	@Override

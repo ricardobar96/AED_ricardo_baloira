@@ -55,22 +55,6 @@ public class gestionMatricula extends HttpServlet {
 		Long convertirFecha = Long.parseLong(fechaL);
 		Date fechaD = new Date(convertirFecha);
 		
-		/*
-		Date fechaNac = null;
-		
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = null;
-		
-		try {
-			date = formatter.parse(fechaL);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		if(date != null) {
-			fechaNac = new Date(date.getTime());
-		}
-		*/
-		
 		request.setAttribute("year", matricula.getYear());
 		request.setAttribute("alumnoMat", " || Nombre: " + matricula.getAlumno().getNombre() + " " 
 		+ matricula.getAlumno().getApellidos() + " || DNI: " + matricula.getAlumno().getDni() 

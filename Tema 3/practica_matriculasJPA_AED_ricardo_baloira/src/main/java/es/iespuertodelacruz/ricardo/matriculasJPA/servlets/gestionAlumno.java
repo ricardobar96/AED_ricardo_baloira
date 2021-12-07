@@ -51,23 +51,8 @@ public class gestionAlumno extends HttpServlet {
 		request.getSession().setAttribute("dniCrear", id);
 		
 		String fechaL = String.valueOf(alumno.getFechanacimiento());
-		Date fechaNac = null;
 		Long convertirFecha = Long.parseLong(fechaL);
 		Date fechaD = new Date(convertirFecha);
-		
-		/*
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = null;
-		
-		try {
-			date = formatter.parse(String.valueOf(fechaD));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		if(date != null) {
-			fechaNac = new Date(date.getTime());
-		}
-		*/
 		
 		request.setAttribute("nombre", alumno.getNombre());
 		request.setAttribute("apellidos", alumno.getApellidos());

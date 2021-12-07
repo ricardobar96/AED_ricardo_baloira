@@ -36,21 +36,7 @@ public class AlumnoRepository implements JPACRUD<Alumno,String>{
 		em.close();
 		return alumno;
 	}
-	/*
-	public List<Matricula> findbyDni(String dni){
-		List<Matricula> matriculas = null;
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tr = em.getTransaction();
-		tr.begin();
-		String query = "SELECT a FROM Alumno a RIGHT JOIN Matricula m  on m.alumno.dni = :dni";
-		matriculas = em.createQuery(query, Matricula.class)
-				.setParameter("dni", dni)
-				.getResultList();
-		tr.commit();
-		em.close();
-		return matriculas;
-	}
-	*/
+
 	@Override
 	public Alumno save(Alumno obj) {
 		// TODO Auto-generated method stub

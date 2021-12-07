@@ -22,7 +22,7 @@
 	</ul>
 	<br>
 	<p><a href="users/editarMatricula.jsp">Editar matricula</a></p>
-	
+	<br>
 	<form name="formulario_borrar" action="./gestionMatricula" method="post">
 		<input id="boton_borrar" name="botonMatricula" type="submit" value="Borrar matricula" style="width:20%"/>
 	</form>
