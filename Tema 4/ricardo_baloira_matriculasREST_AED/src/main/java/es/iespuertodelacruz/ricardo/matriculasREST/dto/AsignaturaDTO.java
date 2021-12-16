@@ -1,9 +1,6 @@
 package es.iespuertodelacruz.ricardo.matriculasREST.dto;
 
-import java.util.List;
-
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
-import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 
 public class AsignaturaDTO {
 	private int idasignatura;

@@ -3,10 +3,16 @@ package es.iespuertodelacruz.ricardo.matriculasREST.dto;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 
+@Component
 public class AlumnoDTO {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private String dni;
 
 	private String apellidos;
@@ -68,5 +74,11 @@ public class AlumnoDTO {
 
 	public void setMatriculas(List<Matricula> matriculas) {
 		this.matriculas = matriculas;
+	}
+
+	@Override
+	public String toString() {
+		return "AlumnoDTO [dni=" + dni + ", apellidos=" + apellidos + ", fechanacimiento=" + fechanacimiento
+				+ ", nombre=" + nombre + ", matriculas=" + matriculas + "]";
 	}
 }

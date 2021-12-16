@@ -27,10 +27,18 @@ public class Matricula implements Serializable {
 	@JoinColumn(name="dni")
 	private Alumno alumno;
 	
-	@ManyToMany(mappedBy="matriculas")
+	@ManyToMany(mappedBy="matriculas", fetch = FetchType.EAGER)
 	private List<Asignatura> asignaturas;
 
 	public Matricula() {
+	}
+	
+	public Matricula(int idmatricula, int year, Alumno alumno, List<Asignatura> asignaturas) {
+		super();
+		this.idmatricula = idmatricula;
+		this.year = year;
+		this.alumno = alumno;
+		this.asignaturas = asignaturas;
 	}
 
 	public int getIdmatricula() {
@@ -57,4 +65,9 @@ public class Matricula implements Serializable {
 		this.alumno = alumno;
 	}
 
+	@Override
+	public String toString() {
+		return "Matricula [idmatricula=" + idmatricula + ", year=" + year + ", alumno=" + alumno + ", asignaturas="
+				+ asignaturas + "]";
+	}
 }
