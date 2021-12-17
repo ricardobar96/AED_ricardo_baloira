@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.ricardo.matriculasREST.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.iespuertodelacruz.ricardo.matriculasREST.dto.AlumnoDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.MatriculaDTO;
+import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
+import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
 
 @RestController
@@ -30,12 +34,26 @@ public class MatriculaREST {
 	@Autowired
 	MatriculasService matriculasService;
 	
-	@GetMapping
+	@Autowired
+	AlumnosService alumnosService;
+	
+	/*
+	@GetMapping("")
 	public List<Matricula> getAll(){
 		ArrayList<Matricula> matriculas = new ArrayList<Matricula>();
 		matriculasService
 		.findAll()
 		.forEach(m -> matriculas.add((Matricula) m) );
+		return matriculas;
+	}
+	*/
+	
+	@GetMapping	
+	public Collection<MatriculaDTO> getAll(){
+		List matriculas = new ArrayList<Matricula>();
+		for(Matricula m: matriculasService.findAll()) {
+			matriculas.add(new MatriculaDTO(m));
+		}
 		return matriculas;
 	}
 	
@@ -51,16 +69,36 @@ public class MatriculaREST {
 		}
 	}
 	
+	/*
+	@GetMapping("/{dni}")
+	public ResponseEntity<?> getMatriculaByDNI(@PathVariable("dni") String dni) {
+		
+		Optional<Matricula> optMatricula = matriculasService.findByDNI(dni);
+		if(optMatricula.isPresent()) {
+			
+			return ResponseEntity.ok(new MatriculaDTO(optMatricula.get()));
+		}else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	*/
+	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody MatriculaDTO matriculaDTO){
 		Matricula m = new Matricula();
-		m.setAlumno(matriculaDTO.getAlumno());
+		//m.setAlumno(matriculaDTO.getAlumno());
 		m.setIdmatricula(matriculaDTO.getIdmatricula());
 		m.setYear(matriculaDTO.getYear());
 
-		matriculasService.save(m);
-		
-		return ResponseEntity.ok().body(new MatriculaDTO(m));
+		Optional<Alumno> optAlumno= alumnosService.findById(matriculaDTO.getAlumno().getDni());
+		if( optAlumno.isPresent()) {
+			m.setAlumno(matriculaDTO.getAlumno());
+			matriculasService.save(m);
+			return ResponseEntity.ok().body(new MatriculaDTO(m));
+			
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado el alumno referenciado");
+		}	
 	}
 	
 	@DeleteMapping("/{id}")
@@ -77,19 +115,25 @@ public class MatriculaREST {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody MatriculaDTO mDTO){
+	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody MatriculaDTO matriculaDTO){
 		Optional<Matricula> optM = matriculasService.findById(id);
 		if(optM.isPresent()) {
 			Matricula m = optM.get();
-			m.setAlumno(mDTO.getAlumno());
-			m.setIdmatricula(mDTO.getIdmatricula());
-			m.setYear(mDTO.getYear());
-			
-			return ResponseEntity.ok(matriculasService.save(m));
-			
-		}else {
+			m.setIdmatricula(matriculaDTO.getIdmatricula());
+			m.setYear(matriculaDTO.getYear());
+
+			Optional<Alumno> optAlumno= alumnosService.findById(matriculaDTO.getAlumno().getDni());
+			if( optAlumno.isPresent()) {
+				m.setAlumno(matriculaDTO.getAlumno());
+				matriculasService.save(m);
+				return ResponseEntity.ok().body(new MatriculaDTO(m));
+				
+			}else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado el alumno referenciado");
+			}	
+		}
+		else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El registro de la matricula no existe");
 		}
-
 	}	
 }

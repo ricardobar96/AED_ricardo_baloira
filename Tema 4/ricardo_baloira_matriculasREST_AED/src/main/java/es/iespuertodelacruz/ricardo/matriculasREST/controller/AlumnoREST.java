@@ -36,7 +36,8 @@ public class AlumnoREST {
 	@Autowired
 	MatriculasService matriculasService;
 	
-	@GetMapping	
+	/*
+	@GetMapping("")
 	public List<Alumno> getAll(){
 		List<Alumno> alumnos = new ArrayList<Alumno>();
 		alumnosService
@@ -44,8 +45,8 @@ public class AlumnoREST {
 		.forEach(a -> alumnos.add((Alumno) a) );
 	return alumnos;
 	}
+	*/
 	
-	/*
 	@GetMapping	
 	public Collection<AlumnoDTO> getAll(){
 		List alumnos = new ArrayList<Alumno>();
@@ -54,7 +55,6 @@ public class AlumnoREST {
 		}
 		return alumnos;
 	}
-	 */
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAlumnoById(@PathVariable("id") String id) {
@@ -69,7 +69,6 @@ public class AlumnoREST {
 		}		
 	}
 	
-	/*
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody AlumnoDTO alumnoDTO){
 		Alumno a = new Alumno();
@@ -78,20 +77,21 @@ public class AlumnoREST {
 		a.setDni(alumnoDTO.getDni());
 		a.setFechanacimiento(alumnoDTO.getFechanacimiento());
 		a.setMatriculas(alumnoDTO.getMatriculas());
-
 		
-		Optional<Matricula> optMatricula= matriculasService.findById(alumnoDTO.getMatriculas()));
-		if( optM.isPresent()) {
-			h.setFkidmoneda(optM.get());
-			historicocambioeuroService.save(h);
-			return ResponseEntity.ok().body(new AlumnoDTO(h));
+		/*
+		Optional<Matricula> optMatricula= matriculasService.findByDNI(alumnoDTO.getDni());
+		if( optMatricula.isPresent()) {
+			a.addMatricula(optMatricula.get());
+			alumnosService.save(a);
+			return ResponseEntity.ok().body(new AlumnoDTO(a));
 			
 		}else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("la moneda referenciada no existe");
-		}
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear el alumno");
+		}	
+		*/
 		
+		return ResponseEntity.ok().body(new AlumnoDTO(a));
 	}
-	*/
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id){
@@ -106,28 +106,31 @@ public class AlumnoREST {
 
 	}
 	
-	/*
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody HistoricocambioeuroDTO hDTO){
-		Optional<Historicocambioeuro> optH = historicocambioeuroService.findById(id);
-		if(optH.isPresent()) {
-			Historicocambioeuro h = optH.get();
-			h.setEquivalenteeuro(hDTO.getEquivalenteeuro());
-			h.setFecha(hDTO.getFecha() );
-			Optional<Monedas> optM= monedasService.findById(hDTO.getFkidmoneda());
-			if( optM.isPresent()) {
-				h.setFkidmoneda(optM.get());
-				historicocambioeuroService.save(h);
-				return ResponseEntity.ok().body(new HistoricocambioeuroDTO(h));
+	public ResponseEntity<?> update(@PathVariable String id, @RequestBody AlumnoDTO alumnoDTO){
+		Optional<Alumno> optA = alumnosService.findById(id);
+		if(optA.isPresent()) {
+			Alumno a = optA.get();
+			a.setNombre(alumnoDTO.getNombre());
+			a.setApellidos(alumnoDTO.getApellidos());
+			a.setDni(alumnoDTO.getDni());
+			a.setFechanacimiento(alumnoDTO.getFechanacimiento());
+			a.setMatriculas(alumnoDTO.getMatriculas());
+			
+			return ResponseEntity.ok().body(new AlumnoDTO(a));
+			/*
+			Optional<Matricula> optMatricula= matriculasService.findByDNI(alumnoDTO.getDni());
+			if( optMatricula.isPresent()) {
+				a.addMatricula(optMatricula.get());
+				alumnosService.save(a);
+				return ResponseEntity.ok().body(new AlumnoDTO(a));
 				
 			}else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("la moneda referenciada no existe");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear el alumno");
 			}			
-			
+			*/
 		}else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("el id del registro no existe");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El registro del alumno no existe");
 		}
-
 	}
-	*/
 }

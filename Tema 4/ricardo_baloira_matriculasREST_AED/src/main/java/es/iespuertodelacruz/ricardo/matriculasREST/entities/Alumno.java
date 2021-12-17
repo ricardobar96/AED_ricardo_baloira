@@ -27,7 +27,8 @@ public class Alumno implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Matricula
-	@OneToMany(mappedBy="alumno", fetch = FetchType.EAGER)
+	@Transient
+	@OneToMany(mappedBy="alumno")
 	private List<Matricula> matriculas;
 
 	public Alumno() {
@@ -77,7 +78,8 @@ public class Alumno implements Serializable {
 	public List<Matricula> getMatriculas() {
 		return this.matriculas;
 	}
-
+	
+	@Transient
 	public void setMatriculas(List<Matricula> matriculas) {
 		this.matriculas = matriculas;
 	}

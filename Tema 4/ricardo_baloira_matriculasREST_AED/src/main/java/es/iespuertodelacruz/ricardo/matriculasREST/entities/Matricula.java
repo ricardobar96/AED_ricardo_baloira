@@ -61,6 +61,7 @@ public class Matricula implements Serializable {
 		return this.alumno;
 	}
 
+	@Transient
 	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
 	}
