@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the asignaturas database table.
@@ -23,7 +25,7 @@ public class Asignatura implements Serializable {
 	private String curso;
 
 	private String nombre;
-
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable( name="asignatura_matricula",
 	joinColumns = @JoinColumn(name="idasignatura"),
@@ -56,6 +58,14 @@ public class Asignatura implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public List<Matricula> getMatriculas() {
+		return matriculas;
+	}
+
+	public void setMatriculas(List<Matricula> matriculas) {
+		this.matriculas = matriculas;
 	}
 
 }

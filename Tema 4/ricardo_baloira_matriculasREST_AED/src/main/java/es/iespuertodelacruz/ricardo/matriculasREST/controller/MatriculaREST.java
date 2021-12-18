@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.AlumnoDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.MatriculaDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
+import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
@@ -36,17 +37,6 @@ public class MatriculaREST {
 	
 	@Autowired
 	AlumnosService alumnosService;
-	
-	/*
-	@GetMapping("")
-	public List<Matricula> getAll(){
-		ArrayList<Matricula> matriculas = new ArrayList<Matricula>();
-		matriculasService
-		.findAll()
-		.forEach(m -> matriculas.add((Matricula) m) );
-		return matriculas;
-	}
-	*/
 	
 	@GetMapping	
 	public Collection<MatriculaDTO> getAll(){
@@ -87,13 +77,15 @@ public class MatriculaREST {
 	public ResponseEntity<?> save(@RequestBody MatriculaDTO matriculaDTO){
 		Matricula m = new Matricula();
 		//m.setAlumno(matriculaDTO.getAlumno());
-		m.setYear(matriculaDTO.getYear());
 		
 		if(matriculaDTO.getAlumno().getDni()!=null) {
 			//m.setAlumno(matriculaDTO.getAlumno());
 			Optional<Alumno> optAlumno = alumnosService.findById(matriculaDTO.getAlumno().getDni());
 			if(optAlumno.isPresent()) {
 				m.setAlumno(matriculaDTO.getAlumno());
+				m.setYear(matriculaDTO.getYear());
+				m.setAsignaturas(matriculaDTO.getAsignaturas());
+				
 				matriculasService.save(m);
 				return ResponseEntity.ok().body(new MatriculaDTO(m));
 			}
@@ -122,6 +114,9 @@ public class MatriculaREST {
 	public ResponseEntity<?> delete(@PathVariable Integer id){
 		Optional<Matricula> optM = matriculasService.findById(id);
 		if(optM.isPresent()) {
+			for (Asignatura a : optM.get().getAsignaturas()) {
+				a.getMatriculas().remove(optM.get());
+			}
 			matriculasService.deleteById(id);
 			return ResponseEntity.ok("Matricula borrada");
 			

@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.AlumnoDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
+import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
+import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
 
 @RestController
@@ -36,16 +38,8 @@ public class AlumnoREST {
 	@Autowired
 	MatriculasService matriculasService;
 	
-	/*
-	@GetMapping("")
-	public List<Alumno> getAll(){
-		List<Alumno> alumnos = new ArrayList<Alumno>();
-		alumnosService
-		.findAll()
-		.forEach(a -> alumnos.add((Alumno) a) );
-	return alumnos;
-	}
-	*/
+	@Autowired
+	AsignaturasService asignaturasService;
 	
 	@GetMapping	
 	public Collection<AlumnoDTO> getAll(){
@@ -72,10 +66,11 @@ public class AlumnoREST {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody AlumnoDTO alumnoDTO){
 		Alumno a = new Alumno();
+		a.setDni(alumnoDTO.getDni());
 		a.setNombre(alumnoDTO.getNombre());
 		a.setApellidos(alumnoDTO.getApellidos());
-		a.setDni(alumnoDTO.getDni());
 		a.setFechanacimiento(alumnoDTO.getFechanacimiento());
+		//a.setMatriculas(null);
 		
 		alumnosService.save(a);
 		
@@ -86,6 +81,12 @@ public class AlumnoREST {
 	public ResponseEntity<?> delete(@PathVariable String id){
 		Optional<Alumno> optAlumno = alumnosService.findById(id);
 		if(optAlumno.isPresent()) {
+			for (Matricula m : optAlumno.get().getMatriculas()) {
+				for (Asignatura a : m.getAsignaturas()) {
+					a.getMatriculas().remove(m);
+				}
+				matriculasService.delete(m);
+			}
 			alumnosService.deleteById(id);
 			return ResponseEntity.ok("Alumno borrado");
 			
@@ -115,17 +116,6 @@ public class AlumnoREST {
 			
 			return ResponseEntity.ok(alumnosService.save(a));
 			
-			/*
-			Optional<Matricula> optMatricula= matriculasService.findByDNI(alumnoDTO.getDni());
-			if( optMatricula.isPresent()) {
-				a.addMatricula(optMatricula.get());
-				alumnosService.save(a);
-				return ResponseEntity.ok().body(new AlumnoDTO(a));
-				
-			}else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear el alumno");
-			}			
-			*/
 		}else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El registro del alumno no existe");
 		}

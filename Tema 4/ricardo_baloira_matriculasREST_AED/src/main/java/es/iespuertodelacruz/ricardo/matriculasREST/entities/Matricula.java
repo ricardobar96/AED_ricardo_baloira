@@ -24,7 +24,7 @@ public class Matricula implements Serializable {
 
 	//bi-directional many-to-one association to Alumno
 	@ManyToOne
-	@JoinColumn(name="dni")
+	@JoinColumn(name="dni", insertable = true, updatable = true)
 	private Alumno alumno;
 	
 	@ManyToMany(mappedBy="matriculas", fetch = FetchType.EAGER)

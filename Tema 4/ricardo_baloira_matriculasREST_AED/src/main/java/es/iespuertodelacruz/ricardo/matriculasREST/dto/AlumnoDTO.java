@@ -36,6 +36,14 @@ public class AlumnoDTO {
 		this.matriculas = a.getMatriculas();
 	}
 
+	public AlumnoDTO(String dni, String apellidos, BigInteger fechanacimiento, String nombre) {
+		super();
+		this.dni = dni;
+		this.apellidos = apellidos;
+		this.fechanacimiento = fechanacimiento;
+		this.nombre = nombre;
+	}
+
 	public String getDni() {
 		return dni;
 	}

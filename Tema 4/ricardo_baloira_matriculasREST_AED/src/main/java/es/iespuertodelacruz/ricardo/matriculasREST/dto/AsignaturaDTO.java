@@ -1,6 +1,9 @@
 package es.iespuertodelacruz.ricardo.matriculasREST.dto;
 
+import java.util.List;
+
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
+import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 
 public class AsignaturaDTO {
 	private int idasignatura;
@@ -8,6 +11,8 @@ public class AsignaturaDTO {
 	private String curso;
 
 	private String nombre;
+	
+	private List<Matricula> matriculas;
 
 	public AsignaturaDTO(Asignatura a) {
 		super();
@@ -42,5 +47,13 @@ public class AsignaturaDTO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public List<Matricula> getMatriculas() {
+		return matriculas;
+	}
+
+	public void setMatriculas(List<Matricula> matriculas) {
+		this.matriculas = matriculas;
 	}
 }

@@ -47,6 +47,14 @@ public class Alumno implements Serializable {
 		this.matriculas = matriculas;
 	}
 
+	public Alumno(String dni, String apellidos, BigInteger fechanacimiento, String nombre) {
+		super();
+		this.dni = dni;
+		this.apellidos = apellidos;
+		this.fechanacimiento = fechanacimiento;
+		this.nombre = nombre;
+	}
+
 	public String getDni() {
 		return this.dni;
 	}
