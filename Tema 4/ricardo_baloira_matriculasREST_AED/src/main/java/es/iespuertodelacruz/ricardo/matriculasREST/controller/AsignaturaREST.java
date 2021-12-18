@@ -39,8 +39,7 @@ public class AsignaturaREST {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAsignaturaById(@PathVariable Integer id){
-		Optional<Asignatura> asignaturaOPT = asignaturasService
-					.findById(id);
+		Optional<Asignatura> asignaturaOPT = asignaturasService.findById(id);
 		if (asignaturaOPT.isPresent()) {
 			return ResponseEntity.ok(asignaturaOPT);
 		} else {
@@ -65,7 +64,6 @@ public class AsignaturaREST {
 	public ResponseEntity<?> save(@RequestBody AsignaturaDTO asignaturaDto){
 		Asignatura a = new Asignatura();
 		a.setCurso(asignaturaDto.getCurso());
-		a.setIdasignatura(asignaturaDto.getIdasignatura());
 		a.setNombre(asignaturaDto.getNombre());
 
 		asignaturasService.save(a);
@@ -77,9 +75,13 @@ public class AsignaturaREST {
 		Optional<Asignatura> asignaturaOPT = asignaturasService.findById(id);
 		if(asignaturaOPT.isPresent()) {
 			Asignatura a = asignaturaOPT.get();
-			a.setIdasignatura(asignaturaDto.getIdasignatura());
-			a.setCurso(asignaturaDto.getCurso());
-			a.setNombre(asignaturaDto.getNombre());
+
+			if(asignaturaDto.getCurso()!=null) {
+				a.setCurso(asignaturaDto.getCurso());
+			}
+			if(asignaturaDto.getNombre()!=null) {
+				a.setNombre(asignaturaDto.getNombre());
+			}	
 			
 			return ResponseEntity.ok(asignaturasService.save(a));
 			

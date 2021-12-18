@@ -87,9 +87,25 @@ public class MatriculaREST {
 	public ResponseEntity<?> save(@RequestBody MatriculaDTO matriculaDTO){
 		Matricula m = new Matricula();
 		//m.setAlumno(matriculaDTO.getAlumno());
-		m.setIdmatricula(matriculaDTO.getIdmatricula());
 		m.setYear(matriculaDTO.getYear());
+		
+		if(matriculaDTO.getAlumno().getDni()!=null) {
+			//m.setAlumno(matriculaDTO.getAlumno());
+			Optional<Alumno> optAlumno = alumnosService.findById(matriculaDTO.getAlumno().getDni());
+			if(optAlumno.isPresent()) {
+				m.setAlumno(matriculaDTO.getAlumno());
+				matriculasService.save(m);
+				return ResponseEntity.ok().body(new MatriculaDTO(m));
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El alumno especificado no existe");
+			}
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Debes especificar un alumno para la matricula");
+		}
 
+		/*
 		Optional<Alumno> optAlumno= alumnosService.findById(matriculaDTO.getAlumno().getDni());
 		if( optAlumno.isPresent()) {
 			m.setAlumno(matriculaDTO.getAlumno());
@@ -98,7 +114,8 @@ public class MatriculaREST {
 			
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado el alumno referenciado");
-		}	
+		}
+		*/	
 	}
 	
 	@DeleteMapping("/{id}")
@@ -119,18 +136,17 @@ public class MatriculaREST {
 		Optional<Matricula> optM = matriculasService.findById(id);
 		if(optM.isPresent()) {
 			Matricula m = optM.get();
-			m.setIdmatricula(matriculaDTO.getIdmatricula());
-			m.setYear(matriculaDTO.getYear());
-
-			Optional<Alumno> optAlumno= alumnosService.findById(matriculaDTO.getAlumno().getDni());
-			if( optAlumno.isPresent()) {
-				m.setAlumno(matriculaDTO.getAlumno());
-				matriculasService.save(m);
-				return ResponseEntity.ok().body(new MatriculaDTO(m));
+			
+			if(matriculaDTO.getYear()>0) {
+				m.setYear(matriculaDTO.getYear());
+			}
+			
+			if(matriculaDTO.getAsignaturas()!=null) {
+				m.setAsignaturas(matriculaDTO.getAsignaturas());
+			}
+			
+			return ResponseEntity.ok(matriculasService.save(m));
 				
-			}else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado el alumno referenciado");
-			}	
 		}
 		else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El registro de la matricula no existe");

@@ -76,19 +76,8 @@ public class AlumnoREST {
 		a.setApellidos(alumnoDTO.getApellidos());
 		a.setDni(alumnoDTO.getDni());
 		a.setFechanacimiento(alumnoDTO.getFechanacimiento());
-		a.setMatriculas(alumnoDTO.getMatriculas());
 		
-		/*
-		Optional<Matricula> optMatricula= matriculasService.findByDNI(alumnoDTO.getDni());
-		if( optMatricula.isPresent()) {
-			a.addMatricula(optMatricula.get());
-			alumnosService.save(a);
-			return ResponseEntity.ok().body(new AlumnoDTO(a));
-			
-		}else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear el alumno");
-		}	
-		*/
+		alumnosService.save(a);
 		
 		return ResponseEntity.ok().body(new AlumnoDTO(a));
 	}
@@ -111,13 +100,21 @@ public class AlumnoREST {
 		Optional<Alumno> optA = alumnosService.findById(id);
 		if(optA.isPresent()) {
 			Alumno a = optA.get();
-			a.setNombre(alumnoDTO.getNombre());
-			a.setApellidos(alumnoDTO.getApellidos());
-			a.setDni(alumnoDTO.getDni());
-			a.setFechanacimiento(alumnoDTO.getFechanacimiento());
-			a.setMatriculas(alumnoDTO.getMatriculas());
 			
-			return ResponseEntity.ok().body(new AlumnoDTO(a));
+			if(alumnoDTO.getNombre()!=null) {
+				a.setNombre(alumnoDTO.getNombre());
+			}
+			
+			if(alumnoDTO.getApellidos()!=null) {
+				a.setApellidos(alumnoDTO.getApellidos());
+			}
+			
+			if(alumnoDTO.getFechanacimiento()!=null) {
+				a.setFechanacimiento(alumnoDTO.getFechanacimiento());
+			}
+			
+			return ResponseEntity.ok(alumnosService.save(a));
+			
 			/*
 			Optional<Matricula> optMatricula= matriculasService.findByDNI(alumnoDTO.getDni());
 			if( optMatricula.isPresent()) {

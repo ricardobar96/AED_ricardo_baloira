@@ -61,9 +61,16 @@ public class Matricula implements Serializable {
 		return this.alumno;
 	}
 
-	@Transient
 	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
+	}
+
+	public List<Asignatura> getAsignaturas() {
+		return asignaturas;
+	}
+
+	public void setAsignaturas(List<Asignatura> asignaturas) {
+		this.asignaturas = asignaturas;
 	}
 
 	@Override

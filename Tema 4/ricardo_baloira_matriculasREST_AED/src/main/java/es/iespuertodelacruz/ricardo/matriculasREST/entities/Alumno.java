@@ -2,6 +2,9 @@ package es.iespuertodelacruz.ricardo.matriculasREST.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -27,7 +30,8 @@ public class Alumno implements Serializable {
 	private String nombre;
 
 	//bi-directional many-to-one association to Matricula
-	@Transient
+	//@Transient
+	@JsonIgnore
 	@OneToMany(mappedBy="alumno")
 	private List<Matricula> matriculas;
 
@@ -79,7 +83,6 @@ public class Alumno implements Serializable {
 		return this.matriculas;
 	}
 	
-	@Transient
 	public void setMatriculas(List<Matricula> matriculas) {
 		this.matriculas = matriculas;
 	}
