@@ -21,6 +21,11 @@ public class AsignaturaDTO {
 		this.nombre = a.getNombre();
 	}
 
+	public AsignaturaDTO(int idasignatura) {
+		super();
+		this.idasignatura = idasignatura;
+	}
+
 	public AsignaturaDTO() {
 		super();
 	}

@@ -3,7 +3,10 @@ package es.iespuertodelacruz.ricardo.matriculasREST.dto;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
@@ -16,7 +19,7 @@ public class AlumnoDTO {
 	private String dni;
 
 	private String apellidos;
-
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private BigInteger fechanacimiento;
 
 	private String nombre;
@@ -26,6 +29,13 @@ public class AlumnoDTO {
 	public AlumnoDTO() {
 		super();
 	}
+
+	
+	public AlumnoDTO(String dni) {
+		super();
+		this.dni = dni;
+	}
+
 
 	public AlumnoDTO(Alumno a) {
 		super();

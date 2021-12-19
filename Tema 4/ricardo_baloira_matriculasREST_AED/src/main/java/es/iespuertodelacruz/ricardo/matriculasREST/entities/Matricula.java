@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 /**
  * The persistent class for the matriculas database table.
@@ -19,7 +21,7 @@ public class Matricula implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idmatricula;
-
+	@JsonProperty("año")
 	private int year;
 
 	//bi-directional many-to-one association to Alumno

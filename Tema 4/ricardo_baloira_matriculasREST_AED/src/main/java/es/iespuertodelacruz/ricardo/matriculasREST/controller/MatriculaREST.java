@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.ricardo.matriculasREST.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
+import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
 
 @RestController
@@ -37,6 +39,9 @@ public class MatriculaREST {
 	
 	@Autowired
 	AlumnosService alumnosService;
+	
+	@Autowired
+	AsignaturasService asignaturasService;
 	
 	@GetMapping	
 	public Collection<MatriculaDTO> getAll(){
@@ -59,35 +64,43 @@ public class MatriculaREST {
 		}
 	}
 	
-	/*
-	@GetMapping("/{dni}")
-	public ResponseEntity<?> getMatriculaByDNI(@PathVariable("dni") String dni) {
-		
-		Optional<Matricula> optMatricula = matriculasService.findByDNI(dni);
-		if(optMatricula.isPresent()) {
-			
-			return ResponseEntity.ok(new MatriculaDTO(optMatricula.get()));
-		}else {
-			return ResponseEntity.notFound().build();
-		}
-	}
-	*/
-	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody MatriculaDTO matriculaDTO){
 		Matricula m = new Matricula();
-		//m.setAlumno(matriculaDTO.getAlumno());
-		
-		if(matriculaDTO.getAlumno().getDni()!=null) {
-			//m.setAlumno(matriculaDTO.getAlumno());
+		if(matriculaDTO.getAlumno()!=null) {
 			Optional<Alumno> optAlumno = alumnosService.findById(matriculaDTO.getAlumno().getDni());
+			
 			if(optAlumno.isPresent()) {
-				m.setAlumno(matriculaDTO.getAlumno());
-				m.setYear(matriculaDTO.getYear());
+				m.setAlumno(optAlumno.get());
+				m.setYear(matriculaDTO.getYear());	
 				m.setAsignaturas(matriculaDTO.getAsignaturas());
 				
+				
+				//List<Asignatura> asignaturasM = new ArrayList<>();
+				//m.setAsignaturas(matriculaDTO.getAsignaturas());
+				//for (Asignatura a : matriculaDTO.getAsignaturas()) {
+					//a.getMatriculas().add(m);
+					//asignaturasM.add(a);
+				//}			
+				
+				/*
+				String strAsign = String.valueOf(matriculaDTO.getAsignaturas());		
+				
+				List<String> listAsign = Arrays.asList(strAsign.split("\\s*,\\s*"));
+				List<Asignatura> asignaturasM = new ArrayList<>();
+				
+				for (String a : listAsign) {
+					Optional<Asignatura> optA = asignaturasService.findById(Integer.valueOf(a));
+					asignaturasM.add(optA.get());
+					//matriculaDTO.getAsignaturas().add(optA.get());
+				}
+				
+				m.setAsignaturas(asignaturasM);
+				//m.setAsignaturas(matriculaDTO.getAsignaturas());
+				*/
+				
 				matriculasService.save(m);
-				return ResponseEntity.ok().body(new MatriculaDTO(m));
+				return ResponseEntity.ok().body(m);
 			}
 			else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El alumno especificado no existe");
@@ -96,18 +109,6 @@ public class MatriculaREST {
 		else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Debes especificar un alumno para la matricula");
 		}
-
-		/*
-		Optional<Alumno> optAlumno= alumnosService.findById(matriculaDTO.getAlumno().getDni());
-		if( optAlumno.isPresent()) {
-			m.setAlumno(matriculaDTO.getAlumno());
-			matriculasService.save(m);
-			return ResponseEntity.ok().body(new MatriculaDTO(m));
-			
-		}else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se ha encontrado el alumno referenciado");
-		}
-		*/	
 	}
 	
 	@DeleteMapping("/{id}")
@@ -138,6 +139,18 @@ public class MatriculaREST {
 			
 			if(matriculaDTO.getAsignaturas()!=null) {
 				m.setAsignaturas(matriculaDTO.getAsignaturas());
+				/*
+				String strAsign = String.valueOf(matriculaDTO.getAsignaturas());			
+				List<String> listAsign = Arrays.asList(strAsign.split("\\s*,\\s*"));
+				List<Asignatura> asignaturasM = new ArrayList<Asignatura>();
+				for (String a : listAsign) {
+					Optional<Asignatura> optA = asignaturasService.findById(Integer.valueOf(a));
+					asignaturasM.add(optA.get());
+					//matriculaDTO.getAsignaturas().add(optA.get());
+				}
+				m.setAsignaturas(asignaturasM);
+				//m.setAsignaturas(matriculaDTO.getAsignaturas());
+				*/
 			}
 			
 			return ResponseEntity.ok(matriculasService.save(m));

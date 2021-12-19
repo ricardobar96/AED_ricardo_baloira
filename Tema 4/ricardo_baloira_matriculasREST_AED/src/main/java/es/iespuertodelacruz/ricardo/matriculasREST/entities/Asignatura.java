@@ -36,6 +36,19 @@ public class Asignatura implements Serializable {
 	public Asignatura() {
 	}
 
+	public Asignatura(int idasignatura) {
+		super();
+		this.idasignatura = idasignatura;
+	}
+
+	public Asignatura(int idasignatura, String curso, String nombre, List<Matricula> matriculas) {
+		super();
+		this.idasignatura = idasignatura;
+		this.curso = curso;
+		this.nombre = nombre;
+		this.matriculas = matriculas;
+	}
+
 	public int getIdasignatura() {
 		return this.idasignatura;
 	}

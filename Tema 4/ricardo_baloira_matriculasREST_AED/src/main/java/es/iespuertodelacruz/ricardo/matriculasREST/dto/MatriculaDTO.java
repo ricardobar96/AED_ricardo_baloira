@@ -2,6 +2,8 @@ package es.iespuertodelacruz.ricardo.matriculasREST.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
@@ -9,6 +11,7 @@ import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 public class MatriculaDTO {
 	private int idmatricula;
 	private Alumno alumno;
+	@JsonProperty("año")
 	private int year;
 	private List<Asignatura> asignaturas;
 	

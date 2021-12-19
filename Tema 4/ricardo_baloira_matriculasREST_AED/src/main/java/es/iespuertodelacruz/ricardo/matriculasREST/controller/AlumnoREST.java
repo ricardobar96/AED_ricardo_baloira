@@ -66,15 +66,26 @@ public class AlumnoREST {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody AlumnoDTO alumnoDTO){
 		Alumno a = new Alumno();
-		a.setDni(alumnoDTO.getDni());
-		a.setNombre(alumnoDTO.getNombre());
-		a.setApellidos(alumnoDTO.getApellidos());
-		a.setFechanacimiento(alumnoDTO.getFechanacimiento());
-		//a.setMatriculas(null);
+		if(alumnoDTO.getDni()!=null) {
+			Optional<Alumno> optAlumno = alumnosService.findById(alumnoDTO.getDni());
+			if(optAlumno.isPresent()){
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ya existe un alumno con ese DNI");
+			}
+			
+			else {
+				a.setDni(alumnoDTO.getDni());
+				a.setNombre(alumnoDTO.getNombre());
+				a.setApellidos(alumnoDTO.getApellidos());
+				a.setFechanacimiento(alumnoDTO.getFechanacimiento());
+				
+				alumnosService.save(a);
+				return ResponseEntity.ok().body(a);
+			}
+		}
 		
-		alumnosService.save(a);
-		
-		return ResponseEntity.ok().body(new AlumnoDTO(a));
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Debes especificar el DNI del alumno");
+		}
 	}
 	
 	@DeleteMapping("/{id}")
