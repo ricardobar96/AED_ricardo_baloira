@@ -3,14 +3,9 @@ package es.iespuertodelacruz.ricardo.matriculasREST.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 
 
@@ -25,20 +20,17 @@ import java.util.List;
 
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
-	//@Column(name = "dni", nullable = false, columnDefinition = "String default 123K") 
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	//@ColumnDefault("1234567W")
 	private String dni;
 
 	private String apellidos;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	
 	private BigInteger fechanacimiento;
 
 	private String nombre;
 
 	//bi-directional many-to-one association to Matricula
-	//@Transient
 	@JsonIgnore
 	@OneToMany(mappedBy="alumno")
 	private List<Matricula> matriculas;

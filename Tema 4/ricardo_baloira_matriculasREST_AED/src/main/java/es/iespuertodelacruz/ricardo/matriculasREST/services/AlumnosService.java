@@ -58,4 +58,10 @@ public class AlumnosService implements GenericService<Alumno,String>{
 		// TODO Auto-generated method stub
 		alumnosRepository.delete(entity);
 	}
+	
+	@Transactional(readOnly=true)
+	public Optional<Alumno> findByNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return alumnosRepository.findByNombre(nombre);
+	}
 }

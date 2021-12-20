@@ -38,14 +38,6 @@ public class MatriculasService implements GenericService<Matricula,Integer>{
 		return matriculasRepository.findById(id);
 	}
 	
-	/*
-	@Transactional(readOnly=true)
-	public Optional<Matricula> findByDNI(String dni) {
-		// TODO Auto-generated method stub
-		return matriculasRepository.findByDNI(dni);
-	}
-	*/
-	
 	@Override
 	@Transactional
 	public Matricula save(Matricula objeto) {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.AlumnoDTO;
@@ -42,10 +43,16 @@ public class AlumnoREST {
 	AsignaturasService asignaturasService;
 	
 	@GetMapping	
-	public Collection<AlumnoDTO> getAll(){
+	public Collection<AlumnoDTO> getAll(@RequestParam(required=false, name="nombre")String nombre){
 		List alumnos = new ArrayList<Alumno>();
-		for(Alumno a: alumnosService.findAll()) {
-			alumnos.add(new AlumnoDTO(a));
+		
+		if(nombre!=null) {
+			alumnos.add(alumnosService.findByNombre(nombre));
+		}
+		else {
+			for(Alumno a: alumnosService.findAll()) {
+				alumnos.add(new AlumnoDTO(a));
+				}
 		}
 		return alumnos;
 	}
