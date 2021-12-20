@@ -1,7 +1,6 @@
 package es.iespuertodelacruz.ricardo.matriculasREST.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.iespuertodelacruz.ricardo.matriculasREST.dto.AlumnoDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.MatriculaDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
@@ -73,31 +71,12 @@ public class MatriculaREST {
 			if(optAlumno.isPresent()) {
 				m.setAlumno(optAlumno.get());
 				m.setYear(matriculaDTO.getYear());	
+				
+				for (Asignatura a : matriculaDTO.getAsignaturas()) {
+					Optional<Asignatura> optAsig = asignaturasService.findById(a.getIdasignatura());
+					optAsig.get().getMatriculas().add(m);
+				}			
 				m.setAsignaturas(matriculaDTO.getAsignaturas());
-				
-				
-				//List<Asignatura> asignaturasM = new ArrayList<>();
-				//m.setAsignaturas(matriculaDTO.getAsignaturas());
-				//for (Asignatura a : matriculaDTO.getAsignaturas()) {
-					//a.getMatriculas().add(m);
-					//asignaturasM.add(a);
-				//}			
-				
-				/*
-				String strAsign = String.valueOf(matriculaDTO.getAsignaturas());		
-				
-				List<String> listAsign = Arrays.asList(strAsign.split("\\s*,\\s*"));
-				List<Asignatura> asignaturasM = new ArrayList<>();
-				
-				for (String a : listAsign) {
-					Optional<Asignatura> optA = asignaturasService.findById(Integer.valueOf(a));
-					asignaturasM.add(optA.get());
-					//matriculaDTO.getAsignaturas().add(optA.get());
-				}
-				
-				m.setAsignaturas(asignaturasM);
-				//m.setAsignaturas(matriculaDTO.getAsignaturas());
-				*/
 				
 				matriculasService.save(m);
 				return ResponseEntity.ok().body(m);
@@ -138,19 +117,17 @@ public class MatriculaREST {
 			}
 			
 			if(matriculaDTO.getAsignaturas()!=null) {
-				m.setAsignaturas(matriculaDTO.getAsignaturas());
-				/*
-				String strAsign = String.valueOf(matriculaDTO.getAsignaturas());			
-				List<String> listAsign = Arrays.asList(strAsign.split("\\s*,\\s*"));
-				List<Asignatura> asignaturasM = new ArrayList<Asignatura>();
-				for (String a : listAsign) {
-					Optional<Asignatura> optA = asignaturasService.findById(Integer.valueOf(a));
-					asignaturasM.add(optA.get());
-					//matriculaDTO.getAsignaturas().add(optA.get());
+				
+				for (Asignatura a : optM.get().getAsignaturas()) {
+					a.getMatriculas().remove(optM.get());
 				}
-				m.setAsignaturas(asignaturasM);
-				//m.setAsignaturas(matriculaDTO.getAsignaturas());
-				*/
+				
+				for (Asignatura a : matriculaDTO.getAsignaturas()) {
+					Optional<Asignatura> optAsig = asignaturasService.findById(a.getIdasignatura());
+					optAsig.get().getMatriculas().add(m);
+				}			
+				m.setAsignaturas(matriculaDTO.getAsignaturas());
+				
 			}
 			
 			return ResponseEntity.ok(matriculasService.save(m));
