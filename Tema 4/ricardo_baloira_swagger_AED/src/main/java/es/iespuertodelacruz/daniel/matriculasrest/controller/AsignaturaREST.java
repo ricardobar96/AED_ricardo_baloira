@@ -20,8 +20,11 @@ import es.iespuertodelacruz.daniel.matriculasrest.dto.AlumnoDTO;
 import es.iespuertodelacruz.daniel.matriculasrest.dto.AsignaturaDTO;
 import es.iespuertodelacruz.daniel.matriculasrest.entity.Alumno;
 import es.iespuertodelacruz.daniel.matriculasrest.entity.Asignatura;
+import es.iespuertodelacruz.daniel.matriculasrest.entity.Matricula;
 import es.iespuertodelacruz.daniel.matriculasrest.service.AsignaturaService;
 import es.iespuertodelacruz.daniel.matriculasrest.service.MatriculaService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/api/asignatura")
@@ -32,6 +35,9 @@ public class AsignaturaREST {
 	@Autowired
 	MatriculaService matriculaService;
 	
+	@ApiOperation(value = "Devuelve una lista de AsignaturaDTO", 
+		    response = AsignaturaDTO.class,
+		    responseContainer = "List")
 	@GetMapping
 	public ResponseEntity<?> getAll(){
 		List<AsignaturaDTO> l = new ArrayList<>();
@@ -41,8 +47,15 @@ public class AsignaturaREST {
 		}
 		return new ResponseEntity<>(l, HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "Borra una asignatura", 
+		    response = String.class,
+		    notes = "Devolverá un String que diga si ha sido borrada la asignatura o si ha habido algún error.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Integer id) {
+	public ResponseEntity<?> delete(
+			@ApiParam(value = "Id de la asignatura a borrar", required = true)
+			@PathVariable Integer id
+			) {
 		Optional<Asignatura> optM = asignaturaService.findById(id);
 		if(optM.isPresent()) {
 			asignaturaService.deleteById(id);
@@ -52,8 +65,14 @@ public class AsignaturaREST {
 		}
 
 	}
+	
+	@ApiOperation(value = "Devuelve una Asignatura a partir de su id", 
+		    response = Asignatura.class)
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getAlumnoById(@PathVariable("id") Integer id) {
+	public ResponseEntity<?> getAlumnoById(
+			@ApiParam(value = "Id de la asignatura a buscar.", required = true)
+			@PathVariable("id") Integer id
+			) {
 		
 		Optional<Asignatura> optAsignatura = asignaturaService.findById(id);
 		if(optAsignatura.isPresent()) {
@@ -62,8 +81,14 @@ public class AsignaturaREST {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	@ApiOperation(value = "Actualiza una asignatura.", 
+		    response = Asignatura.class)
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Integer id,
+	public ResponseEntity<?> update(
+			@ApiParam(value = "Id de la asignatura a actualizar.", required = true)
+			@PathVariable Integer id,
+			@ApiParam(value = "Id de la asignatura a buscar.", required = true)
 		@RequestBody Asignatura aDTO){
 		Optional<Asignatura> optA = asignaturaService.findById(id);
 		if(optA.isPresent()) {
@@ -77,8 +102,12 @@ public class AsignaturaREST {
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("el id del registro no existe");
 		}
 	}
+	
+	@ApiOperation(value = "Guarda una nueva asignatura.", 
+		    response = Asignatura.class)
 	@PostMapping
 	public ResponseEntity<?> saveAsignatura(
+			@ApiParam(value = "Asignatura a guardar.", required = true)
 			@RequestBody AsignaturaDTO asignaturaDto) {
 		Asignatura asignatura = new Asignatura();
 		asignatura.setCurso(asignaturaDto.getCurso());

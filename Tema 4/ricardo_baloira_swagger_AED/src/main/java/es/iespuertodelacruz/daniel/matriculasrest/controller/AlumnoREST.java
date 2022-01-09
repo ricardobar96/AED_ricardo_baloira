@@ -27,7 +27,10 @@ import es.iespuertodelacruz.daniel.matriculasrest.service.AsignaturaService;
 import es.iespuertodelacruz.daniel.matriculasrest.service.MatriculaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
 @Api(value= "AlumnoREST", description = "REST APIs relacionadas con las entidades Alumno y Matricula")
 @RestController
 @RequestMapping("/api/alumno")
@@ -40,6 +43,9 @@ public class AlumnoREST {
 	@Autowired
 	AsignaturaService asignaturaService;
 	
+	@ApiOperation(value = "Devuelve una lista de AlumnosDTO", 
+		    response = AlumnoDTO.class,
+		    responseContainer = "List")
 	@GetMapping
 	public ResponseEntity<?> getAll(){
 		List l = new ArrayList<AlumnoDTO>();
@@ -49,9 +55,12 @@ public class AlumnoREST {
 		}
 		return new ResponseEntity<>(l, HttpStatus.OK);
 	}
-	
+	@ApiOperation(value = "Devuelve un Alumno por su DNI", 
+		    response = Alumno.class)
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getAlumnoById(@PathVariable("id") String id) {
+	public ResponseEntity<?> getAlumnoById(
+			@ApiParam(value = "DNI del alumno al que encontrar", required = true)
+			@PathVariable("id") String id) {
 		
 		Optional<Alumno> optAlumno = alumnoService.findById(id);
 		if(optAlumno.isPresent()) {
@@ -62,8 +71,13 @@ public class AlumnoREST {
 		}
 	}
 	
+	@ApiOperation(value = "Devuelve una Matricula por su id", 
+		    response = Matricula.class)
 	@GetMapping("/{idalu}/matricula/{idmatr}")
-	public ResponseEntity<?> getMatriculaById(@PathVariable("idalu") String idAlu,
+	public ResponseEntity<?> getMatriculaById(
+			@ApiParam(value = "DNI del alumno dueño de la Matricula", required = true)
+			@PathVariable("idalu") String idAlu,
+			@ApiParam(value = "Id de la Matricula a encontrar", required = true)
 			@PathVariable("idmatr") Integer idMatr) {
 		Optional<Alumno> optAlumno = alumnoService.findById(idAlu);
 		if(optAlumno.isPresent()) {
@@ -80,9 +94,13 @@ public class AlumnoREST {
 	}
 	
 	
-	
+	@ApiOperation(value = "Devuelve una lista de Matricula", 
+		    response = Matricula.class,
+		    responseContainer = "List")
 	@GetMapping("/{idalu}/matricula")
-	public ResponseEntity<?> getAllMatriculas(@PathVariable("idalu") String idAlu) {
+	public ResponseEntity<?> getAllMatriculas(
+			@ApiParam(value = "DNI del alumno dueño de la lista de Matricula que queremos", required = true)
+			@PathVariable("idalu") String idAlu) {
 		Optional<Alumno> optAlumno = alumnoService.findById(idAlu);
 		if(optAlumno.isPresent()) {
 			List<Matricula> list = optAlumno.get().getMatriculas();
@@ -94,7 +112,9 @@ public class AlumnoREST {
 	}
 	
 	
-	@ApiOperation(value = "Borra un alumno por su DNI", tags = "delete")
+	@ApiOperation(value = "Borra un alumno si existe y si no tiene matrículas asignadas", 
+		    response = String.class,
+		    notes = "Devolvemos un String que diga si se borró o no el Alumno")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable String id){
 		Optional<Alumno> optM = alumnoService.findById(id);
@@ -112,8 +132,14 @@ public class AlumnoREST {
 
 	}
 	
+	@ApiOperation(value = "Borra una matricula", 
+		    response = String.class,
+		    notes = "Devolvemos un String que diga si se borró o no la Matricula")
 	@DeleteMapping("/{idAlu}/matricula/{idMatr}")
-	public ResponseEntity<?> deleteMatricula(@PathVariable String idAlu, @PathVariable Integer idMatr){
+	public ResponseEntity<?> deleteMatricula(
+			@ApiParam(value = "DNI del alumno dueño de la matrícula a eliminar", required = true)
+			@PathVariable String idAlu, 
+			@PathVariable Integer idMatr){
 		Optional<Alumno> optM = alumnoService.findById(idAlu);
 		if(optM.isPresent()) {
 			Optional<Matricula> optMatr = matriculaService.findById(idMatr);
@@ -129,8 +155,18 @@ public class AlumnoREST {
 
 	}
 	
+	@ApiOperation(value = "Guarda una matricula", 
+		    response = Matricula.class,
+		    notes = "Devolvemos un String que diga si hay algun problema, y la Matricula si la guardamos con éxito")
+	@ApiResponses(value = { 
+			  @ApiResponse(code = 409, message = "Ya existe esa combinación de valores (Año, DNI)"),
+		      @ApiResponse(code = 404, message = "No se encuentra el alumno."), 
+		      @ApiResponse(code = 200, message = "Se ha guardado la Matricula.") })
 	@PostMapping("/{idalu}/matricula")
-	public ResponseEntity<?> saveMatricula(@PathVariable("idalu") String idAlu, 
+	public ResponseEntity<?> saveMatricula(
+			@ApiParam(value = "DNI del alumno dueño de la matrícula a añadir", required = true)
+			@PathVariable("idalu") String idAlu, 
+			@ApiParam(value = "Matricula que queremos guardar en la base de datos", required = true)
 			@RequestBody MatriculaDTO matriculaDto) {
 		Optional<Alumno> optAlumno = alumnoService.findById(idAlu);
 		if(optAlumno.isPresent()) {
@@ -165,8 +201,17 @@ public class AlumnoREST {
 		}
 	}
 	
+	@ApiOperation(value = "Actualiza una matricula", 
+		    response = Matricula.class,
+		    notes = "Devolvemos un String que diga si hay algun problema, y la Matricula si la guardamos con éxito")
 	@PutMapping("/{idAlu}/matricula/{idMatr}")
-	public ResponseEntity<?> updateMatricula(@PathVariable String idAlu, @PathVariable Integer idMatr, @RequestBody MatriculaDTO mDTO) {
+	public ResponseEntity<?> updateMatricula(
+			@ApiParam(value = "DNI del alumno dueño de la matrícula a modificar", required = true)
+			@PathVariable String idAlu, 
+			@ApiParam(value = "Id de la Matricula a modificar", required = true)
+			@PathVariable Integer idMatr, 
+			@ApiParam(value = "Matricula nueva con los atributos a sustituir de la antigua", required = true)
+			@RequestBody MatriculaDTO mDTO) {
 		Optional<Alumno> optAlumno = alumnoService.findById(idAlu);
 		if(optAlumno.isPresent()) {
 			Optional<Matricula> optMatricula = matriculaService.findById(idMatr);
@@ -205,8 +250,13 @@ public class AlumnoREST {
 		}
 	}
 	
+	
+	@ApiOperation(value = "Guarda un alumno", 
+		    response = Alumno.class,
+		    notes = "Devolvemos un String que diga si hay algun problema, y el alumno si lo guardamos con éxito")
 	@PostMapping
 	public ResponseEntity<?> saveAlumno(
+			@ApiParam(value = "Alumno nuevo que agregar", required = true)
 			@RequestBody AlumnoDTO alumnoDto) {
 		Alumno alumno = new Alumno();
 		alumno.setDni(alumnoDto.getDni());
@@ -226,8 +276,14 @@ public class AlumnoREST {
 		}
 	}
 	
+	@ApiOperation(value = "Devuelve una lista de Matricula por su año de un alumno.", 
+		    response = Alumno.class,
+		    responseContainer="List")
 	@GetMapping("/{idalu}/matricula/year/{year}")
-	public ResponseEntity<?> getMatriculaByYear(@PathVariable("idalu") String idAlu,
+	public ResponseEntity<?> getMatriculaByYear(
+			@ApiParam(value = "DNI del alumno en el que buscar.", required = true)
+			@PathVariable("idalu") String idAlu,
+			@ApiParam(value = "Año que buscar", required = true)
 			@PathVariable("year") Integer year) {
 		Optional<Alumno> optAlumno = alumnoService.findById(idAlu);
 		if(optAlumno.isPresent()) {
@@ -243,10 +299,14 @@ public class AlumnoREST {
 		}
 	}
 	
-	
+	@ApiOperation(value = "Actualiza la informacion de un alumno.", 
+		    response = Alumno.class)
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable String id,
-		@RequestBody Alumno aDTO){
+	public ResponseEntity<?> update(
+			@ApiParam(value = "DNI del alumno que actualizaremos.", required = true)
+			@PathVariable String id,
+			@ApiParam(value = "Alumno que utilizaremos para actualizar el que existe en la BBDD.", required = true)
+			@RequestBody Alumno aDTO){
 		Optional<Alumno> optA = alumnoService.findById(id);
 		if(optA.isPresent()) {
 			Alumno a = optA.get();
