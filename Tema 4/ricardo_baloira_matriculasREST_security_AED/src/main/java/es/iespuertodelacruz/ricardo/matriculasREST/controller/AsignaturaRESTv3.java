@@ -23,9 +23,9 @@ import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
 
 @RestController
-@RequestMapping("/api/asignaturas")
-public class AsignaturaREST {
-	private Logger logger = LoggerFactory.getLogger(AsignaturaREST.class);
+@RequestMapping("/api/v3/asignaturas")
+public class AsignaturaRESTv3 {
+	private Logger logger = LoggerFactory.getLogger(AsignaturaRESTv3.class);
 	@Autowired
 	AsignaturasService asignaturasService;
 	@GetMapping("")
