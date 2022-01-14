@@ -20,7 +20,11 @@ import es.iespuertodelacruz.ricardo.matriculasREST.entities.Alumno;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value= "MatriculaRESTv3", description = "REST APIs relacionadas con la entidad Alumno accesibles para un usuario correctamente autenticado")
 @RestController
 @RequestMapping("/api/v2/alumnos")
 public class AlumnoRESTv2 {
@@ -36,6 +40,7 @@ public class AlumnoRESTv2 {
 	AsignaturasService asignaturasService;
 	
 	@GetMapping	
+	@ApiOperation(value = "Devuelve lista de todos los alumnos", tags = "getAll")
 	public Collection<AlumnoDTO> getAll(@RequestParam(required=false, name="nombre")String nombre){
 		List alumnos = new ArrayList<Alumno>();
 		
@@ -51,6 +56,8 @@ public class AlumnoRESTv2 {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Busca un alumno por su DNI", tags = "get")
+	@ApiImplicitParam(name = "id", value = "DNI del alumno", required = true, dataType = "string", paramType = "query")
 	public ResponseEntity<?> getAlumnoById(@PathVariable("id") String id) {
 		
 		Optional<Alumno> optAlumno = alumnosService.findById(id);

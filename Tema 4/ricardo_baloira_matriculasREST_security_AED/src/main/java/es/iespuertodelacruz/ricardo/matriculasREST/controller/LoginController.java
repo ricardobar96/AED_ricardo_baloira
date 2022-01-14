@@ -18,13 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Usuarioconrol;
 import es.iespuertodelacruz.ricardo.matriculasREST.security.GestorDeJWT;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.UsuarioService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value= "LoginController", description = "Controlador que permite la autenticación de los usuarios")
 @RestController
 public class LoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
 	/*  funciona el form urlencode */
+	@ApiOperation(value = "Detecta si el token del usuario no es válido al usar Form del tipo UrlEncoded")
 	@PostMapping(path = "/api/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ResponseEntity<?> login(@RequestParam("name") String username, @RequestParam("password") String pwd) {
 		
@@ -51,6 +55,7 @@ public class LoginController {
 	}
 	
 	/* json post */
+	@ApiOperation(value = "Detecta si el token del usuario no es válido al usar Form del tipo Json")
 	@PostMapping(path = "/api/login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> login(@RequestBody UsuarioJsonLogin usuarioJson) {
 		
@@ -68,7 +73,7 @@ public class LoginController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	
+	@ApiOperation(value = "Genera el token en caso de ser correctos los datos introducidos en el login")
 	private String getJWTToken(String username, String passTextoPlanoRecibida) {
 		
 		String respuesta = null;

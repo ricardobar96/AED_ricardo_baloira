@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import es.iespuertodelacruz.ricardo.matriculasREST.dto.AsignaturaDTO;
 import es.iespuertodelacruz.ricardo.matriculasREST.entities.Asignatura;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value= "MatriculaRESTv3", description = "REST APIs relacionadas con la entidad Asignatura accesibles para el usuario con rol ADMIN")
 @RestController
 @RequestMapping("/api/v3/asignaturas")
 public class AsignaturaRESTv3 {
@@ -29,6 +33,7 @@ public class AsignaturaRESTv3 {
 	@Autowired
 	AsignaturasService asignaturasService;
 	@GetMapping("")
+	@ApiOperation(value = "Devuelve lista de todas las asignaturas", tags = "getAll")
 	public List<Asignatura> getAll(){
 		ArrayList<Asignatura> asignaturas = new ArrayList<Asignatura>();
 		asignaturasService
@@ -38,6 +43,8 @@ public class AsignaturaRESTv3 {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Busca una asignatura por su Id", tags = "get")
+	@ApiImplicitParam(name = "id", value = "Id de la asignatura", required = true, dataType = "Integer", paramType = "query")
 	public ResponseEntity<?> getAsignaturaById(@PathVariable Integer id){
 		Optional<Asignatura> asignaturaOPT = asignaturasService.findById(id);
 		if (asignaturaOPT.isPresent()) {
@@ -49,6 +56,8 @@ public class AsignaturaRESTv3 {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Borra una asignatura por su Id", tags = "delete")
+	@ApiImplicitParam(name = "id", value = "Id de la asignatura", required = true, dataType = "Integer", paramType = "query")
 	public ResponseEntity<?> delete(@PathVariable Integer id){
 		Optional<Asignatura> asignaturaOPT = asignaturasService.findById(id);
 		
@@ -61,6 +70,7 @@ public class AsignaturaRESTv3 {
 	}
 	
 	@PostMapping
+	@ApiOperation(value = "Crea una asignatura", tags = "post")
 	public ResponseEntity<?> save(@RequestBody AsignaturaDTO asignaturaDto){
 		Asignatura a = new Asignatura();
 		a.setCurso(asignaturaDto.getCurso());
@@ -71,6 +81,8 @@ public class AsignaturaRESTv3 {
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation(value = "Modifica una asignatura", tags = "put")
+	@ApiImplicitParam(name = "id", value = "Id de la asignatura", required = true, dataType = "Integer", paramType = "query")
 	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody AsignaturaDTO asignaturaDto){
 		Optional<Asignatura> asignaturaOPT = asignaturasService.findById(id);
 		if(asignaturaOPT.isPresent()) {

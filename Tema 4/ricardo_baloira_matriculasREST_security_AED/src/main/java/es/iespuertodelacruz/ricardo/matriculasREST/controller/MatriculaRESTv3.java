@@ -26,7 +26,14 @@ import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
+@Api(value= "MatriculaRESTv3", description = "REST APIs relacionadas con la entidad Matricula accesibles para el usuario con rol ADMIN")
 @RestController
 @RequestMapping("/api/v3/matriculas")
 public class MatriculaRESTv3 {
@@ -42,6 +49,7 @@ public class MatriculaRESTv3 {
 	AsignaturasService asignaturasService;
 	
 	@GetMapping	
+	@ApiOperation(value = "Devuelve lista de todas las matrículas", tags = "getAll")
 	public Collection<MatriculaDTO> getAll(){
 		List matriculas = new ArrayList<Matricula>();
 		for(Matricula m: matriculasService.findAll()) {
@@ -51,6 +59,8 @@ public class MatriculaRESTv3 {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Busca una matrícula por su Id", tags = "get")
+	@ApiImplicitParam(name = "id", value = "Id de la matrícula", required = true, dataType = "Integer", paramType = "query")
 	public ResponseEntity<?> getMatriculaById(@PathVariable("id") Integer id) {
 		
 		Optional<Matricula> optMatricula = matriculasService.findById(id);
@@ -63,7 +73,17 @@ public class MatriculaRESTv3 {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody MatriculaDTO matriculaDTO){
+	@ApiOperation(value = "Crea una matrícula", tags = "post", response = Matricula.class,
+	notes = "Devolvemos un String si hay algún problema, y la matrícula si se ha creado con éxito")
+	@ApiResponses(value = {
+			@ApiResponse(code = 409, message = "Ya existe esa combinación de valores (Año, DNI)"),
+			@ApiResponse(code = 404, message = "No se encuentra el alumno"),
+			@ApiResponse(code = 200, message = "Se ha guardado la matrícula")}
+	)
+	public ResponseEntity<?> save(
+			@ApiParam(value = "Matrícula que queremos crear", required = true)
+			@RequestBody MatriculaDTO matriculaDTO){
+		
 		Matricula m = new Matricula();
 		if(matriculaDTO.getAlumno()!=null) {
 			Optional<Alumno> optAlumno = alumnosService.findById(matriculaDTO.getAlumno().getDni());
@@ -91,6 +111,8 @@ public class MatriculaRESTv3 {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Borra una matrícula por su Id", tags = "delete")
+	@ApiImplicitParam(name = "id", value = "Id de la matrícula", required = true, dataType = "Integer", paramType = "query")
 	public ResponseEntity<?> delete(@PathVariable Integer id){
 		Optional<Matricula> optM = matriculasService.findById(id);
 		if(optM.isPresent()) {
@@ -107,6 +129,8 @@ public class MatriculaRESTv3 {
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation(value = "Modifica una matrícula", tags = "put")
+	@ApiImplicitParam(name = "id", value = "Id de la matrícula", required = true, dataType = "Integer", paramType = "query")
 	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody MatriculaDTO matriculaDTO){
 		Optional<Matricula> optM = matriculasService.findById(id);
 		if(optM.isPresent()) {

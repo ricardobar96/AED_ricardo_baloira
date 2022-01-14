@@ -27,7 +27,11 @@ import es.iespuertodelacruz.ricardo.matriculasREST.entities.Matricula;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AlumnosService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.AsignaturasService;
 import es.iespuertodelacruz.ricardo.matriculasREST.services.MatriculasService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value= "MatriculaRESTv3", description = "REST APIs relacionadas con la entidad Alumno accesibles para el usuario con rol ADMIN")
 @RestController
 @RequestMapping("/api/v3/alumnos")
 public class AlumnoRESTv3 {
@@ -43,6 +47,7 @@ public class AlumnoRESTv3 {
 	AsignaturasService asignaturasService;
 	
 	@GetMapping	
+	@ApiOperation(value = "Devuelve lista de todos los alumnos", tags = "getAll")
 	public Collection<AlumnoDTO> getAll(@RequestParam(required=false, name="nombre")String nombre){
 		List alumnos = new ArrayList<Alumno>();
 		
@@ -58,6 +63,8 @@ public class AlumnoRESTv3 {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Busca un alumno por su DNI", tags = "get")
+	@ApiImplicitParam(name = "id", value = "DNI del alumno", required = true, dataType = "string", paramType = "query")
 	public ResponseEntity<?> getAlumnoById(@PathVariable("id") String id) {
 		
 		Optional<Alumno> optAlumno = alumnosService.findById(id);
@@ -71,6 +78,7 @@ public class AlumnoRESTv3 {
 	}
 	
 	@PostMapping
+	@ApiOperation(value = "Crea un alumno", tags = "post")
 	public ResponseEntity<?> save(@RequestBody AlumnoDTO alumnoDTO){
 		Alumno a = new Alumno();
 		if(alumnoDTO.getDni()!=null) {
@@ -96,6 +104,8 @@ public class AlumnoRESTv3 {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Borra un alumno por su DNI", tags = "delete")
+	@ApiImplicitParam(name = "id", value = "DNI del alumno", required = true, dataType = "string", paramType = "query")
 	public ResponseEntity<?> delete(@PathVariable String id){
 		Optional<Alumno> optAlumno = alumnosService.findById(id);
 		if(optAlumno.isPresent()) {
@@ -115,6 +125,8 @@ public class AlumnoRESTv3 {
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation(value = "Modifica un alumno", tags = "put")
+	@ApiImplicitParam(name = "id", value = "DNI del alumno", required = true, dataType = "string", paramType = "query")
 	public ResponseEntity<?> update(@PathVariable String id, @RequestBody AlumnoDTO alumnoDTO){
 		Optional<Alumno> optA = alumnosService.findById(id);
 		if(optA.isPresent()) {
