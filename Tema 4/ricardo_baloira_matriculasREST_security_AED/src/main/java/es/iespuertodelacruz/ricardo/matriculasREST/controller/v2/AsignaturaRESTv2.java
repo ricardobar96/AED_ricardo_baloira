@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.ricardo.matriculasREST.controller;
+package es.iespuertodelacruz.ricardo.matriculasREST.controller.v2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value= "MatriculaRESTv3", description = "REST APIs relacionadas con la entidad Asignatura accesibles para el usuario con rol ADMIN")
+@Api(value= "MatriculaRESTv3", description = "REST APIs relacionadas con la entidad Asignatura accesibles para un usuario correctamente autenticado")
 @RestController
-@RequestMapping("/api/v3/asignaturas")
-public class AsignaturaRESTv3 {
-	private Logger logger = LoggerFactory.getLogger(AsignaturaRESTv3.class);
+@RequestMapping("/api/v2/asignaturas")
+public class AsignaturaRESTv2 {
+	private Logger logger = LoggerFactory.getLogger(AsignaturaRESTv2.class);
 	@Autowired
 	AsignaturasService asignaturasService;
 	@GetMapping("")

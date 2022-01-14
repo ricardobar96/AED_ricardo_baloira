@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.ricardo.matriculasREST.controller;
+package es.iespuertodelacruz.ricardo.matriculasREST.controller.v3;
 
 import java.util.ArrayList;
 import java.util.Collection;
