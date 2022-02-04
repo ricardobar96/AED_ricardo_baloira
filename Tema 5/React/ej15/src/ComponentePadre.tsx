@@ -1,20 +1,17 @@
 import React, { MouseEvent, useState  } from 'react';
-import { idText } from 'typescript';
 import Persona from './Persona';
 import PersonaCard from './PersonaCard';
 interface IProps { }
 
-interface IState { personas: number }
+interface IState { personas: Array<Persona> }
 
-let arr: Array<Persona>;
 let persona;
 
 class ComponentePadre extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-        this.state = { personas: 0 };
-        arr = [];
+        this.state = { personas: new Array<Persona>() };
         //key={this.state.personas}
     }
 
@@ -22,18 +19,23 @@ class ComponentePadre extends React.Component<IProps, IState> {
         const generar = (event: MouseEvent<HTMLButtonElement>) => {
             event.preventDefault();
             let { personas } = this.state;
-            this.setState({ personas: personas + 1 });
-            let id = this.state.personas + 1;
-            persona = new Persona(id, "", "", 0, 0, 0);
-            arr.push(persona);
+            persona = new Persona(this.state.personas.length+1, "", "", 0, 0, 0, 0);
+            let oldArr = [...this.state.personas];
+            this.setState({personas: [...oldArr, persona]});
+        }
+
+        const modificarPersona = (p:Persona) =>{
+            let index = this.state.personas.findIndex((n)=> n.id === p.id);
+            let oldArr = [...this.state.personas];
+            oldArr[index] = p;
+            this.setState({personas: oldArr});
         }
     
         return (
             <div>
                 <button onClick={generar} > + </button>
-                Personas creadas: {arr.length}
-                {arr.map((n) =>{
-                    return <PersonaCard/>
+                {this.state.personas.map((n,i) =>{
+                    return <PersonaCard key={i+"-card"} persona={n} modificaPersona={modificarPersona}/>
                 })}
             </div>
         );
