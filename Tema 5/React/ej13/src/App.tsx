@@ -36,34 +36,24 @@ class App extends React.Component<IProps, IState>{
  };
  this.ip = "localhost";
  this.puerto = 8080;
- this.rutaBase = "http://" + this.ip + ":" + this.puerto;
+ this.rutaBase = "http://" + this.ip + ":" + this.puerto + "/api/v1";
  this.rutaMonedas = this.rutaBase + "/monedas";
  }
  render(){
  const {monedas} = this.state;
  return (
-  <>
-  <h3>Cliente de api monedas</h3>
-  <div>
-  <h4>Monedas: </h4>
-  <ul>
-  {
-  monedas?.map( (m:Monedas.Moneda) => {
-  return (
-  <li>Nombre: {m.nombre}, País: {m.pais}</li>
-  );
-  })
-  }
-  </ul>
-  </div>
-  </>
-  ); 
+ <>
+ <h3>Un componente sencillo para monedas</h3>
+ <div>
+ Monedas: {JSON.stringify(monedas)}
+ </div>
+ </>
+ );
  }
-
  public async componentDidMount(){
-  let ruta = this.rutaMonedas;
-  console.log(ruta);
-  let respuesta = await axios.get(ruta);
+ let ruta = this.rutaMonedas;
+ console.log(ruta);
+ let respuesta = await axios.get(ruta);
  console.log(respuesta.data);
  this.setState( { monedas: respuesta.data });
  }
