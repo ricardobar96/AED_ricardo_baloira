@@ -1,0 +1,89 @@
+{
+  "historicos": [
+    {
+      "idhistoricocambioeuro": 4,
+      "fecha": "2019-12-27",
+      "equivalenteeuro": 0.9,
+      "idmoneda": 1
+    },
+    {
+      "idhistoricocambioeuro": 5,
+      "fecha": "2020-12-30",
+      "equivalenteeuro": 0.95,
+      "idmoneda": 1
+    },
+    {
+      "idhistoricocambioeuro": 6,
+      "fecha": "2021-11-08",
+      "equivalenteeuro": 2,
+      "idmoneda": 1
+    },
+    {
+      "idhistoricocambioeuro": 8,
+      "fecha": "2021-12-16",
+      "equivalenteeuro": 3,
+      "idmoneda": 1
+    },
+    {
+      "idhistoricocambioeuro": 2,
+      "fecha": "2020-03-25",
+      "equivalenteeuro": 0.25,
+      "idmoneda": 2
+    },
+    {
+      "idhistoricocambioeuro": 3,
+      "fecha": "2019-01-14",
+      "equivalenteeuro": 0.5,
+      "idmoneda": 2
+    }
+  ],
+  "monedas": [
+    {
+      "id": "1",
+      "nombre": "modificado",
+      "pais": "modificado2",
+      "idmoneda": 1
+    },
+    {
+      "idmoneda": 2,
+      "nombre": "Yen",
+      "pais": "Japan",
+      "historicos": [
+        {
+          "idhistoricocambioeuro": 2,
+          "fecha": "2020-03-25",
+          "equivalenteeuro": 0.25
+        },
+        {
+          "idhistoricocambioeuro": 3,
+          "fecha": "2019-01-14",
+          "equivalenteeuro": 0.5
+        }
+      ]
+    },
+    {
+      "idmoneda": 4,
+      "nombre": "franco",
+      "pais": "Francia",
+      "historicos": []
+    },
+    {
+      "idmoneda": 5,
+      "nombre": "libra",
+      "pais": "UK",
+      "historicos": []
+    },
+    {
+      "idmoneda": 6,
+      "nombre": "dolar",
+      "pais": "Australia",
+      "historicos": []
+    },
+    {
+      "idmoneda": 7,
+      "nombre": "dolar",
+      "pais": "Canadá",
+      "historicos": []
+    }
+  ]
+}
