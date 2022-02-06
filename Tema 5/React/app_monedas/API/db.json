@@ -40,8 +40,8 @@
   "monedas": [
     {
       "id": "1",
-      "nombre": "modificado",
-      "pais": "modificado2",
+      "nombre": "Dólar",
+      "pais": "EEUU",
       "idmoneda": 1
     },
     {
@@ -84,6 +84,11 @@
       "nombre": "dolar",
       "pais": "Canadá",
       "historicos": []
+    },
+    {
+      "nombre": "bolívar",
+      "pais": "Venezuela",
+      "idmoneda": 8
     }
   ]
 }

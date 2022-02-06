@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import axios from 'axios';
 export default function BorrarMoneda() {
+
+ const idmoneda = useRef<HTMLInputElement>(null);
  const borrarMonedaApi = (event:React.FormEvent<HTMLFormElement>) =>{
 
  event.preventDefault();
  let formulario: HTMLFormElement = event.currentTarget;
 
- let inputidmoneda: HTMLInputElement|any = formulario.id;
-
- let id:number = inputidmoneda.value;
+ let id = idmoneda.current?.value;
 
  const moneda = {
  "id": id
@@ -27,7 +27,7 @@ export default function BorrarMoneda() {
  return (
  <>
  <form onSubmit={borrarMonedaApi}>
- Id: <input type="number" name="id" /><br />
+ Id: <input type="number" ref={idmoneda} /><br />
  <button type="submit">Eliminar </button>
  </form>
  </>

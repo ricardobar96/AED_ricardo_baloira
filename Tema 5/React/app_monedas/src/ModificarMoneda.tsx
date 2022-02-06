@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import axios from 'axios';
 export default function ModificarMoneda() {
+ 
+ const idmoneda = useRef<HTMLInputElement>(null);
+ const nombremoneda = useRef<HTMLInputElement>(null);
+ const paismoneda = useRef<HTMLInputElement>(null);
  const modificarMonedaApi = (event:React.FormEvent<HTMLFormElement>) =>{
 
  event.preventDefault();
  let formulario: HTMLFormElement = event.currentTarget;
 
- let inputidmoneda: HTMLInputElement|any = formulario.id;
- let inputnombremoneda: HTMLInputElement = formulario.nombremoneda;
- let inputpaismoneda: HTMLInputElement = formulario.paismoneda;
+ //let inputidmoneda: HTMLInputElement|any = formulario.id;
+ //let inputnombremoneda: HTMLInputElement = formulario.nombremoneda;
+ //let inputpaismoneda: HTMLInputElement = formulario.paismoneda;
 
- let id:number = inputidmoneda.value;
- let nombre:string = inputnombremoneda.value;
- let pais:string = inputpaismoneda.value;
+ //let id:number = inputidmoneda.value;
+ //let nombre:string = inputnombremoneda.value;
+ //let pais:string = inputpaismoneda.value;
+
+ let id = idmoneda.current?.value;
+ let nombre = nombremoneda.current?.value;
+ let pais = paismoneda.current?.value;
+
  const newmoneda = {
  "id": id,
  "nombre": nombre,
@@ -32,9 +41,9 @@ export default function ModificarMoneda() {
  return (
  <>
  <form onSubmit={modificarMonedaApi}>
- Id: <input type="number" name="id" /><br />
- Nombre: <input type="text" name="nombremoneda" /><br />
- País: <input type="text" id="paismoneda" /> <br />
+ Id: <input type="number" ref={idmoneda} /><br />
+ Nombre: <input type="text" ref={nombremoneda} /><br />
+ País: <input type="text" ref={paismoneda} /> <br />
  <button type="submit">Modificar </button>
  </form>
  </>

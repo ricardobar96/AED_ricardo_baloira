@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 interface IProps{ }
 interface IState{
  monedas ?: Array<Monedas.Moneda>;
@@ -43,14 +44,15 @@ class AppMonedas extends React.Component<IProps, IState>{
  const {monedas} = this.state;
  return (
   <>
-  <h3>Cliente de api monedas</h3>
   <div>
-  <h4>Monedas: </h4>
+  <h3>Monedas: </h3>
   <ul>
   {
   monedas?.map( (m:Monedas.Moneda) => {
   return (
-  <li>Nombre: {m.nombre}, País: {m.pais}</li>
+    <Link to={{pathname:"/moneda/" + m.idmoneda}}>
+  <li>Id: {m.idmoneda} || Nombre: {m.nombre} || País: {m.pais} </li>
+   </Link>
   );
   })
   }

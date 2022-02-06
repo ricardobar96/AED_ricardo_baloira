@@ -20,9 +20,8 @@ declare module Monedas {
 
 }
 
-const MonedasF = () => {
+export const MonedasF = () => {
     const [monedas,setMoneda] = useState<IState>();
-    //const {monedas} = useState<IState>();
     const ip:string = "localhost";
     const puerto:number = 8080;
     const rutaBase:string = "http://"+ip+":"+puerto;
@@ -36,6 +35,7 @@ const MonedasF = () => {
             console.log(respuesta.data);
             setMoneda({ monedas: respuesta.data });
         }
+
     }, []);
 
     return (
