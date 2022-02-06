@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 interface IProps{ }
 interface IState{
- asignaturas ?: Array<Instituto.Asignatura>;
+ matriculas ?: Array<Instituto.Matricula>;
 }
 
 declare module Instituto {
@@ -28,34 +28,34 @@ declare module Instituto {
 
 }
 
-class AppAsignaturas extends React.Component<IProps, IState>{
+class AppMatriculas extends React.Component<IProps, IState>{
  ip: string;
  puerto: number;
  rutaBase: string;
- rutaAsignatura: string;
+ rutaMatricula: string;
 
  constructor(props: IProps){
  super(props);
 
  this.state = {
- asignaturas: []
+ matriculas: []
  };
  this.ip = "localhost";
  this.puerto = 8080;
  this.rutaBase = "http://" + this.ip + ":" + this.puerto;
- this.rutaAsignatura = this.rutaBase + "/asignaturas";
+ this.rutaMatricula = this.rutaBase + "/matriculas";
  }
  render(){
- const {asignaturas} = this.state;
+ const {matriculas} = this.state;
  return (
   <>
   <div>
-  <h3>Asignaturas: </h3>
+  <h3>Matrículas: </h3>
   <ul>
   {
-  asignaturas?.map( (a:Instituto.Asignatura) => {
+  matriculas?.map( (m:Instituto.Matricula) => {
   return (
-  <li>Id: {a.idasignatura} || Nombre: {a.nombre} || Curso: {a.curso}</li>
+  <li>Id: {m.idmatricula} || Dni: {m.dni} || Año: {m.year}</li>
   );
   })
   }
@@ -66,12 +66,12 @@ class AppAsignaturas extends React.Component<IProps, IState>{
  }
 
  public async componentDidMount(){
-  let ruta = this.rutaAsignatura;
+  let ruta = this.rutaMatricula;
   console.log(ruta);
   let respuesta = await axios.get(ruta);
  console.log(respuesta.data);
- this.setState( { asignaturas: respuesta.data });
+ this.setState( { matriculas: respuesta.data });
  }
 }
 
-export default AppAsignaturas;
+export default AppMatriculas;
