@@ -1,0 +1,35 @@
+{
+  "asignaturas": [
+    {
+      "idasignatura": 1,
+      "nombre": "AED",
+      "curso": "2º DAM"
+    },
+    {
+      "idasignatura": 2,
+      "nombre": "PGV",
+      "curso": "2º DAM"
+    }
+  ],
+  "alumnos": [
+    {
+      "dni": "12345678Z",
+      "nombre": "Ana",
+      "apellidos": "Martín",
+      "fechanacimiento": 968972400000
+    },
+    {
+      "dni": "12312312K",
+      "nombre": "María Luisa",
+      "apellidos": "Chávez",
+      "fechanacimiento": "123234343"
+    }
+  ],
+  "matriculas": [
+    {
+      "idmatricula": 1,
+      "dni": "12345678Z",
+      "year": 2022
+    }
+  ]
+}
