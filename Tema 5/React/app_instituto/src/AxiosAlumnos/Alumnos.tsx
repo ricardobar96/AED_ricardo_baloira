@@ -1,77 +1,65 @@
 import axios from 'axios';
-import React from 'react';
-interface IProps{ }
-interface IState{
- alumnos ?: Array<Instituto.Alumno>;
-}
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+interface IProps{}
+interface IState{alumnos ?: Array<Instituto.Alumno>;}
 
 declare module Instituto {
 
-  export interface Alumno {
+    export interface Alumno {
+        dni: string;
+        nombre: string;
+        apellidos: string;
+        fechanacimiento: number;
+    }
+  
+    export interface Asignatura {
+        idasignatura: number;
+        nombre: string;
+        curso: string;
+    }
+  
+    export interface Matricula {
+      idmatricula: number;
       dni: string;
-      nombre: string;
-      apellidos: string;
-      fechanacimiento: number;
+      year: number;
+  }
+  
   }
 
-  export interface Asignatura {
-      idasignatura: number;
-      nombre: string;
-      curso: string;
-  }
+export const Alumnos = () => {
+    const [alumnos,setAlumno] = useState<IState>();
+    const ip:string = "localhost";
+    const puerto:number = 8080;
+    const rutaBase:string = "http://"+ip+":"+puerto;
+    const rutaAlumnos:string = rutaBase+"/alumnos"; 
 
-  export interface Matricula {
-    idmatricula: number;
-    dni: string;
-    year: number;
-}
+    useEffect(() => {
+        const getAlumno = async()=> {
+            let ruta = rutaAlumnos;
+            console.log(ruta);
+            let respuesta = await axios.get(ruta);
+            console.log(respuesta.data);
+            setAlumno({ alumnos: respuesta.data });
+        }
+        getAlumno();
+    }, []);
 
-}
-
-class AppAlumnos extends React.Component<IProps, IState>{
- ip: string;
- puerto: number;
- rutaBase: string;
- rutaAlumnos: string;
-
- constructor(props: IProps){
- super(props);
-
- this.state = {
- alumnos: []
- };
- this.ip = "localhost";
- this.puerto = 8080;
- this.rutaBase = "http://" + this.ip + ":" + this.puerto;
- this.rutaAlumnos = this.rutaBase + "/alumnos";
- }
- render(){
- const {alumnos} = this.state;
- return (
-  <>
-  <div>
-  <h3>Alumnos: </h3>
-  <ul>
-  {
-  alumnos?.map( (a:Instituto.Alumno) => {
-  return (
-  <li>DNI: {a.dni} || Nombre: {a.nombre} || Apellidos: {a.apellidos} || Fecha nacimiento: {a.fechanacimiento}</li>
-  );
-  })
-  }
-  </ul>
-  </div>
-  </>
-  ); 
- }
-
- public async componentDidMount(){
-  let ruta = this.rutaAlumnos;
-  console.log(ruta);
-  let respuesta = await axios.get(ruta);
- console.log(respuesta.data);
- this.setState( { alumnos: respuesta.data });
- }
-}
-
-export default AppAlumnos;
+    return (
+        <>
+            <h3>Alumnos:</h3>
+            <ul>
+                {
+                alumnos?.alumnos?.map( (a:Instituto.Alumno) => {
+                    return (
+                    <Link to={{pathname:"/alumno/" + a.dni}}>
+                        <li>DNI: {a.dni} || Nombre: {a.nombre} || Apellidos: {a.apellidos} || Fecha Nacimiento: {a.fechanacimiento}</li>
+                    </Link>
+                );
+            })
+            }
+            </ul>
+        </>
+        );
+    }
+    export default Alumnos;

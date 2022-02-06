@@ -1,77 +1,65 @@
 import axios from 'axios';
-import React from 'react';
-interface IProps{ }
-interface IState{
- asignaturas ?: Array<Instituto.Asignatura>;
-}
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+interface IProps{}
+interface IState{asignaturas ?: Array<Instituto.Asignatura>;}
 
 declare module Instituto {
 
-  export interface Alumno {
+    export interface Alumno {
+        dni: string;
+        nombre: string;
+        apellidos: string;
+        fechanacimiento: number;
+    }
+  
+    export interface Asignatura {
+        idasignatura: number;
+        nombre: string;
+        curso: string;
+    }
+  
+    export interface Matricula {
+      idmatricula: number;
       dni: string;
-      nombre: string;
-      apellidos: string;
-      fechanacimiento: number;
+      year: number;
+  }
+  
   }
 
-  export interface Asignatura {
-      idasignatura: number;
-      nombre: string;
-      curso: string;
-  }
+export const Asignaturas = () => {
+    const [asignaturas,setAsignatura] = useState<IState>();
+    const ip:string = "localhost";
+    const puerto:number = 8080;
+    const rutaBase:string = "http://"+ip+":"+puerto;
+    const rutaAsignaturas:string = rutaBase+"/asignaturas"; 
 
-  export interface Matricula {
-    idmatricula: number;
-    dni: string;
-    year: number;
-}
+    useEffect(() => {
+        const getAsignatura = async()=> {
+            let ruta = rutaAsignaturas;
+            console.log(ruta);
+            let respuesta = await axios.get(ruta);
+            console.log(respuesta.data);
+            setAsignatura({ asignaturas: respuesta.data });
+        }
+        getAsignatura();
+    }, []);
 
-}
-
-class AppAsignaturas extends React.Component<IProps, IState>{
- ip: string;
- puerto: number;
- rutaBase: string;
- rutaAsignatura: string;
-
- constructor(props: IProps){
- super(props);
-
- this.state = {
- asignaturas: []
- };
- this.ip = "localhost";
- this.puerto = 8080;
- this.rutaBase = "http://" + this.ip + ":" + this.puerto;
- this.rutaAsignatura = this.rutaBase + "/asignaturas";
- }
- render(){
- const {asignaturas} = this.state;
- return (
-  <>
-  <div>
-  <h3>Asignaturas: </h3>
-  <ul>
-  {
-  asignaturas?.map( (a:Instituto.Asignatura) => {
-  return (
-  <li>Id: {a.idasignatura} || Nombre: {a.nombre} || Curso: {a.curso}</li>
-  );
-  })
-  }
-  </ul>
-  </div>
-  </>
-  ); 
- }
-
- public async componentDidMount(){
-  let ruta = this.rutaAsignatura;
-  console.log(ruta);
-  let respuesta = await axios.get(ruta);
- console.log(respuesta.data);
- this.setState( { asignaturas: respuesta.data });
- }
-}
-
-export default AppAsignaturas;
+    return (
+        <>
+            <h3>Asignaturas:</h3>
+            <ul>
+                {
+                asignaturas?.asignaturas?.map( (a:Instituto.Asignatura) => {
+                    return (
+                    <Link to={{pathname:"/asignatura/" + a.idasignatura}}>
+                        <li>Id: {a.idasignatura} || Nombre: {a.nombre} || Curso: {a.curso}</li>
+                    </Link>
+                );
+            })
+            }
+            </ul>
+        </>
+        );
+    }
+    export default Asignaturas;

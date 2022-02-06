@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import AppMatriculas from './Matriculas';
+import { Link, useParams } from 'react-router-dom';
 
-interface IState{ matricula ?: AppMatriculas }
+interface IState{ matricula ?: Instituto.Matricula }
 
 declare module Instituto {
 
@@ -37,7 +36,7 @@ export default function ManageMatricula() {
         const getMatricula = async (idmatricula: string|undefined) =>{
             let rutaDeMatricula = "http://localhost:8080/api/v1/matriculas/";
             let { data } = await axios.get(rutaDeMatricula + idmatricula);
-            let matricula:AppMatriculas = data;
+            let matricula:Instituto.Matricula = data;
             let lista = data;
             console.log(matricula);
             setStMatricula({matricula});
@@ -50,7 +49,13 @@ export default function ManageMatricula() {
     <>
   <div>
   <h3>Datos de la Matrícula: </h3>
-  {JSON.stringify(stMatricula.matricula)}
+  <h4>Id: {stMatricula.matricula?.idmatricula} || DNI: {stMatricula.matricula?.dni} || Año: {stMatricula.matricula?.year}</h4>
+  <br/>
+  <br/>
+  <Link to={{pathname:"/matricula/" + idmatricula + "/modificarMatricula"}}> Modificar Matrícula </Link> &nbsp;
+  <br/>
+  <br/>
+  <Link to={{pathname:"/matricula/" + idmatricula + "/borrarMatricula"}}> Borrar Matrícula </Link> &nbsp;
   </div>
   </>
   ); 
