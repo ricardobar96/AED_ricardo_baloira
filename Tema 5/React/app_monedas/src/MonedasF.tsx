@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 interface IProps{}
 interface IState{monedas ?: Array<Monedas.Moneda>;}
 
@@ -35,17 +36,25 @@ export const MonedasF = () => {
             console.log(respuesta.data);
             setMoneda({ monedas: respuesta.data });
         }
-
+        getMoneda();
     }, []);
 
     return (
         <>
             <h3>Monedas:</h3>
-            <div>
-                 {JSON.stringify(monedas)}
-            </div>
+            <ul>
+                {
+                monedas?.monedas?.map( (m:Monedas.Moneda) => {
+                    return (
+                    <Link to={{pathname:"/moneda/" + m.idmoneda}}>
+                        <li>Id: {m.idmoneda} || Nombre: {m.nombre} || País: {m.pais} </li>
+                    </Link>
+                );
+            })
+            }
+            </ul>
         </>
-    );
+        );
     }
     export default MonedasF;
 

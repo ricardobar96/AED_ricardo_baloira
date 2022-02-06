@@ -4,7 +4,6 @@ export default function CreateMoneda() {
 
 const nombremoneda = useRef<HTMLInputElement>(null);
 const paismoneda = useRef<HTMLInputElement>(null);
-const historicosmoneda = useRef<HTMLInputElement>(null);
 
  const agregarMonedaApi = (event:React.FormEvent<HTMLFormElement>) =>{
 
@@ -13,7 +12,6 @@ const historicosmoneda = useRef<HTMLInputElement>(null);
 
  let nombre = nombremoneda.current?.value;
  let pais = paismoneda.current?.value;
- let historicos = historicosmoneda.current?.value;
  
  const newmoneda = {
  "nombre": nombre,
@@ -35,7 +33,6 @@ const historicosmoneda = useRef<HTMLInputElement>(null);
  <form onSubmit={agregarMonedaApi}>
  Nombre: <input type="text" ref={nombremoneda} /><br />
  País: <input type="text" ref={paismoneda} /> <br />
- Históricos: <input type="number" ref={historicosmoneda} /> <br />
  <button type="submit">Crear </button>
  </form>
  </>

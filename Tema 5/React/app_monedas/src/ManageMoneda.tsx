@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import AppMonedas from './Monedas';
+import MonedasF from './MonedasF';
 
-interface IState{ moneda ?: AppMonedas }
+interface IState{ moneda ?: Monedas.Moneda }
 
 declare module Monedas {
 
@@ -25,17 +26,14 @@ declare module Monedas {
 export default function ManageMoneda() {
     const [stmoneda, setStmoneda] = useState<IState>({});
     const { idmoneda }= useParams();
-    let lista:any = [stmoneda, setStmoneda];
-    
+
     useEffect(() => {
         const getMoneda = async (monedaid: string|undefined) =>{
             let rutaDeMoneda = "http://localhost:8080/api/v1/monedas/";
             let { data } = await axios.get(rutaDeMoneda + monedaid);
-            let moneda:AppMonedas = data;
-            let lista = data;
+            let moneda:Monedas.Moneda = data;
             console.log(moneda);
             setStmoneda({moneda});
-            //lista = JSON.stringify(stmoneda.moneda);
  }
  getMoneda(idmoneda);
  },
@@ -45,7 +43,14 @@ export default function ManageMoneda() {
     <>
   <div>
   <h3>Datos de la moneda: </h3>
-  {JSON.stringify(stmoneda.moneda)}
+  <h4>Id: {stmoneda.moneda?.idmoneda} || Nombre: {stmoneda.moneda?.nombre} || País: {stmoneda.moneda?.pais}</h4>
+  <br/>
+  <h5>Históricos:</h5> 
+  {stmoneda.moneda?.historicos?.map((h: Monedas.Historico)=>{
+      return (
+            <li>Id: {h.idhistoricocambioeuro} || Equivalencia: {h.equivalenteeuro} || Fecha: {h.fecha} </li>
+    );
+  })}
   <br/>
   <br/>
   <Link to={{pathname:"/moneda/" + idmoneda + "/modificarmoneda"}}> Modificar Moneda </Link> &nbsp;

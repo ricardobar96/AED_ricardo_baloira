@@ -10,14 +10,6 @@ export default function ModificarMoneda() {
  event.preventDefault();
  let formulario: HTMLFormElement = event.currentTarget;
 
- //let inputidmoneda: HTMLInputElement|any = formulario.id;
- //let inputnombremoneda: HTMLInputElement = formulario.nombremoneda;
- //let inputpaismoneda: HTMLInputElement = formulario.paismoneda;
-
- //let id:number = inputidmoneda.value;
- //let nombre:string = inputnombremoneda.value;
- //let pais:string = inputpaismoneda.value;
-
  let id = idmoneda.current?.value;
  let nombre = nombremoneda.current?.value;
  let pais = paismoneda.current?.value;
