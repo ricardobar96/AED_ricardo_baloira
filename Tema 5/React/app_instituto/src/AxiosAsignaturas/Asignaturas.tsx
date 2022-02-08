@@ -59,6 +59,8 @@ export const Asignaturas = () => {
             })
             }
             </ul>
+            <br/>
+            <Link to={{pathname:"/crearAsignatura"}}> Crear Asignatura </Link> &nbsp;
         </>
         );
     }

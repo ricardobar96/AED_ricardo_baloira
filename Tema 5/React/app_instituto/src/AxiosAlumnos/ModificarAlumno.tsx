@@ -22,7 +22,7 @@ const fechaAlumno = useRef<HTMLInputElement>(null);
     "apellidos": apellidos,
     "fechanacimiento": fecha
  }
- let ruta = "http://localhost:8080/api/v1/alumnos";
+ let ruta = "http://localhost:8082/api/v1/alumnos";
  const axiosput = async(rutaDeAlumno:string)=>{
  try{
  const { data } = await axios.put(rutaDeAlumno + "/" + newAlumno.dni, newAlumno)

@@ -13,7 +13,7 @@ export default function BorrarMatricula() {
  const matricula = {
  "idmatricula": id
  }
- let ruta = "http://localhost:8080/api/v1/matriculas";
+ let ruta = "http://localhost:8081/api/v1/matriculas";
  const axiosdelete = async(rutaDeMatricula:string)=>{
  try{
  const { data } = await axios.delete(rutaDeMatricula +  "/" + matricula.idmatricula )

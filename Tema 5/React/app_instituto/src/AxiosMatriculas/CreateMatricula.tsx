@@ -17,7 +17,7 @@ const yearMatricula = useRef<HTMLInputElement>(null);
  "dni": dni,
  "year": year
  }
- let ruta = "http://localhost:8080/api/v1/matriculas";
+ let ruta = "http://localhost:8081/api/v1/matriculas";
  const axiospost = async(rutaDeMatricula:string)=>{
  try{
  const { data } = await axios.post(rutaDeMatricula, newMatricula )

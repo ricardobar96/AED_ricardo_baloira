@@ -1,4 +1,4 @@
 {
     "/api/v1/*": "/$1",
-    "/alumnos/:id/matriculas": "/matriculas?id=:dni"
+    "/alumnos/:idmatricula/matriculas": "/matriculas?alumno.dni=:idmatricula"
     }

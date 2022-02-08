@@ -11,9 +11,9 @@
       "curso": "2º DAM"
     },
     {
-      "nombre": "BAE",
-      "curso": "1º DAM",
-      "idasignatura": 3
+      "idasignatura": 3,
+      "nombre": "FOL",
+      "curso": "1º DAW"
     }
   ],
   "alumnos": [
@@ -21,24 +21,62 @@
       "dni": "12345678Z",
       "nombre": "Ana",
       "apellidos": "Martín",
-      "fechanacimiento": 968972400000
+      "fechanacimiento": 968972400000,
+      "matriculas": []
     },
     {
       "dni": "12312312K",
-      "nombre": "Marta",
-      "apellidos": "SAS",
-      "fechanacimiento": "2435453"
+      "nombre": "María Luisa",
+      "apellidos": "Gutiérrez",
+      "fechanacimiento": "2435453",
+      "matriculas": [
+        {
+          "idmatricula": 1,
+          "year": 2022,
+          "alumno": {
+            "dni": "12312312K",
+            "nombre": "María Luisa",
+            "apellido": "Gutiérrez",
+            "fechanacimiento": "2435453"
+          },
+          "asignaturas": [
+            {
+              "idasignatura": 2,
+              "nombre": "PGV",
+              "curso": "2º DAM"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dni": "123",
+      "nombre": "Ricardo",
+      "apellidos": "Baloira Armas",
+      "fechanacimiento": "2432255345"
     }
   ],
   "matriculas": [
     {
       "idmatricula": 1,
-      "dni": "12345678Z",
-      "year": 2022
+      "year": 2022,
+      "alumno": {
+        "dni": "12312312K",
+        "nombre": "María Luisa",
+        "apellido": "Gutiérrez",
+        "fechanacimiento": "2435453"
+      },
+      "asignaturas": [
+        {
+          "idasignatura": 2,
+          "nombre": "PGV",
+          "curso": "2º DAM"
+        }
+      ]
     },
     {
-      "dni": "12312312K",
-      "year": "1999",
+      "dni": "1234",
+      "year": "1993",
       "idmatricula": 2
     }
   ]

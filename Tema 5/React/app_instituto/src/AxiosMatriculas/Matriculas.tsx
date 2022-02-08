@@ -21,8 +21,9 @@ declare module Instituto {
   
     export interface Matricula {
       idmatricula: number;
-      dni: string;
       year: number;
+      asignaturas: Asignatura[];
+      alumno: Alumno[];
   }
   
   }
@@ -30,7 +31,7 @@ declare module Instituto {
 export const Matriculas = () => {
     const [matriculas,setMatricula] = useState<IState>();
     const ip:string = "localhost";
-    const puerto:number = 8080;
+    const puerto:number = 8081;
     const rutaBase:string = "http://"+ip+":"+puerto;
     const rutaMatriculas:string = rutaBase+"/matriculas"; 
 
@@ -53,12 +54,14 @@ export const Matriculas = () => {
                 matriculas?.matriculas?.map( (m:Instituto.Matricula) => {
                     return (
                     <Link to={{pathname:"/matricula/" + m.idmatricula}}>
-                        <li>Id: {m.idmatricula} || DNI: {m.dni} || Año: {m.year}</li>
+                        <li>Id: {m.idmatricula} || Año: {m.year}</li>
                     </Link>
                 );
             })
             }
             </ul>
+            <br/>
+            <Link to={{pathname:"/crearMatricula"}}> Crear Matrícula </Link> &nbsp;
         </>
         );
     }

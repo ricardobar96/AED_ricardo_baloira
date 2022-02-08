@@ -5,7 +5,7 @@ import ManageAlumno from './AxiosAlumnos/ManageAlumno';
 import CreateAlumno from './AxiosAlumnos/CreateAlumno';
 import BorrarAlumno from './AxiosAlumnos/BorrarAlumno';
 import ModificarAlumno from './AxiosAlumnos/ModificarAlumno';
-import AsignaturasF from './AxiosAsignaturas/Asignaturas';
+import Asignaturas from './AxiosAsignaturas/Asignaturas';
 import CreateAsignatura from './AxiosAsignaturas/CreateAsignatura';
 import BorrarAsignatura from './AxiosAsignaturas/BorrarAsignatura';
 import ModificarAsignatura from './AxiosAsignaturas/ModificarAsignatura';
@@ -26,13 +26,14 @@ interface IState { }
         <h1>Aplicación Instituto</h1>
         <Navbar />
         <Routes>
+        <Route path="/" element={<div><Alumnos/><Asignaturas/></div>}/>
           <Route path="/alumnos" element={<Alumnos />} />
           <Route path="/alumno/:dni" element={<ManageAlumno />} />
           <Route path="/crearAlumno" element={<CreateAlumno />} />
           <Route path="/alumno/:dni/borrarAlumno" element={<BorrarAlumno />} />
           <Route path="/alumno/:dni/modificarAlumno" element={<ModificarAlumno />} />
 
-          <Route path="/asignaturas" element={<AsignaturasF />} />
+          <Route path="/asignaturas" element={<Asignaturas />} />
           <Route path="/crearAsignatura" element={<CreateAsignatura />} />
           <Route path="/asignatura/:idasignatura/borrarAsignatura" element={<BorrarAsignatura />} />
           <Route path="/asignatura/:idasignatura/modificarAsignatura" element={<ModificarAsignatura />} />
@@ -56,21 +57,8 @@ const Navbar = () =>{
       <br/>
       <br/>
       <Link to="/alumnos"> Alumnos </Link> &nbsp;
-      <Link to="/crearAlumno"> Crear Alumno </Link> &nbsp;
-      <Link to="/alumno/:dni/borrarAlumno"> Borrar Alumno </Link> &nbsp;
-      <Link to="/alumno/:dni/modificarAlumno"> Modificar Alumno </Link> &nbsp;
-      <br/>
-      <br/>
       <Link to="/asignaturas"> Asignaturas </Link> &nbsp;
-      <Link to="/crearAsignatura"> Crear Asignatura </Link> &nbsp;
-      <Link to="/asignatura/:idasignatura/borrarAsignatura"> Borrar Asignatura </Link> &nbsp;
-      <Link to="/asignatura/:idasignatura/modificarAsignatura"> Modificar Asignatura </Link> &nbsp;
-      <br/>
-      <br/>
       <Link to="/matriculas"> Matrículas </Link> &nbsp;
-      <Link to="/crearMatricula"> Crear Matrícula </Link> &nbsp;
-      <Link to="/matricula/:idmatricula/borrarMatricula"> Borrar Matrícula </Link> &nbsp;
-      <Link to="/matricula/:idmatricula/modificarMatricula"> Modificar Matrícula </Link> &nbsp;
       <br/>
       <br/>
     </nav>

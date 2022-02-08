@@ -11,6 +11,7 @@ declare module Instituto {
         nombre: string;
         apellidos: string;
         fechanacimiento: number;
+        matriculas: Matricula[];
     }
   
     export interface Asignatura {
@@ -30,7 +31,7 @@ declare module Instituto {
 export const Alumnos = () => {
     const [alumnos,setAlumno] = useState<IState>();
     const ip:string = "localhost";
-    const puerto:number = 8080;
+    const puerto:number = 8082;
     const rutaBase:string = "http://"+ip+":"+puerto;
     const rutaAlumnos:string = rutaBase+"/alumnos"; 
 
@@ -59,6 +60,8 @@ export const Alumnos = () => {
             })
             }
             </ul>
+            <br/>
+            <Link to={{pathname:"/crearAlumno"}}> Crear Alumno </Link> &nbsp;
         </>
         );
     }
