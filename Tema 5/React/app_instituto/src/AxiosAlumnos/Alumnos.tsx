@@ -11,7 +11,6 @@ declare module Instituto {
         nombre: string;
         apellidos: string;
         fechanacimiento: number;
-        matriculas: Matricula[];
       }
     
       export interface Asignatura {
@@ -55,7 +54,7 @@ export const Alumnos = () => {
                 alumnos?.alumnos?.map( (a:Instituto.Alumno) => {
                     return (
                     <Link to={{pathname:"/alumno/" + a.id}}>
-                        <li>id: {a.id} || Nombre: {a.nombre} || Apellidos: {a.apellidos} || Fecha Nacimiento: {a.fechanacimiento}</li>
+                        <li>DNI: {a.id} || Nombre: {a.nombre} || Apellidos: {a.apellidos} || Fecha Nacimiento: {a.fechanacimiento}</li>
                     </Link>
                 );
             })

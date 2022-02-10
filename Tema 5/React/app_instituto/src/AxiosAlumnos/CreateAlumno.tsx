@@ -31,8 +31,9 @@ export default function CreateAlumno() {
                 console.log(error);
             }
         }
-        axiospost(ruta);
-        navigate("/alumnos");
+        axiospost(ruta).then(respuesta =>{
+            navigate("/alumnos")
+        });
     }
     return (
         <>

@@ -10,7 +10,6 @@ declare module Instituto {
         nombre: string;
         apellidos: string;
         fechanacimiento: number;
-        matriculas: Matricula[];
     }
 
     export interface Asignatura {
@@ -22,8 +21,8 @@ declare module Instituto {
     export interface Matricula {
         id: number;
         year: number;
-        asignaturas: Asignatura[];
-        alumno: Alumno;
+        asignaturas: any;
+        alumno: [Asignatura];
     }
 
 }
@@ -41,7 +40,18 @@ export default function CreateMatricula() {
 
         let dni = dniMatricula.current?.value;
         let year = yearMatricula.current?.value;
-        let asignaturas = asignaturasMatricula.current?.value;
+        let asignaturas:any = asignaturasMatricula.current?.value;
+
+        var arrayAsig:[] = asignaturas.split(',');
+
+        var asignaturasEncontradas:any = [];
+
+        for (let i = 0; i<arrayAsig.length; i++) {
+            let rutaDeAsignatura = "http://localhost:8080/api/v1/asignaturas/";
+            let { data } = await axios.get(rutaDeAsignatura + arrayAsig[i]);
+            let asignaturaActual: Instituto.Asignatura = data;
+            asignaturasEncontradas.push(asignaturaActual);
+          }
 
         let rutaDeAlumno = "http://localhost:8080/api/v1/alumnos/";
         let { data } = await axios.get(rutaDeAlumno + dni);
@@ -50,19 +60,20 @@ export default function CreateMatricula() {
         const newMatricula = {
             "alumno": alumnoExistente,
             "year": year,
-            "asignaturas": asignaturas
+            "asignaturas": asignaturasEncontradas
         }
         let ruta = "http://localhost:8080/api/v1/matriculas";
-        const axiospost = async (rutaDeMatricula: string) => {
+        //const axiospost = async (rutaDeMatricula: string) => {
             try {
-                const { data } = await axios.post(rutaDeMatricula, newMatricula)
+                const { data } = await axios.post(ruta, newMatricula)
                 console.log(data);
             } catch (error) {
                 console.log(error);
-            }
-        }
-        axiospost(ruta);
 
+            }
+        //}
+       // axiospost(ruta);
+        /*
         let dniAl = alumnoExistente.id
         let nombreAl = alumnoExistente.nombre;
         let apellidosAl = alumnoExistente.apellidos;
@@ -87,6 +98,7 @@ export default function CreateMatricula() {
             }
         }
         axiosput(rutaAl);
+        */
         navigate("/matriculas");
     }
     return (
@@ -94,6 +106,7 @@ export default function CreateMatricula() {
             <form onSubmit={agregarMatriculaApi}>
                 DNI Alumno: <input type="text" ref={dniMatricula} /><br />
                 Año: <input type="text" ref={yearMatricula} /> <br />
+                Id Asignaturas (separados por ","): <input type="text" ref={asignaturasMatricula} /> <br />
                 <button type="submit">Crear </button>
             </form>
         </>

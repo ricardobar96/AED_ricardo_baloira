@@ -48,9 +48,9 @@ export default function ManageAsignatura() {
                 console.log(error);
             }
         }
-        axiosdelete(ruta);
-        
-        navigate("/asignaturas");
+        axiosdelete(ruta).then(respuesta =>{
+            navigate("/asignaturas")
+        });
     }
     
     
@@ -73,9 +73,9 @@ export default function ManageAsignatura() {
                 console.log(error);
             }
         }
-        axiosput(ruta);
-
-        navigate("/asignaturas");
+        axiosput(ruta).then(respuesta =>{
+            navigate("/asignaturas")
+        });
     }
 
     return (

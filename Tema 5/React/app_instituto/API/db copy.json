@@ -1,6 +1,12 @@
 {
   "alumnos": [
     {
+      "id": "11112222A",
+      "nombre": "Juan",
+      "apellidos": "Padilla",
+      "fechanacimiento": 1129028320193
+    },
+    {
       "id": "12312312K",
       "nombre": "Maria Luisa",
       "apellidos": "Gutierrez",
@@ -17,18 +23,24 @@
       "nombre": "Marcos",
       "apellidos": "Afonso Jimenez",
       "fechanacimiento": 874278000000
+    },
+    {
+      "id": "77778888A",
+      "nombre": "Juan",
+      "apellidos": "Padilla",
+      "fechanacimiento": 1644624000000
     }
   ],
   "matriculas": [
     {
       "id": 1,
+      "year": 2021,
       "alumno": {
         "id": "12312312K",
-        "nombre": "Maria Luisa",
-        "apellidos": "Gutierrez",
-        "fechanacimiento": 821234400000
+        "nombre": "María Luisa",
+        "fechanacimiento": "10/01/1996",
+        "apellidos": "Gutiérrez"
       },
-      "year": "2021",
       "asignaturas": []
     },
     {
@@ -37,7 +49,7 @@
       "alumno": {
         "id": "12345678Z",
         "nombre": "Ana",
-        "fechanacimiento": 874278000000,
+        "fechanacimiento": "15/09/2000",
         "apellidos": "Martín"
       },
       "asignaturas": [
@@ -54,7 +66,7 @@
       "alumno": {
         "id": "87654321X",
         "nombre": "Marcos",
-        "fechanacimiento": 874278000000,
+        "fechanacimiento":874278000000,
         "apellidos": "Afonso Jiménez"
       },
       "asignaturas": [
@@ -96,6 +108,65 @@
           "nombre": "PRO"
         }
       ]
+    },
+    {
+      "alumno": {
+        "id": "77778888A",
+        "nombre": "Juan",
+        "apellidos": "Padilla",
+        "fechanacimiento": 1644624000000
+      },
+      "year": "2022",
+      "asignaturas": [
+        {
+          "id": 4,
+          "nombre": "AED",
+          "curso": "2º DAM"
+        },
+        {
+          "id": 1,
+          "nombre": "BAE",
+          "curso": "1º DAM"
+        },
+        {
+          "id": 6,
+          "nombre": "DPL",
+          "curso": "2º DAW"
+        }
+      ],
+      "id": 5
+    },
+    {
+      "alumno": {
+        "id": "77778888A",
+        "nombre": "Juan",
+        "apellidos": "Padilla",
+        "fechanacimiento": 1644624000000
+      },
+      "year": "2002",
+      "asignaturas": [
+        {
+          "id": 4,
+          "nombre": "AED",
+          "curso": "2º DAM"
+        },
+        {
+          "id": 1,
+          "nombre": "BAE",
+          "curso": "1º DAM"
+        },
+        {
+          "id": 6,
+          "nombre": "DPL",
+          "curso": "2º DAW"
+        },
+        {
+          "id": 5,
+          "nombre": "DSW",
+          "curso": "2º DAW"
+        }
+      ],
+      "id": 6
     }
   ],
   "asignaturas": [

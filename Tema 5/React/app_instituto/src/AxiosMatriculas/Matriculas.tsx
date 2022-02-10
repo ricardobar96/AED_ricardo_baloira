@@ -11,7 +11,6 @@ declare module Instituto {
         nombre: string;
         apellidos: string;
         fechanacimiento: number;
-        matriculas: Matricula[];
       }
     
       export interface Asignatura {

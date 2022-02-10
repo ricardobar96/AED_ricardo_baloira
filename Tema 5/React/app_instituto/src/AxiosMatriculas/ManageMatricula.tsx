@@ -33,6 +33,7 @@ export default function ManageMatricula() {
   let idRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   let yearMatricula: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   let alumnoMatricula: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+  let asigRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   let navigate = useNavigate();
   const [stMatricula, setStMatricula] = useState<IState>({});
   const { id } = useParams();
@@ -51,21 +52,19 @@ export default function ManageMatricula() {
   )
 
   function BorrarMatriculaApi(idM: string | undefined) {
-    const matricula = {
-      "id": idM
-    }
+
     let ruta = "http://localhost:8080/api/v1/matriculas";
     const axiosdelete = async (rutaDeMatricula: string) => {
       try {
-        const { data } = await axios.delete(rutaDeMatricula + "/" + matricula.id)
+        const { data } = await axios.delete(rutaDeMatricula + "/" + idM)
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     }
-    axiosdelete(ruta);
-
-    navigate("/matriculas");
+    axiosdelete(ruta).then(respuesta =>{
+      navigate("/matriculas")
+    });
   }
 
   async function ModificarMatriculaApi() {
@@ -76,11 +75,12 @@ export default function ManageMatricula() {
     let rutaDeAlumno = "http://localhost:8080/api/v1/alumnos/";
     let { data } = await axios.get(rutaDeAlumno + stMatricula.matricula?.alumno.id);
     let alumnoExistente: Instituto.Alumno = data;
-        
+
     const newMatricula = {
       "id": id,
       "alumno": alumnoExistente,
-      "year": year
+      "year": year,
+      "asignaturas": stMatricula.matricula?.asignaturas
     }
     let ruta = "http://localhost:8080/api/v1/matriculas";
     const axiosput = async (rutaDeMatricula: string) => {
@@ -91,10 +91,10 @@ export default function ManageMatricula() {
         console.log(error);
       }
     }
-    axiosput(ruta);
 
-    navigate("/matriculas");
-
+    axiosput(ruta).then(respuesta =>{
+      navigate("/matriculas")
+    })
   }
   return (
     <>
@@ -104,7 +104,7 @@ export default function ManageMatricula() {
         <h4>Alumno:</h4>
         <li>DNI: {stMatricula.matricula?.alumno.id} || Nombre: {stMatricula.matricula?.alumno.nombre} || Apellidos: {stMatricula.matricula?.alumno.apellidos} || Fecha Nacimiento: {stMatricula.matricula?.alumno.fechanacimiento}</li>
         <h5>Asignaturas:</h5>
-        {stMatricula.matricula?.asignaturas?.map((a: Instituto.Asignatura) => {
+        {stMatricula.matricula?.asignaturas.map((a: Instituto.Asignatura) => {
           return (
             <Link to={{ pathname: "/asignatura/" + a.id }}>
               <li>Id: {a.id} || Nombre: {a.nombre} || Curso: {a.curso}</li>

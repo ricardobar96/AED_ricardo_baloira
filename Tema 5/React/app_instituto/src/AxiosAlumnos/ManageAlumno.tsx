@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, Route, BrowserRouter, Routes, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Matriculas from '../AxiosMatriculas/Matriculas';
 
-interface IState { alumno?: Instituto.Alumno }
+interface IState { alumno?: Instituto.Alumno, matriculas?:Instituto.Matricula[] }
 
 declare module Instituto {
 
@@ -11,7 +12,6 @@ declare module Instituto {
     nombre: string;
     apellidos: string;
     fechanacimiento: number;
-    matriculas: Matricula[];
   }
 
   export interface Asignatura {
@@ -37,6 +37,7 @@ export default function ManageAlumno() {
 
   let navigate = useNavigate();
   const [stAlumno, setStAlumno] = useState<IState>({});
+  const [stMatriculas, setStMatriculas] = useState<IState>({});
   const { id } = useParams();
 
   useEffect(() => {
@@ -47,6 +48,14 @@ export default function ManageAlumno() {
       console.log(alumno);
       setStAlumno({ alumno });
     }
+    const getMatriculas = async (dni: string | undefined) => {
+      let rutadeMatriculas = "http://localhost:8080/api/v1/alumnos/";
+      let { data } = await axios.get(rutadeMatriculas + dni+ '/matriculas');
+      let matriculas: Instituto.Matricula[] = data;
+      console.log(matriculas);
+      setStMatriculas({ matriculas });
+    }
+    getMatriculas(id);
     getAlumno(id);
   },
     [id]
@@ -65,9 +74,9 @@ export default function ManageAlumno() {
         console.log(error);
       }
     }
-    axiosdelete(ruta);
-
-    navigate("/alumnos");
+    axiosdelete(ruta).then(respuesta => {
+      navigate("/alumnos")
+    });
   }
 
   function ModificarAlumnoApi() {
@@ -91,18 +100,18 @@ export default function ManageAlumno() {
         console.log(error);
       }
     }
-    axiosput(ruta);
-
-    navigate("/alumnos");
+    axiosput(ruta).then(respuesta =>{
+      navigate("/alumnos")
+    });  
   }
 
   return (
     <>
       <div>
         <h3>Datos del Alumno: </h3>
-        <h4>DNI: <input type="text" ref={dniAlumno} value={stAlumno.alumno?.id} /> - Nombre: <input type="text" ref={nombreAlumno} defaultValue={stAlumno.alumno?.nombre} /> - Apellidos: <input type="text" ref={apellidosAlumno} defaultValue={stAlumno.alumno?.apellidos} /> - Fecha Nacimiento: <input type="text" ref={fechaAlumno} defaultValue={stAlumno.alumno?.fechanacimiento} /></h4>
+        <h4>DNI: <input type="text" ref={dniAlumno} value={stAlumno.alumno?.id} /> - Nombre: <input type="text" ref={nombreAlumno} defaultValue={stAlumno.alumno?.nombre} /> - Apellidos: <input type="text" ref={apellidosAlumno} defaultValue={stAlumno.alumno?.apellidos} /> - Fecha Nacimiento: <input type="number" ref={fechaAlumno} defaultValue={stAlumno.alumno?.fechanacimiento} /></h4>
         <h5>Matrículas:</h5>
-        {stAlumno.alumno?.matriculas?.map((m: Instituto.Matricula) => {
+        {stMatriculas.matriculas?.map((m: Instituto.Matricula) => {
           return (
             <Link to={{ pathname: "/matricula/" + m.id}}>
               <li>Id: {m.id} || Año: {m.year}</li>

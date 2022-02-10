@@ -25,8 +25,9 @@ export default function CreateAsignatura() {
                 console.log(error);
             }
         }
-        axiospost(ruta);
-        navigate("/asignaturas");
+        axiospost(ruta).then(respuesta =>{
+            navigate("/asignaturas")
+        });
     }
     return (
         <>
