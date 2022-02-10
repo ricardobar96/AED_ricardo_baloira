@@ -77,23 +77,23 @@
     },
     {
       "id": 4,
-      "year": 2021,
       "alumno": {
         "id": "87654321X",
         "nombre": "Marcos",
-        "fechanacimiento": 874278000000,
-        "apellidos": "Afonso Jiménez"
+        "apellidos": "Afonso Jimenez",
+        "fechanacimiento": 874278000000
       },
+      "year": "2020",
       "asignaturas": [
         {
           "id": 3,
-          "curso": "1º DAM",
-          "nombre": "LND"
+          "nombre": "LND",
+          "curso": "1º DAM"
         },
         {
-          "id": 7,
-          "curso": "1º DAM",
-          "nombre": "PRO"
+          "id": 5,
+          "nombre": "DSW",
+          "curso": "2º DAW"
         }
       ]
     }

@@ -63,7 +63,6 @@ export default function CreateMatricula() {
             "asignaturas": asignaturasEncontradas
         }
         let ruta = "http://localhost:8080/api/v1/matriculas";
-        //const axiospost = async (rutaDeMatricula: string) => {
             try {
                 const { data } = await axios.post(ruta, newMatricula)
                 console.log(data);
@@ -71,34 +70,6 @@ export default function CreateMatricula() {
                 console.log(error);
 
             }
-        //}
-       // axiospost(ruta);
-        /*
-        let dniAl = alumnoExistente.id
-        let nombreAl = alumnoExistente.nombre;
-        let apellidosAl = alumnoExistente.apellidos;
-        let fechaAl = alumnoExistente.fechanacimiento;
-        let matriculasAl = newMatricula;
-
-        const newAlumno = {
-            "id": dniAl,
-            "nombre": nombreAl,
-            "apellidos": apellidosAl,
-            "fechanacimiento": fechaAl,
-            "matriculas": [matriculasAl]
-        }
-
-        let rutaAl = "http://localhost:8080/api/v1/alumnos";
-        const axiosput = async (rutaDeAlumno: string) => {
-            try {
-                const { data } = await axios.put(rutaDeAlumno + "/" + newAlumno.id, newAlumno)
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        axiosput(rutaAl);
-        */
         navigate("/matriculas");
     }
     return (

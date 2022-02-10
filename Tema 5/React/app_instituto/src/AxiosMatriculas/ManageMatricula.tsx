@@ -23,7 +23,7 @@ declare module Instituto {
   export interface Matricula {
     id: number;
     year: number;
-    asignaturas: Asignatura[];
+    asignaturas: [Asignatura];
     alumno: Alumno;
   }
 
@@ -62,7 +62,7 @@ export default function ManageMatricula() {
         console.log(error);
       }
     }
-    axiosdelete(ruta).then(respuesta =>{
+    axiosdelete(ruta).then(respuesta => {
       navigate("/matriculas")
     });
   }
@@ -71,6 +71,18 @@ export default function ManageMatricula() {
     let id = idRef.current?.value;
     let dni = alumnoMatricula.current?.value;
     let year = yearMatricula.current?.value;
+    let asignaturas: any = asigRef.current?.value;
+
+    var arrayAsig: [] = asignaturas.split(',');
+
+    var asignaturasEncontradas: any = [];
+
+    for (let i = 0; i < arrayAsig.length; i++) {
+      let rutaDeAsignatura = "http://localhost:8080/api/v1/asignaturas/";
+      let { data } = await axios.get(rutaDeAsignatura + arrayAsig[i]);
+      let asignaturaActual: Instituto.Asignatura = data;
+      asignaturasEncontradas.push(asignaturaActual);
+    }
 
     let rutaDeAlumno = "http://localhost:8080/api/v1/alumnos/";
     let { data } = await axios.get(rutaDeAlumno + stMatricula.matricula?.alumno.id);
@@ -80,7 +92,7 @@ export default function ManageMatricula() {
       "id": id,
       "alumno": alumnoExistente,
       "year": year,
-      "asignaturas": stMatricula.matricula?.asignaturas
+      "asignaturas": asignaturasEncontradas
     }
     let ruta = "http://localhost:8080/api/v1/matriculas";
     const axiosput = async (rutaDeMatricula: string) => {
@@ -92,7 +104,7 @@ export default function ManageMatricula() {
       }
     }
 
-    axiosput(ruta).then(respuesta =>{
+    axiosput(ruta).then(respuesta => {
       navigate("/matriculas")
     })
   }
@@ -103,6 +115,7 @@ export default function ManageMatricula() {
         <h4>Id: <input type="text" ref={idRef} value={stMatricula.matricula?.id} /> - Año: <input type="number" ref={yearMatricula} defaultValue={stMatricula.matricula?.year} /></h4>
         <h4>Alumno:</h4>
         <li>DNI: {stMatricula.matricula?.alumno.id} || Nombre: {stMatricula.matricula?.alumno.nombre} || Apellidos: {stMatricula.matricula?.alumno.apellidos} || Fecha Nacimiento: {stMatricula.matricula?.alumno.fechanacimiento}</li>
+        <h4>Asignaturas a insertar (ids separados por ","): <input type="text" ref={asigRef} /></h4>
         <h5>Asignaturas:</h5>
         {stMatricula.matricula?.asignaturas.map((a: Instituto.Asignatura) => {
           return (
