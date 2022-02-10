@@ -7,31 +7,32 @@ interface IState{matriculas ?: Array<Instituto.Matricula>;}
 declare module Instituto {
 
     export interface Alumno {
-        dni: string;
+        id: string;
         nombre: string;
         apellidos: string;
         fechanacimiento: number;
-    }
-  
-    export interface Asignatura {
-        idasignatura: number;
+        matriculas: Matricula[];
+      }
+    
+      export interface Asignatura {
+        id: number;
         nombre: string;
         curso: string;
-    }
-  
-    export interface Matricula {
-      idmatricula: number;
-      year: number;
-      asignaturas: Asignatura[];
-      alumno: Alumno[];
-  }
+      }
+    
+      export interface Matricula {
+        id: number;
+        year: number;
+        asignaturas: Asignatura[];
+        alumno: Alumno;
+      }
   
   }
 
 export const Matriculas = () => {
     const [matriculas,setMatricula] = useState<IState>();
     const ip:string = "localhost";
-    const puerto:number = 8081;
+    const puerto:number = 8080;
     const rutaBase:string = "http://"+ip+":"+puerto;
     const rutaMatriculas:string = rutaBase+"/matriculas"; 
 
@@ -53,8 +54,8 @@ export const Matriculas = () => {
                 {
                 matriculas?.matriculas?.map( (m:Instituto.Matricula) => {
                     return (
-                    <Link to={{pathname:"/matricula/" + m.idmatricula}}>
-                        <li>Id: {m.idmatricula} || Año: {m.year}</li>
+                    <Link to={{pathname:"/matricula/" + m.id}}>
+                        <li>Id: {m.id} || Año: {m.year}</li>
                     </Link>
                 );
             })

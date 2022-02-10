@@ -11,21 +11,21 @@ const fechaAlumno = useRef<HTMLInputElement>(null);
  event.preventDefault();
  let formulario: HTMLFormElement = event.currentTarget;
 
- let dni = dniAlumno.current?.value;
+ let id = dniAlumno.current?.value;
  let nombre = nombreAlumno.current?.value;
  let apellidos = apellidosAlumno.current?.value;
  let fecha = fechaAlumno.current?.value;
 
  const newAlumno = {
-    "dni": dni,
+    "id": id,
     "nombre": nombre,
     "apellidos": apellidos,
     "fechanacimiento": fecha
  }
- let ruta = "http://localhost:8082/api/v1/alumnos";
+ let ruta = "http://localhost:8080/api/v1/alumnos";
  const axiosput = async(rutaDeAlumno:string)=>{
  try{
- const { data } = await axios.put(rutaDeAlumno + "/" + newAlumno.dni, newAlumno)
+ const { data } = await axios.put(rutaDeAlumno + "/" + newAlumno.id, newAlumno)
  console.log(data);
  }catch(error){
  console.log(error);

@@ -11,12 +11,12 @@ export default function BorrarMatricula() {
  let id = idMatricula.current?.value;
 
  const matricula = {
- "idmatricula": id
+ "id": id
  }
- let ruta = "http://localhost:8081/api/v1/matriculas";
+ let ruta = "http://localhost:8080/api/v1/matriculas";
  const axiosdelete = async(rutaDeMatricula:string)=>{
  try{
- const { data } = await axios.delete(rutaDeMatricula +  "/" + matricula.idmatricula )
+ const { data } = await axios.delete(rutaDeMatricula +  "/" + matricula.id )
  console.log(data);
  }catch(error){
  console.log(error);

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 export default function CreateAlumno() {
     let navigate = useNavigate();
-    const dniAlumno = useRef<HTMLInputElement>(null);
+    const idAlumno = useRef<HTMLInputElement>(null);
     const nombreAlumno = useRef<HTMLInputElement>(null);
     const apellidosAlumno = useRef<HTMLInputElement>(null);
     const fechaAlumno = useRef<HTMLInputElement>(null);
@@ -11,18 +11,18 @@ export default function CreateAlumno() {
     const agregarAlumnoApi = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         let formulario: HTMLFormElement = event.currentTarget;
-        let dni = dniAlumno.current?.value;
+        let id = idAlumno.current?.value;
         let nombre = nombreAlumno.current?.value;
         let apellidos = apellidosAlumno.current?.value;
         let fecha = fechaAlumno.current?.value;
 
         const newAlumno = {
-            "dni": dni,
+            "id": id,
             "nombre": nombre,
             "apellidos": apellidos,
             "fechanacimiento": fecha
         }
-        let ruta = "http://localhost:8082/api/v1/alumnos";
+        let ruta = "http://localhost:8080/api/v1/alumnos";
         const axiospost = async (rutaDeAlumno: string) => {
             try {
                 const { data } = await axios.post(rutaDeAlumno, newAlumno)
@@ -32,12 +32,12 @@ export default function CreateAlumno() {
             }
         }
         axiospost(ruta);
-        navigate("/");
+        navigate("/alumnos");
     }
     return (
         <>
             <form onSubmit={agregarAlumnoApi}>
-                DNI: <input type="text" ref={dniAlumno} /><br />
+                id: <input type="text" ref={idAlumno} /><br />
                 Nombre: <input type="text" ref={nombreAlumno} /><br />
                 Apellidos: <input type="text" ref={apellidosAlumno} /> <br />
                 Fecha Nacimiento: <input type="number" ref={fechaAlumno} /> <br />

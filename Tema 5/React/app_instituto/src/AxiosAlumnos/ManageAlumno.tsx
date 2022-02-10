@@ -7,7 +7,7 @@ interface IState { alumno?: Instituto.Alumno }
 declare module Instituto {
 
   export interface Alumno {
-    dni: string;
+    id: string;
     nombre: string;
     apellidos: string;
     fechanacimiento: number;
@@ -15,15 +15,16 @@ declare module Instituto {
   }
 
   export interface Asignatura {
-    idasignatura: number;
+    id: number;
     nombre: string;
     curso: string;
   }
 
   export interface Matricula {
-    idmatricula: number;
-    dni: string;
+    id: number;
     year: number;
+    asignaturas: Asignatura[];
+    alumno: Alumno;
   }
 
 }
@@ -36,31 +37,29 @@ export default function ManageAlumno() {
 
   let navigate = useNavigate();
   const [stAlumno, setStAlumno] = useState<IState>({});
-  const { dni } = useParams();
-  let lista: any = [stAlumno, setStAlumno];
+  const { id } = useParams();
 
   useEffect(() => {
     const getAlumno = async (dni: string | undefined) => {
-      let rutaDeAlumno = "http://localhost:8082/api/v1/alumnos/";
+      let rutaDeAlumno = "http://localhost:8080/api/v1/alumnos/";
       let { data } = await axios.get(rutaDeAlumno + dni);
       let alumno: Instituto.Alumno = data;
-      let lista = data;
       console.log(alumno);
       setStAlumno({ alumno });
     }
-    getAlumno(dni);
+    getAlumno(id);
   },
-    [dni]
+    [id]
   )
 
   function BorrarAlumnoApi(dniA: string | undefined) {
     const alumno = {
-      "dni": dniA
+      "id": dniA
     }
-    let ruta = "http://localhost:8082/api/v1/alumnos";
+    let ruta = "http://localhost:8080/api/v1/alumnos";
     const axiosdelete = async (rutaDeAlumno: string) => {
       try {
-        const { data } = await axios.delete(rutaDeAlumno + "/" + alumno.dni)
+        const { data } = await axios.delete(rutaDeAlumno + "/" + alumno.id)
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -78,15 +77,15 @@ export default function ManageAlumno() {
     let fecha = fechaAlumno.current?.value;
 
     const newAlumno = {
-      "dni": dni,
+      "id": dni,
       "nombre": nombre,
       "apellidos": apellidos,
       "fechanacimiento": fecha
     }
-    let ruta = "http://localhost:8082/api/v1/alumnos";
+    let ruta = "http://localhost:8080/api/v1/alumnos";
     const axiosput = async (rutaDeAlumno: string) => {
       try {
-        const { data } = await axios.put(rutaDeAlumno + "/" + newAlumno.dni, newAlumno)
+        const { data } = await axios.put(rutaDeAlumno + "/" + newAlumno.id, newAlumno)
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -101,12 +100,12 @@ export default function ManageAlumno() {
     <>
       <div>
         <h3>Datos del Alumno: </h3>
-        <h4>DNI: <input type="text" ref={dniAlumno} value={stAlumno.alumno?.dni} /> - Nombre: <input type="text" ref={nombreAlumno} defaultValue={stAlumno.alumno?.nombre} /> - Apellidos: <input type="text" ref={apellidosAlumno} defaultValue={stAlumno.alumno?.apellidos} /> - Fecha Nacimiento: <input type="text" ref={fechaAlumno} defaultValue={stAlumno.alumno?.fechanacimiento} /></h4>
+        <h4>DNI: <input type="text" ref={dniAlumno} value={stAlumno.alumno?.id} /> - Nombre: <input type="text" ref={nombreAlumno} defaultValue={stAlumno.alumno?.nombre} /> - Apellidos: <input type="text" ref={apellidosAlumno} defaultValue={stAlumno.alumno?.apellidos} /> - Fecha Nacimiento: <input type="text" ref={fechaAlumno} defaultValue={stAlumno.alumno?.fechanacimiento} /></h4>
         <h5>Matrículas:</h5>
         {stAlumno.alumno?.matriculas?.map((m: Instituto.Matricula) => {
           return (
-            <Link to={{ pathname: "/matricula/" + m.idmatricula }}>
-              <li>Id: {m.idmatricula} || Año: {m.year}</li>
+            <Link to={{ pathname: "/matricula/" + m.id}}>
+              <li>Id: {m.id} || Año: {m.year}</li>
             </Link>
           );
         })}
@@ -117,7 +116,7 @@ export default function ManageAlumno() {
         <button onClick={ModificarAlumnoApi}>Modificar Alumno</button>
         <br />
         <br />
-        <button onClick={() => BorrarAlumnoApi(dni)}>Borrar Alumno</button>
+        <button onClick={() => BorrarAlumnoApi(id)}>Borrar Alumno</button>
       </div>
     </>
   );

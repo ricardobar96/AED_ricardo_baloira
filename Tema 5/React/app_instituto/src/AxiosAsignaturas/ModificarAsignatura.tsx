@@ -15,14 +15,14 @@ export default function ModificarAsignatura() {
       let curso = cursoAsignatura.current?.value;
 
       const newAsignatura = {
-         "idasignatura": id,
+         "id": id,
          "nombre": nombre,
          "curso": curso
       }
       let ruta = "http://localhost:8080/api/v1/asignaturas";
       const axiosput = async (rutaDeAsignatura: string) => {
          try {
-            const { data } = await axios.put(rutaDeAsignatura + "/" + newAsignatura.idasignatura, newAsignatura)
+            const { data } = await axios.put(rutaDeAsignatura + "/" + newAsignatura.id, newAsignatura)
             console.log(data);
          } catch (error) {
             console.log(error);

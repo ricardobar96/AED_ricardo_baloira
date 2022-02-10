@@ -26,7 +26,7 @@ export default function CreateAsignatura() {
             }
         }
         axiospost(ruta);
-        navigate("/");
+        navigate("/asignaturas");
     }
     return (
         <>

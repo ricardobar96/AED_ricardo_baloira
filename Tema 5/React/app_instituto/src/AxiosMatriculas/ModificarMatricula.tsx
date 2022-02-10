@@ -15,14 +15,14 @@ export default function ModificarMatricula() {
       let year = yearMatricula.current?.value;
 
       const newMatricula = {
-         "idmatricula": id,
+         "id": id,
          "dni": dni,
          "year": year
       }
-      let ruta = "http://localhost:8081/api/v1/matriculas";
+      let ruta = "http://localhost:8080/api/v1/matriculas";
       const axiosput = async (rutaDeMatricula: string) => {
          try {
-            const { data } = await axios.put(rutaDeMatricula + "/" + newMatricula.idmatricula, newMatricula)
+            const { data } = await axios.put(rutaDeMatricula + "/" + newMatricula.id, newMatricula)
             console.log(data);
          } catch (error) {
             console.log(error);

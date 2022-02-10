@@ -2,21 +2,21 @@ import React, { useRef } from 'react'
 import axios from 'axios';
 export default function BorrarAlumno() {
 
-    const dniAlumno = useRef<HTMLInputElement>(null);
+    const idAlumno = useRef<HTMLInputElement>(null);
     const borrarAlumnoApi = (event: React.FormEvent<HTMLFormElement>) => {
 
         event.preventDefault();
         let formulario: HTMLFormElement = event.currentTarget;
 
-        let dni = dniAlumno.current?.value;
+        let id = idAlumno.current?.value;
 
         const alumno = {
-            "dni": dni
+            "id": id
         }
-        let ruta = "http://localhost:8082/api/v1/alumnos";
+        let ruta = "http://localhost:8080/api/v1/alumnos";
         const axiosdelete = async (rutaDeAlumno: string) => {
             try {
-                const { data } = await axios.delete(rutaDeAlumno + "/" + alumno.dni)
+                const { data } = await axios.delete(rutaDeAlumno + "/" + alumno.id)
                 console.log(data);
             } catch (error) {
                 console.log(error);
@@ -27,7 +27,7 @@ export default function BorrarAlumno() {
     return (
         <>
             <form onSubmit={borrarAlumnoApi}>
-                Id: <input type="text" ref={dniAlumno} /><br />
+                Id: <input type="text" ref={idAlumno} /><br />
                 <button type="submit">Eliminar </button>
             </form>
         </>

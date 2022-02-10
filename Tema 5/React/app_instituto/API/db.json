@@ -1,83 +1,196 @@
 {
   "asignaturas": [
     {
-      "idasignatura": 1,
+      "id": 1,
       "nombre": "AED",
       "curso": "2º DAM"
     },
     {
-      "idasignatura": 2,
+      "id": 2,
       "nombre": "PGV",
       "curso": "2º DAM"
     },
     {
-      "idasignatura": 3,
-      "nombre": "FOL",
+      "id": 3,
+      "nombre": "EMP",
       "curso": "1º DAW"
     }
   ],
   "alumnos": [
     {
-      "dni": "12345678Z",
+      "id": "12345678Z",
       "nombre": "Ana",
       "apellidos": "Martín",
       "fechanacimiento": 968972400000,
-      "matriculas": []
+      "matriculas": [
+        {
+          "alumno": {
+            "id": "12345678Z",
+            "nombre": "Ana",
+            "apellidos": "Martín",
+            "fechanacimiento": 968972400000,
+            "matriculas": []
+          },
+          "year": "2023"
+        }
+      ]
     },
     {
-      "dni": "12312312K",
+      "id": "12312312K",
       "nombre": "María Luisa",
       "apellidos": "Gutiérrez",
       "fechanacimiento": "2435453",
       "matriculas": [
         {
-          "idmatricula": 1,
-          "year": 2022,
           "alumno": {
-            "dni": "12312312K",
+            "id": "12312312K",
             "nombre": "María Luisa",
-            "apellido": "Gutiérrez",
-            "fechanacimiento": "2435453"
+            "apellidos": "Gutiérrez",
+            "fechanacimiento": "2435453",
+            "matriculas": [
+              {
+                "id": 1,
+                "year": 2022,
+                "alumno": {
+                  "id": "12312312K",
+                  "nombre": "María Luisa",
+                  "apellido": "Gutiérrez",
+                  "fechanacimiento": "2435453"
+                },
+                "asignaturas": [
+                  {
+                    "id": 2,
+                    "nombre": "PGV",
+                    "curso": "2º DAM"
+                  }
+                ]
+              }
+            ]
           },
-          "asignaturas": [
-            {
-              "idasignatura": 2,
-              "nombre": "PGV",
-              "curso": "2º DAM"
-            }
-          ]
+          "year": "2014"
         }
       ]
     },
     {
-      "dni": "123",
+      "id": "123",
       "nombre": "Ricardo",
       "apellidos": "Baloira Armas",
-      "fechanacimiento": "2432255345"
+      "fechanacimiento": "2432255345",
+      "matriculas": [
+        {
+          "alumno": {
+            "id": "123",
+            "nombre": "Ricardo",
+            "apellidos": "Baloira Armas",
+            "fechanacimiento": "2432255345",
+            "matriculas": [
+              {
+                "alumno": {
+                  "id": "123",
+                  "nombre": "Ricardo",
+                  "apellidos": "Baloira Armas",
+                  "fechanacimiento": "2432255345",
+                  "matriculas": [
+                    {
+                      "alumno": {
+                        "id": "123",
+                        "nombre": "Ricardo",
+                        "apellidos": "Baloira Armas",
+                        "fechanacimiento": "2432255345",
+                        "matriculas": [
+                          {
+                            "alumno": {
+                              "id": "123",
+                              "nombre": "Ricardo",
+                              "apellidos": "Baloira Armas",
+                              "fechanacimiento": "2432255345"
+                            },
+                            "year": "1067"
+                          }
+                        ]
+                      },
+                      "year": "1234"
+                    }
+                  ]
+                },
+                "year": "2002"
+              }
+            ]
+          },
+          "year": "1786"
+        }
+      ]
     }
   ],
   "matriculas": [
     {
-      "idmatricula": 1,
-      "year": 2022,
+      "id": 1,
       "alumno": {
-        "dni": "12312312K",
+        "id": "12312312K",
         "nombre": "María Luisa",
-        "apellido": "Gutiérrez",
-        "fechanacimiento": "2435453"
+        "apellidos": "Gutiérrez",
+        "fechanacimiento": "2435453",
+        "matriculas": [
+          {
+            "id": 1,
+            "year": 2022,
+            "alumno": {
+              "id": "12312312K",
+              "nombre": "María Luisa",
+              "apellido": "Gutiérrez",
+              "fechanacimiento": "2435453"
+            },
+            "asignaturas": [
+              {
+                "id": 2,
+                "nombre": "PGV",
+                "curso": "2º DAM"
+              }
+            ]
+          }
+        ]
       },
-      "asignaturas": [
-        {
-          "idasignatura": 2,
-          "nombre": "PGV",
-          "curso": "2º DAM"
-        }
-      ]
+      "year": "2025"
     },
     {
-      "dni": "1234",
-      "year": "1993",
-      "idmatricula": 2
+      "alumno": {
+        "id": "12312312K",
+        "nombre": "María Luisa",
+        "apellidos": "Gutiérrez",
+        "fechanacimiento": "2435453",
+        "matriculas": [
+          {
+            "id": 1,
+            "year": 2022,
+            "alumno": {
+              "id": "12312312K",
+              "nombre": "María Luisa",
+              "apellido": "Gutiérrez",
+              "fechanacimiento": "2435453"
+            },
+            "asignaturas": [
+              {
+                "id": 2,
+                "nombre": "PGV",
+                "curso": "2º DAM"
+              }
+            ]
+          }
+        ]
+      },
+      "year": "2014",
+      "id": 2
+    },
+    {
+      "alumno": {
+        "id": "12345678Z",
+        "nombre": "Ana",
+        "apellidos": "Martín",
+        "fechanacimiento": 968972400000,
+        "matriculas": []
+      },
+      "year": "2023",
+      "id": 3
     }
   ]
 }

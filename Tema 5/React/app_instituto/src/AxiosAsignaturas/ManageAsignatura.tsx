@@ -6,7 +6,7 @@ interface IState { asignatura?: Instituto.Asignatura }
 
 declare module Instituto {
     export interface Asignatura {
-        idasignatura: number;
+        id: number;
         nombre: string;
         curso: string;
     }
@@ -19,30 +19,30 @@ export default function ManageAsignatura() {
     let navigate = useNavigate();
 
     const [stAsignatura, setStAsignatura] = useState<IState>({});
-    const { idasignatura } = useParams();
+    const { id } = useParams();
 
     useEffect(() => {
-        const getAsignatura = async (idasignatura: string | undefined) => {
+        const getAsignatura = async (id: string | undefined) => {
             let rutaDeAsignatura = "http://localhost:8080/api/v1/asignaturas/";
-            let { data } = await axios.get(rutaDeAsignatura + idasignatura);
+            let { data } = await axios.get(rutaDeAsignatura + id);
             let asignatura: Instituto.Asignatura = data;
             console.log(asignatura);
             setStAsignatura({ asignatura });
         }
-        getAsignatura(idasignatura);
+        getAsignatura(id);
     },
-        [idasignatura]
+        [id]
     )
 
     function BorrarAsignaturaApi(idA: string | undefined) {
         const asignatura = {
-            "idasignatura": idA
+            "id": idA
         }
     
         let ruta = "http://localhost:8080/api/v1/asignaturas";
         const axiosdelete = async (rutaDeAsignatura: string) => {
             try {
-                const { data } = await axios.delete(rutaDeAsignatura + "/" + asignatura.idasignatura)
+                const { data } = await axios.delete(rutaDeAsignatura + "/" + asignatura.id)
                 console.log(data);
             } catch (error) {
                 console.log(error);
@@ -60,14 +60,14 @@ export default function ManageAsignatura() {
         let curso = cursoAsignatura.current?.value;
     
         const newAsignatura = {
-            "idasignatura": id,
+            "id": id,
             "nombre": nombre,
             "curso": curso
         }
         let ruta = "http://localhost:8080/api/v1/asignaturas";
         const axiosput = async (rutaDeAsignatura: string) => {
             try {
-                const { data } = await axios.put(rutaDeAsignatura + "/" + newAsignatura.idasignatura, newAsignatura)
+                const { data } = await axios.put(rutaDeAsignatura + "/" + newAsignatura.id, newAsignatura)
                 console.log(data);
             } catch (error) {
                 console.log(error);
@@ -82,13 +82,13 @@ export default function ManageAsignatura() {
         <>
             <div>
                 <h3>Datos de la Asignatura: </h3>
-                <h4>Id: <input type="text" ref={idAsignatura} value={stAsignatura.asignatura?.idasignatura} /> - Nombre: <input type="text" ref={nombreAsignatura} defaultValue={stAsignatura.asignatura?.nombre} /> - Curso: <input type="text" ref={cursoAsignatura} defaultValue={stAsignatura.asignatura?.curso} /></h4>
+                <h4>Id: <input type="text" ref={idAsignatura} value={stAsignatura.asignatura?.id} /> - Nombre: <input type="text" ref={nombreAsignatura} defaultValue={stAsignatura.asignatura?.nombre} /> - Curso: <input type="text" ref={cursoAsignatura} defaultValue={stAsignatura.asignatura?.curso} /></h4>
                 <br />
                 <br />
                 <button onClick={ModificarAsignaturaApi}>Modificar Asignatura</button>
                 <br />
                 <br />
-                <button onClick={() => BorrarAsignaturaApi(idasignatura)}>Borrar Asignatura</button>
+                <button onClick={() => BorrarAsignaturaApi(id)}>Borrar Asignatura</button>
             </div>
         </>
     );

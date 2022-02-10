@@ -7,23 +7,25 @@ interface IState{asignaturas ?: Array<Instituto.Asignatura>;}
 declare module Instituto {
 
     export interface Alumno {
-        dni: string;
+        id: string;
         nombre: string;
         apellidos: string;
         fechanacimiento: number;
-    }
-  
-    export interface Asignatura {
-        idasignatura: number;
+        matriculas: Matricula[];
+      }
+    
+      export interface Asignatura {
+        id: number;
         nombre: string;
         curso: string;
-    }
-  
-    export interface Matricula {
-      idmatricula: number;
-      dni: string;
-      year: number;
-  }
+      }
+    
+      export interface Matricula {
+        id: number;
+        year: number;
+        asignaturas: Asignatura[];
+        alumno: Alumno;
+      }
   
   }
 
@@ -52,8 +54,8 @@ export const Asignaturas = () => {
                 {
                 asignaturas?.asignaturas?.map( (a:Instituto.Asignatura) => {
                     return (
-                    <Link to={{pathname:"/asignatura/" + a.idasignatura}}>
-                        <li>Id: {a.idasignatura} || Nombre: {a.nombre} || Curso: {a.curso}</li>
+                    <Link to={{pathname:"/asignatura/" + a.id}}>
+                        <li>Id: {a.id} || Nombre: {a.nombre} || Curso: {a.curso}</li>
                     </Link>
                 );
             })

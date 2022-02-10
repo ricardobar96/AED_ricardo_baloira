@@ -15,52 +15,53 @@ import CreateMatricula from './AxiosMatriculas/CreateMatricula';
 import BorrarMatricula from './AxiosMatriculas/BorrarMatricula';
 import ModificarMatricula from './AxiosMatriculas/ModificarMatricula';
 import ManageMatricula from './AxiosMatriculas/ManageMatricula';
+import Inicio from './Inicio';
 
 interface IProps { }
 interface IState { }
 
- const App = () => {
-    
-    return (
-      <BrowserRouter>
-        <h1>Aplicación Instituto</h1>
-        <Navbar />
-        <Routes>
-        <Route path="/" element={<div><Alumnos/><Asignaturas/></div>}/>
-          <Route path="/alumnos" element={<Alumnos />} />
-          <Route path="/alumno/:dni" element={<ManageAlumno />} />
-          <Route path="/crearAlumno" element={<CreateAlumno />} />
-          <Route path="/alumno/:dni/borrarAlumno" element={<BorrarAlumno />} />
-          <Route path="/alumno/:dni/modificarAlumno" element={<ModificarAlumno />} />
+const App = () => {
+//<Route path="/" element={<div><Alumnos /><Asignaturas /></div>} />
+  return (
+    <BrowserRouter>
+      <h1>Aplicación Instituto</h1>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Inicio/>} />
+        <Route path="/alumnos" element={<Alumnos />} />
+        <Route path="/alumno/:id" element={<ManageAlumno />} />
+        <Route path="/crearAlumno" element={<CreateAlumno />} />
+        <Route path="/alumno/:id/borrarAlumno" element={<BorrarAlumno />} />
+        <Route path="/alumno/:id/modificarAlumno" element={<ModificarAlumno />} />
 
-          <Route path="/asignaturas" element={<Asignaturas />} />
-          <Route path="/crearAsignatura" element={<CreateAsignatura />} />
-          <Route path="/asignatura/:idasignatura/borrarAsignatura" element={<BorrarAsignatura />} />
-          <Route path="/asignatura/:idasignatura/modificarAsignatura" element={<ModificarAsignatura />} />
-          <Route path="/asignatura/:idasignatura" element={<ManageAsignatura />} />
+        <Route path="/asignaturas" element={<Asignaturas />} />
+        <Route path="/crearAsignatura" element={<CreateAsignatura />} />
+        <Route path="/asignatura/:id/borrarAsignatura" element={<BorrarAsignatura />} />
+        <Route path="/asignatura/:id/modificarAsignatura" element={<ModificarAsignatura />} />
+        <Route path="/asignatura/:id" element={<ManageAsignatura />} />
 
-          <Route path="/matriculas" element={<Matriculas />} />
-          <Route path="/crearMatricula" element={<CreateMatricula />} />
-          <Route path="/matricula/:idmatricula/borrarMatricula" element={<BorrarMatricula />} />
-          <Route path="/matricula/:idmatricula/modificarMatricula" element={<ModificarMatricula />} />
-          <Route path="/matricula/:idmatricula" element={<ManageMatricula />} />
-        </Routes>
-      </BrowserRouter>
-    );
-  }
+        <Route path="/matriculas" element={<Matriculas />} />
+        <Route path="/crearMatricula" element={<CreateMatricula />} />
+        <Route path="/matricula/:id/borrarMatricula" element={<BorrarMatricula />} />
+        <Route path="/matricula/:id/modificarMatricula" element={<ModificarMatricula />} />
+        <Route path="/matricula/:id" element={<ManageMatricula />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
-const Navbar = () =>{
+const Navbar = () => {
 
   return (
     <nav>
       <Link to="/"> Inicio </Link> &nbsp;
-      <br/>
-      <br/>
+      <br />
+      <br />
       <Link to="/alumnos"> Alumnos </Link> &nbsp;
       <Link to="/asignaturas"> Asignaturas </Link> &nbsp;
       <Link to="/matriculas"> Matrículas </Link> &nbsp;
-      <br/>
-      <br/>
+      <br />
+      <br />
     </nav>
   );
 }
