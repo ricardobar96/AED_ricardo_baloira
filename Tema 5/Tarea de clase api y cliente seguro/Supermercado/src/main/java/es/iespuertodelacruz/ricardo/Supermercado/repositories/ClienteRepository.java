@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
-	@Query("SELECT t FROM Usuarioconrol t where t.nombre = :name") 
+	@Query("SELECT t FROM Cliente t where t.nombre = :name") 
     List<Cliente> findByNombre(@Param("name") String strNombre);
 }

@@ -3,6 +3,8 @@ package es.iespuertodelacruz.ricardo.Supermercado.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the detallepedido database table.
@@ -21,6 +23,7 @@ public class Detallepedido implements Serializable {
 	private double preciounidad;
 
 	//bi-directional many-to-one association to Pedido
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="fkidpedido")
 	private Pedido pedido;

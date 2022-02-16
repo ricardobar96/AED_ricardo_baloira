@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2022 a las 00:53:17
+-- Tiempo de generación: 16-02-2022 a las 21:59:27
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 7.4.21
 
@@ -39,8 +39,8 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`idcliente`, `nombre`, `direccion`, `password`) VALUES
-(1, 'Enrique', 'C/ Plaza Mayor, 5', 'Enrique'),
-(2, 'Elena', 'C/ Molina, 7', 'Elena');
+(1, 'rivaldo', 'C/ Plaza Mayor, 5', '$2a$10$zvuDxpKR.9xerEth4PzoDOySS8h2La5euRlVKEPabr9CkBqISnYGa'),
+(2, 'anita', 'C/ Molina, 7', '$2a$10$zvuDxpKR.9xerEth4PzoDOySS8h2La5euRlVKEPabr9CkBqISnYGa');
 
 -- --------------------------------------------------------
 

@@ -2,6 +2,9 @@ package es.iespuertodelacruz.ricardo.Supermercado.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -25,6 +28,7 @@ public class Producto implements Serializable {
 	private int stock;
 
 	//bi-directional many-to-one association to Detallepedido
+	@JsonIgnore
 	@OneToMany(mappedBy="producto")
 	private List<Detallepedido> detallepedidos;
 

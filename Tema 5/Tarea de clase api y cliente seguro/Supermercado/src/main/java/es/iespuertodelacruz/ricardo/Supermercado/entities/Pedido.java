@@ -2,6 +2,9 @@ package es.iespuertodelacruz.ricardo.Supermercado.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigInteger;
 import java.util.List;
 
