@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 import es.iespuertodelacruz.ricardo.Supermercado.security.FiltroJWT;
@@ -44,13 +45,13 @@ public class SupermercadoApplication {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	http 
-    		//.addFilterBefore(new CustomCorsFilter(), WebAsyncManagerIntegrationFilter.class)
+        //.addFilterBefore(new CustomCorsFilter(), WebAsyncManagerIntegrationFilter.class)
 		.csrf().disable()
 		.addFilterBefore(new FiltroJWT(), UsernamePasswordAuthenticationFilter.class)
 		.authorizeRequests()
 		.requestMatchers(CorsUtils::isCorsRequest).permitAll()
 		.antMatchers(HttpMethod.OPTIONS, "**").permitAll()				
-		.antMatchers("/api/v3/**").hasRole("ADMIN")
+	//	.antMatchers("/api/v3/**").hasRole("ADMIN")
 		.antMatchers("/api/v2/**").authenticated()
 		.anyRequest().authenticated();	   
  

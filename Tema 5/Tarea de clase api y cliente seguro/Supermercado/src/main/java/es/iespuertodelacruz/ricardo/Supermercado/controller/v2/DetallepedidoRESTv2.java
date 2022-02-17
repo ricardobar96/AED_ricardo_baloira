@@ -1,4 +1,4 @@
-package es.iespuertodelacruz.ricardo.Supermercado.controller.v1;
+package es.iespuertodelacruz.ricardo.Supermercado.controller.v2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Cliente;
-import es.iespuertodelacruz.ricardo.Supermercado.entities.Pedido;
 import es.iespuertodelacruz.ricardo.Supermercado.services.ClienteService;
-import es.iespuertodelacruz.ricardo.Supermercado.services.PedidoService;
 
 @RestController
-@RequestMapping("/api/v1/clientes")
-public class ClienteRESTv1 {
-	private Logger logger = LoggerFactory.getLogger(ClienteRESTv1.class);
+@RequestMapping("/api/v2/detallepedidos")
+public class DetallepedidoRESTv2 {
+	private Logger logger = LoggerFactory.getLogger(DetallepedidoRESTv2.class);
 	@Autowired
 	ClienteService clientesService;
 	@GetMapping("")
