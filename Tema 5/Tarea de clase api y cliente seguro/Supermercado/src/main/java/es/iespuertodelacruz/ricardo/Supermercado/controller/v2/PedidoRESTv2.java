@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.Supermercado.dto.PedidoDTO;
 import es.iespuertodelacruz.ricardo.Supermercado.dto.ProductoDTO;
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Pedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Producto;
+import es.iespuertodelacruz.ricardo.Supermercado.services.DetallepedidoService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.PedidoService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.ProductoService;
 
@@ -29,8 +31,13 @@ import es.iespuertodelacruz.ricardo.Supermercado.services.ProductoService;
 @RequestMapping("/api/v2/pedidos")
 public class PedidoRESTv2 {
 	private Logger logger = LoggerFactory.getLogger(PedidoRESTv2.class);
+	
 	@Autowired
 	PedidoService pedidosService;
+	
+	@Autowired
+	DetallepedidoService detallepedidosService;
+	
 	@GetMapping("")
 	public List<Pedido> getAll(){
 		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
@@ -71,8 +78,15 @@ public class PedidoRESTv2 {
 		p.setEnviado(pedidoDto.getEnviado());
 		p.setPagado(pedidoDto.getPagado());
 	    p.setFecha(pedidoDto.getFecha());
+	    
+	    /*
+	    for(Detallepedido d : pedidoDto.getDetallepedidos()) {
+	    	Optional<Detallepedido> optD = detallepedidosService.findById(d.getIddetallepedido());
+	    	optD.get().getPedido().addDetallepedido(d)
+	    	//optD.get().getPedido().addDetallepedido(d);
+	    }
+	    */
 		p.setDetallepedidos(pedidoDto.getDetallepedidos());
-
 		pedidosService.save(p);
 		return ResponseEntity.ok().body(new PedidoDTO(p));
 	}

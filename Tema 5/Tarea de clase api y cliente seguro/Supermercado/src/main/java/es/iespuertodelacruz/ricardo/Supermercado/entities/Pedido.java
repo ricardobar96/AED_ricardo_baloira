@@ -6,6 +6,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,9 +30,13 @@ public class Pedido implements Serializable {
 
 	private byte enviado;
 
-	private BigInteger fecha;
+	private long fecha;
 
 	private byte pagado;
+	
+	@ManyToOne
+	@JoinColumn(name="fkidcliente")
+	private Cliente cliente;
 
 	//bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy="pedido")
@@ -72,12 +77,12 @@ public class Pedido implements Serializable {
 		this.enviado = enviado;
 	}
 
-	public BigInteger getFecha() {
-		return this.fecha;
+	public Date getFecha() {
+		return new Date(this.fecha);
 	}
 
-	public void setFecha(BigInteger fecha) {
-		this.fecha = fecha;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha.getTime();
 	}
 
 	public byte getPagado() {
@@ -110,4 +115,11 @@ public class Pedido implements Serializable {
 		return detallepedido;
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 }

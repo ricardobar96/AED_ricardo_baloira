@@ -1,6 +1,7 @@
 package es.iespuertodelacruz.ricardo.Supermercado.dto;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
@@ -15,7 +16,7 @@ public class PedidoDTO {
 
 	private byte enviado;
 
-	private BigInteger fecha;
+	private long fecha;
 
 	private byte pagado;
 	
@@ -31,7 +32,7 @@ public class PedidoDTO {
 		this.direccionEntrega = p.getDireccionEntrega();
 		this.entregado = p.getEntregado();
 		this.enviado = p.getEnviado();
-		this.fecha = p.getFecha();
+		this.fecha = p.getFecha().getTime();
 		this.pagado = p.getPagado();
 		this.detallepedidos = p.getDetallepedidos();
 	}
@@ -68,12 +69,12 @@ public class PedidoDTO {
 		this.enviado = enviado;
 	}
 
-	public BigInteger getFecha() {
-		return fecha;
+	public Date getFecha() {
+		return new Date(this.fecha);
 	}
 
-	public void setFecha(BigInteger fecha) {
-		this.fecha = fecha;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha.getTime();
 	}
 
 	public byte getPagado() {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-02-2022 a las 21:59:27
+-- Tiempo de generación: 18-02-2022 a las 22:31:05
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 7.4.21
 
@@ -72,6 +72,7 @@ INSERT INTO `detallepedido` (`iddetallepedido`, `fkidpedido`, `cantidad`, `preci
 
 CREATE TABLE `pedidos` (
   `idpedido` int(11) NOT NULL,
+  `fkidcliente` int(11) NOT NULL,
   `fecha` bigint(20) NOT NULL,
   `pagado` bit(1) NOT NULL,
   `enviado` bit(1) NOT NULL,
@@ -83,9 +84,9 @@ CREATE TABLE `pedidos` (
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`idpedido`, `fecha`, `pagado`, `enviado`, `entregado`, `direccion_entrega`) VALUES
-(1, 23434542354, b'0', b'1', b'1', 'C/ Plaza Mayor, 5'),
-(2, 345345654354, b'1', b'1', b'0', 'C/ Molina, 7');
+INSERT INTO `pedidos` (`idpedido`, `fkidcliente`, `fecha`, `pagado`, `enviado`, `entregado`, `direccion_entrega`) VALUES
+(1, 1, 23434542354, b'0', b'1', b'1', 'C/ Plaza Mayor, 5'),
+(2, 2, 345345654354, b'1', b'1', b'0', 'C/ Molina, 7');
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,8 @@ ALTER TABLE `detallepedido`
 -- Indices de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`idpedido`);
+  ADD PRIMARY KEY (`idpedido`),
+  ADD KEY `fkidcliente_idx` (`fkidcliente`);
 
 --
 -- Indices de la tabla `productos`
@@ -178,6 +180,12 @@ ALTER TABLE `productos`
 ALTER TABLE `detallepedido`
   ADD CONSTRAINT `fkidpedidoo` FOREIGN KEY (`fkidpedido`) REFERENCES `pedidos` (`idpedido`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fkidproductoo` FOREIGN KEY (`fkidproducto`) REFERENCES `productos` (`idproducto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  ADD CONSTRAINT `fkidclientee` FOREIGN KEY (`fkidcliente`) REFERENCES `cliente` (`idcliente`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
