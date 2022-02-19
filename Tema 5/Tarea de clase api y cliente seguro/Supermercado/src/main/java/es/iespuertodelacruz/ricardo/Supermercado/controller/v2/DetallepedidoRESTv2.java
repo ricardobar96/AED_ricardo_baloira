@@ -9,37 +9,94 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.iespuertodelacruz.ricardo.Supermercado.entities.Cliente;
-import es.iespuertodelacruz.ricardo.Supermercado.services.ClienteService;
+import es.iespuertodelacruz.ricardo.Supermercado.dto.DetallepedidoDTO;
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
+import es.iespuertodelacruz.ricardo.Supermercado.services.DetallepedidoService;
 
 @RestController
 @RequestMapping("/api/v2/detallepedidos")
 public class DetallepedidoRESTv2 {
 	private Logger logger = LoggerFactory.getLogger(DetallepedidoRESTv2.class);
 	@Autowired
-	ClienteService clientesService;
+	DetallepedidoService detallepedidosService;
 	@GetMapping("")
-	public List<Cliente> getAll(){
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-		clientesService
+	public List<Detallepedido> getAll(){
+		ArrayList<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
+		detallepedidosService
 		.findAll()
-		.forEach(p -> clientes.add((Cliente) p) );
-		return clientes;
+		.forEach(p -> detallepedidos.add((Detallepedido) p) );
+		return detallepedidos;
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getClienteById(@PathVariable Integer id){
-		Optional<Cliente> clienteOPT = clientesService.findById(id);
-		if (clienteOPT.isPresent()) {
-			return ResponseEntity.ok(clienteOPT);
+	public ResponseEntity<?> getDetallepedidoById(@PathVariable Integer id){
+		Optional<Detallepedido> detalleOPT = detallepedidosService.findById(id);
+		if (detalleOPT.isPresent()) {
+			return ResponseEntity.ok(detalleOPT);
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El cliente no existe");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El Detallepedido no existe");
 		}
 		
-	}		
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id){
+		Optional<Detallepedido> detalleOPT = detallepedidosService.findById(id);
+		
+		if(detalleOPT.isPresent()) {
+			detallepedidosService.deleteById(id);
+			return ResponseEntity.ok("Detallepedido eliminado");
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El Detallepedido no existe");
+		}	
+	}
+	
+	@PostMapping
+	public ResponseEntity<?> save(@RequestBody DetallepedidoDTO detalleDto){
+		Detallepedido d = new Detallepedido();
+		d.setCantidad(detalleDto.getCantidad());
+		d.setPreciounidad(detalleDto.getPreciounidad());
+		d.setPedido(detalleDto.getPedido());
+		d.setProducto(detalleDto.getProducto());
+
+		detallepedidosService.save(d);
+		return ResponseEntity.ok().body(new DetallepedidoDTO(d));
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody DetallepedidoDTO detalleDto){
+		Optional<Detallepedido> detalleOPT = detallepedidosService.findById(id);
+		if(detalleOPT.isPresent()) {
+			Detallepedido d = detalleOPT.get();
+
+			if(detalleDto.getCantidad()>-1) {
+				d.setCantidad(detalleDto.getCantidad());
+			}
+			if(detalleDto.getPreciounidad()>0) {
+				d.setPreciounidad(detalleDto.getPreciounidad());
+			}	
+			
+			if(detalleDto.getPedido()!=null) {
+				d.setPedido(detalleDto.getPedido());
+			}	
+			
+			if(detalleDto.getProducto()!=null) {
+				d.setProducto(detalleDto.getProducto());
+			}	
+			
+			return ResponseEntity.ok(detallepedidosService.save(d));
+			
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El Detallepedido no existe");
+		}
+	}
 }

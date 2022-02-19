@@ -78,14 +78,13 @@ public class PedidoRESTv2 {
 		p.setEnviado(pedidoDto.getEnviado());
 		p.setPagado(pedidoDto.getPagado());
 	    p.setFecha(pedidoDto.getFecha());
+	    p.setCliente(pedidoDto.getCliente());
 	    
-	    /*
 	    for(Detallepedido d : pedidoDto.getDetallepedidos()) {
 	    	Optional<Detallepedido> optD = detallepedidosService.findById(d.getIddetallepedido());
-	    	optD.get().getPedido().addDetallepedido(d)
-	    	//optD.get().getPedido().addDetallepedido(d);
+	    	optD.get().getPedido().addDetallepedido(d);
 	    }
-	    */
+
 		p.setDetallepedidos(pedidoDto.getDetallepedidos());
 		pedidosService.save(p);
 		return ResponseEntity.ok().body(new PedidoDTO(p));
@@ -111,6 +110,9 @@ public class PedidoRESTv2 {
 			}
 			if(pedidoDto.getDetallepedidos()!=null) {
 				p.setDetallepedidos(pedidoDto.getDetallepedidos());
+			}
+			if(pedidoDto.getFecha()!=null) {
+				p.setFecha(pedidoDto.getFecha());
 			}
 			
 			return ResponseEntity.ok(pedidosService.save(p));

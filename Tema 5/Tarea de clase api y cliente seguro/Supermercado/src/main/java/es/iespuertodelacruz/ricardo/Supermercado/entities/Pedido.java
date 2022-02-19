@@ -33,14 +33,15 @@ public class Pedido implements Serializable {
 	private long fecha;
 
 	private byte pagado;
-	
-	@ManyToOne
-	@JoinColumn(name="fkidcliente")
-	private Cliente cliente;
 
 	//bi-directional many-to-one association to Detallepedido
 	@OneToMany(mappedBy="pedido")
 	private List<Detallepedido> detallepedidos;
+
+	//bi-directional many-to-one association to Cliente
+	@ManyToOne
+	@JoinColumn(name="fkidcliente")
+	private Cliente cliente;
 
 	public Pedido() {
 	}
@@ -116,10 +117,11 @@ public class Pedido implements Serializable {
 	}
 
 	public Cliente getCliente() {
-		return cliente;
+		return this.cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
 }

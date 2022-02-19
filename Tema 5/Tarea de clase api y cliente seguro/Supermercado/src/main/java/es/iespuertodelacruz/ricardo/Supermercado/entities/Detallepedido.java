@@ -23,14 +23,14 @@ public class Detallepedido implements Serializable {
 	private double preciounidad;
 
 	//bi-directional many-to-one association to Pedido
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="fkidpedido")
+	@JsonIgnore
 	private Pedido pedido;
 
 	//bi-directional many-to-one association to Producto
 	@ManyToOne
-	@JoinColumn(name="fkidproducto")
+	@JoinColumn(name="fkidproducto")	
 	private Producto producto;
 
 	public Detallepedido() {

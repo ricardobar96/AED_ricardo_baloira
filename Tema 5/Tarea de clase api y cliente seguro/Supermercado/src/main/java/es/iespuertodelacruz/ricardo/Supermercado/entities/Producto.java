@@ -28,8 +28,8 @@ public class Producto implements Serializable {
 	private int stock;
 
 	//bi-directional many-to-one association to Detallepedido
-	@JsonIgnore
 	@OneToMany(mappedBy="producto")
+	@JsonIgnore
 	private List<Detallepedido> detallepedidos;
 
 	public Producto() {

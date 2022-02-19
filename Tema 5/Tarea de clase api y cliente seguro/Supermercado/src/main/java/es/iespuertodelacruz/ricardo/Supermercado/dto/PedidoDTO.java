@@ -1,9 +1,9 @@
 package es.iespuertodelacruz.ricardo.Supermercado.dto;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Cliente;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Pedido;
 
@@ -21,6 +21,8 @@ public class PedidoDTO {
 	private byte pagado;
 	
 	private List<Detallepedido> detallepedidos;
+	
+	private Cliente cliente;
 
 	public PedidoDTO() {
 		super();
@@ -35,6 +37,7 @@ public class PedidoDTO {
 		this.fecha = p.getFecha().getTime();
 		this.pagado = p.getPagado();
 		this.detallepedidos = p.getDetallepedidos();
+		this.cliente = p.getCliente();
 	}
 
 	public int getIdpedido() {
@@ -93,4 +96,11 @@ public class PedidoDTO {
 		this.detallepedidos = detallepedidos;
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 }

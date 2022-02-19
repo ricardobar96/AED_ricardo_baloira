@@ -19,15 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.Supermercado.dto.ProductoDTO;
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Producto;
+import es.iespuertodelacruz.ricardo.Supermercado.services.DetallepedidoService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.ProductoService;
 
 @RestController
 @RequestMapping("/api/v2/productos")
 public class ProductoRESTv2 {
 	private Logger logger = LoggerFactory.getLogger(ProductoRESTv2.class);
+	
 	@Autowired
 	ProductoService productosService;
+	
+	@Autowired
+	DetallepedidoService detallepedidosService;
+	
 	@GetMapping("")
 	public List<Producto> getAll(){
 		ArrayList<Producto> productos = new ArrayList<Producto>();
@@ -66,6 +73,12 @@ public class ProductoRESTv2 {
 		p.setNombre(productoDto.getNombre());
 		p.setPreciounidad(productoDto.getPreciounidad());
 		p.setStock(productoDto.getStock());
+		
+		for(Detallepedido d : productoDto.getDetallepedidos()) {
+	    	Optional<Detallepedido> optD = detallepedidosService.findById(d.getIddetallepedido());
+	    	optD.get().getProducto().addDetallepedido(d);
+	    }
+		
 		p.setDetallepedidos(productoDto.getDetallepedidos());
 
 		productosService.save(p);
@@ -90,6 +103,16 @@ public class ProductoRESTv2 {
 			}	
 			
 			if(productoDto.getDetallepedidos()!=null) {
+				
+				for (Detallepedido d : productoOPT.get().getDetallepedidos()) {
+					d.getProducto().removeDetallepedido(d);
+				}
+				
+				for(Detallepedido d : productoDto.getDetallepedidos()) {
+			    	Optional<Detallepedido> optD = detallepedidosService.findById(d.getIddetallepedido());
+			    	optD.get().getProducto().addDetallepedido(d);
+			    }
+				
 				p.setDetallepedidos(productoDto.getDetallepedidos());
 			}	
 			
