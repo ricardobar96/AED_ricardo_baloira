@@ -63,6 +63,11 @@ public class PedidoRESTv2 {
 		Optional<Pedido> pedidoOPT = pedidosService.findById(id);
 		
 		if(pedidoOPT.isPresent()) {
+			for (Detallepedido d : pedidoOPT.get().getDetallepedidos()) {
+				detallepedidosService.delete(d);
+				//pedidoOPT.get().getDetallepedidos().remove(d);
+				//d.getPedido().removeDetallepedido(d);
+			}
 			pedidosService.deleteById(id);
 			return ResponseEntity.ok("Pedido eliminado");
 		}else {
@@ -109,10 +114,21 @@ public class PedidoRESTv2 {
 				p.setPagado(pedidoDto.getPagado());
 			}
 			if(pedidoDto.getDetallepedidos()!=null) {
+				for (Detallepedido d : pedidoOPT.get().getDetallepedidos()) {
+					pedidoDto.getDetallepedidos().remove(d);
+				}
+				for (Detallepedido d : pedidoDto.getDetallepedidos()) {
+					Optional<Detallepedido> optDetalle = detallepedidosService.findById(d.getIddetallepedido());
+					optDetalle.get().getPedido().addDetallepedido(d);
+				}	
+
 				p.setDetallepedidos(pedidoDto.getDetallepedidos());
 			}
 			if(pedidoDto.getFecha()!=null) {
 				p.setFecha(pedidoDto.getFecha());
+			}
+			if(pedidoDto.getCliente()!=null) {
+				p.setCliente(pedidoDto.getCliente());
 			}
 			
 			return ResponseEntity.ok(pedidosService.save(p));

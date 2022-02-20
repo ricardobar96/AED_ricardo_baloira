@@ -54,4 +54,6 @@ public class ClienteDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
 }

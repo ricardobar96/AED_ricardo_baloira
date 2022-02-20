@@ -60,6 +60,9 @@ public class ProductoRESTv2 {
 		Optional<Producto> productoOPT = productosService.findById(id);
 		
 		if(productoOPT.isPresent()) {
+			for (Detallepedido d : productoOPT.get().getDetallepedidos()) {
+				detallepedidosService.delete(d);
+			}
 			productosService.deleteById(id);
 			return ResponseEntity.ok("Producto eliminado");
 		}else {

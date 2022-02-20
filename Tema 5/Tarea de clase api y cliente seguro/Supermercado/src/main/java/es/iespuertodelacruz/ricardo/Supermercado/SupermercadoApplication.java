@@ -45,7 +45,7 @@ public class SupermercadoApplication {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	http 
-        //.addFilterBefore(new CustomCorsFilter(), WebAsyncManagerIntegrationFilter.class)
+        .addFilterBefore(new CustomCorsFilter(), WebAsyncManagerIntegrationFilter.class)
 		.csrf().disable()
 		.addFilterBefore(new FiltroJWT(), UsernamePasswordAuthenticationFilter.class)
 		.authorizeRequests()

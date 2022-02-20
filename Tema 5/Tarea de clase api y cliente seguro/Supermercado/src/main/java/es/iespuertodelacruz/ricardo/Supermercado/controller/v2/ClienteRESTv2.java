@@ -26,14 +26,23 @@ import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Pedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Producto;
 import es.iespuertodelacruz.ricardo.Supermercado.services.ClienteService;
+import es.iespuertodelacruz.ricardo.Supermercado.services.DetallepedidoService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.PedidoService;
 
 @RestController
 @RequestMapping("/api/v2/clientes")
 public class ClienteRESTv2 {
 	private Logger logger = LoggerFactory.getLogger(ClienteRESTv2.class);
+	
 	@Autowired
 	ClienteService clientesService;
+	
+	@Autowired
+	PedidoService pedidosService;
+	
+	@Autowired
+	DetallepedidoService detallepedidosService;
+	
 	@GetMapping("")
 	public List<Cliente> getAll(){
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
@@ -59,6 +68,12 @@ public class ClienteRESTv2 {
 		Optional<Cliente> clienteOPT = clientesService.findById(id);
 		
 		if(clienteOPT.isPresent()) {
+			for (Pedido p : clienteOPT.get().getPedidos()) {
+				for (Detallepedido d : p.getDetallepedidos()) {
+					detallepedidosService.delete(d);
+				}
+				pedidosService.delete(p);
+			}
 			clientesService.deleteById(id);
 			return ResponseEntity.ok("Cliente eliminado");
 		}else {
@@ -74,7 +89,6 @@ public class ClienteRESTv2 {
 		c.setDireccion(clienteDto.getDireccion());
 		c.setNombre(clienteDto.getNombre());
 		c.setPassword(enhash);
-	    //c.setPedidos(clienteDto.get);
 
 		clientesService.save(c);
 		return ResponseEntity.ok().body(new ClienteDTO(c));
