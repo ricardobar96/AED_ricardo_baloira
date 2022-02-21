@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.Supermercado.dto.PedidoDTO;
 import es.iespuertodelacruz.ricardo.Supermercado.dto.ProductoDTO;
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Cliente;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Pedido;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Producto;
+import es.iespuertodelacruz.ricardo.Supermercado.services.ClienteService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.DetallepedidoService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.PedidoService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.ProductoService;
@@ -38,6 +43,17 @@ public class PedidoRESTv2 {
 	@Autowired
 	DetallepedidoService detallepedidosService;
 	
+	@Autowired
+	ClienteService clientesService;
+	
+	public Cliente getClienteLogged() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		String name = authentication.getName();
+		return clientesService.findByNombre(name);
+}
+
+	
 	@GetMapping("")
 	public List<Pedido> getAll(){
 		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
@@ -49,6 +65,7 @@ public class PedidoRESTv2 {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getPedidoById(@PathVariable Integer id){
+		
 		Optional<Pedido> pedidoOPT = pedidosService.findById(id);
 		if (pedidoOPT.isPresent()) {
 			return ResponseEntity.ok(pedidoOPT);
