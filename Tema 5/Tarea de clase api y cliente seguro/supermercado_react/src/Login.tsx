@@ -39,7 +39,7 @@ export default function Inicio() {
             <form onSubmit={login} style={{ textAlign: "center", }}>
                 Nombre: <input type="text" ref={nombreUser} /><br />
                 <br />
-                Password: <input type="text" ref={passwordUser} /><br />
+                Password: <input type="password" ref={passwordUser} /><br />
                 <br />
                 <button type="submit">Login </button>
             </form>

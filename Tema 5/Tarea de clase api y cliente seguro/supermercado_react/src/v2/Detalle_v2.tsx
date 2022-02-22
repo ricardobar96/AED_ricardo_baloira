@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 interface IProps { }
-interface IState { pedidos?: Array<Supermercado.Pedido>; }
+interface IState { detalles?: Array<Supermercado.Detallepedido>; }
 
 declare module Supermercado {
 
@@ -15,52 +15,61 @@ declare module Supermercado {
         direccion_entrega: string;
     }
 
-    export interface Cliente {
+    export interface Detallepedido {
+        iddetallepedido: number;
+        cantidad: number;
+        preciounidad: number;
+        producto: Producto;
+    }
+
+    export interface Producto {
+        idproducto: number;
         nombre: string;
-        password: string;
+        preciounidad: number;
+        stock: number;
     }
 
 }
 
-export const Pedidos_v2 = () => {
-    const [pedidos, setPedido] = useState<IState>();
+export const Detalles_v2 = () => {
+    const [detalles, setDetalle] = useState<IState>();
     const ip: string = "localhost";
     const puerto: number = 8080;
     const rutaBase: string = "http://" + ip + ":" + puerto;
-    const rutaPedidos: string = rutaBase + "/api/v2/pedidos";
+    const rutaDetalles: string = rutaBase + "/api/v2/detallepedidos";
 
     useEffect(() => {
-        const getPedido = async () => {
+        const getDetalle = async () => {
             let token: string = localStorage.getItem("token") as string;
-            let ruta = rutaPedidos;
+            let ruta = rutaDetalles;
             console.log(ruta);
             const headers = {
                 headers: { Authorization: token }
             };
             let respuesta = await axios.get(ruta);
             console.log(respuesta.data);
-            setPedido({ pedidos: respuesta.data });
+            setDetalle({ detalles: respuesta.data });
         }
-        getPedido();
+        getDetalle();
     }, []);
 
     return (
         <>
-            <h3>Pedidos:</h3>
+            <h3>Detalles de los pedidos:</h3>
             <ul>
                 {
-                    pedidos?.pedidos?.map((a: Supermercado.Pedido) => {
+                    detalles?.detalles?.map((a: Supermercado.Detallepedido) => {
                         return (
-                            <Link to={{ pathname: "/api/v2/pedido/" + a.idpedido }}>
-                                <li>Id: {a.idpedido} || Fecha: {a.fecha} || Pagado: {a.pagado} || Enviado: {a.enviado} || Entregado: {a.entregado}</li>
+                            <Link to={{ pathname: "/api/v2/detallepedido/" + a.iddetallepedido }}>
+                                <li>Id: {a.iddetallepedido} || Cantidad: {a.cantidad} || Precio por unidad: {a.preciounidad}</li>
                             </Link>
                         );
                     })
                 }
             </ul>
             <br/>
-            <Link to={{pathname:"/api/v2/crearPedido"}}> Hacer Pedido </Link> &nbsp;
+            <Link to={{pathname:"/api/v2/crearDetalle"}}> Hacer Detallepedido </Link> &nbsp;
         </>
     );
 }
-export default Pedidos_v2;
+export default Detalles_v2;

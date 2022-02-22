@@ -51,24 +51,41 @@ public class PedidoRESTv2 {
 		Authentication authentication = context.getAuthentication();
 		String name = authentication.getName();
 		return clientesService.findByNombre(name);
-}
+	}
 
 	
 	@GetMapping("")
 	public List<Pedido> getAll(){
+		Cliente logged = getClienteLogged();
+		String nombreL = logged.getNombre();
+		
 		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 		pedidosService
 		.findAll()
 		.forEach(p -> pedidos.add((Pedido) p) );
-		return pedidos;
+		
+		ArrayList<Pedido> pedidosCliente = new ArrayList<Pedido>();
+		for (Pedido p : pedidos) {
+			if(p.getCliente().getNombre().equals(nombreL)) {
+				pedidosCliente.add(p);
+			}
+		}
+		return pedidosCliente;
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getPedidoById(@PathVariable Integer id){
+		Cliente logged = getClienteLogged();
+		String nombreL = logged.getNombre();
 		
 		Optional<Pedido> pedidoOPT = pedidosService.findById(id);
 		if (pedidoOPT.isPresent()) {
-			return ResponseEntity.ok(pedidoOPT);
+			if(pedidoOPT.get().getCliente().getNombre().equals(nombreL)) {
+				return ResponseEntity.ok(pedidoOPT);
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El pedido lo ha encargado otro cliente");
+			}
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El pedido no existe");
 		}

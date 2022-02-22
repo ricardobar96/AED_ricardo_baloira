@@ -75,15 +75,16 @@ public class ProductoRESTv2 {
 		Producto p = new Producto();
 		p.setNombre(productoDto.getNombre());
 		p.setPreciounidad(productoDto.getPreciounidad());
-		p.setStock(productoDto.getStock());
 		
+		p.setStock(productoDto.getStock());
+		/*
 		for(Detallepedido d : productoDto.getDetallepedidos()) {
 	    	Optional<Detallepedido> optD = detallepedidosService.findById(d.getIddetallepedido());
 	    	optD.get().getProducto().addDetallepedido(d);
 	    }
-		
 		p.setDetallepedidos(productoDto.getDetallepedidos());
-
+		*/
+		
 		productosService.save(p);
 		return ResponseEntity.ok().body(new ProductoDTO(p));
 	}
@@ -105,6 +106,7 @@ public class ProductoRESTv2 {
 				p.setStock(productoDto.getStock());
 			}	
 			
+			/*
 			if(productoDto.getDetallepedidos()!=null) {
 				
 				for (Detallepedido d : productoOPT.get().getDetallepedidos()) {
@@ -118,6 +120,7 @@ public class ProductoRESTv2 {
 				
 				p.setDetallepedidos(productoDto.getDetallepedidos());
 			}	
+			*/
 			
 			return ResponseEntity.ok(productosService.save(p));
 			

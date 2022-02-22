@@ -9,6 +9,8 @@ import ManageProducto_v2 from './v2/ManageProducto_v2';
 import Pedidos_v2 from './v2/Pedido_v2';
 import ManagePedido_v2 from './v2/ManagePedido_v2';
 import CreatePedido from './v2/CrearPedido';
+import Detalles_v2 from './v2/Detalle_v2';
+import ManageDetalle_v2 from './v2/ManageDetalle_v2';
 
 interface IProps { }
 interface IState { }
@@ -58,12 +60,17 @@ const App = () => {
             <ManagePedido_v2 />
           </RequireAuth>
         } />
-        <Route path="/api/v2/crearPedido" element={
+        
+        <Route path="/api/v2/detallepedidos" element={
           <RequireAuth >
-            <CreatePedido />
+            <Detalles_v2 />
           </RequireAuth>
         } />
-
+        <Route path="/api/v2/detallepedido/:id" element={
+          <RequireAuth >
+            <ManageDetalle_v2 />
+          </RequireAuth>
+        } />
       </Routes>
     </BrowserRouter>
   );

@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,29 +22,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.iespuertodelacruz.ricardo.Supermercado.dto.DetallepedidoDTO;
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Cliente;
 import es.iespuertodelacruz.ricardo.Supermercado.entities.Detallepedido;
+import es.iespuertodelacruz.ricardo.Supermercado.entities.Pedido;
+import es.iespuertodelacruz.ricardo.Supermercado.services.ClienteService;
 import es.iespuertodelacruz.ricardo.Supermercado.services.DetallepedidoService;
 
 @RestController
 @RequestMapping("/api/v2/detallepedidos")
 public class DetallepedidoRESTv2 {
 	private Logger logger = LoggerFactory.getLogger(DetallepedidoRESTv2.class);
+	
 	@Autowired
 	DetallepedidoService detallepedidosService;
+	
+	@Autowired
+	ClienteService clientesService;
+	
+	public Cliente getClienteLogged() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		String name = authentication.getName();
+		return clientesService.findByNombre(name);
+	}
+	
 	@GetMapping("")
 	public List<Detallepedido> getAll(){
+		Cliente logged = getClienteLogged();
+		String nombreL = logged.getNombre();
+		
 		ArrayList<Detallepedido> detallepedidos = new ArrayList<Detallepedido>();
 		detallepedidosService
 		.findAll()
 		.forEach(p -> detallepedidos.add((Detallepedido) p) );
-		return detallepedidos;
+		
+		ArrayList<Detallepedido> detallesCliente = new ArrayList<Detallepedido>();
+		for (Detallepedido d : detallepedidos) {
+			if(d.getPedido().getCliente().getNombre().equals(nombreL)) {
+				detallesCliente.add(d);
+			}
+		}
+		
+		return detallesCliente;
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getDetallepedidoById(@PathVariable Integer id){
+		Cliente logged = getClienteLogged();
+		String nombreL = logged.getNombre();
+		
 		Optional<Detallepedido> detalleOPT = detallepedidosService.findById(id);
 		if (detalleOPT.isPresent()) {
-			return ResponseEntity.ok(detalleOPT);
+			if(detalleOPT.get().getPedido().getCliente().getNombre().equals(nombreL)) {
+				return ResponseEntity.ok(detalleOPT);
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("El pedido lo ha encargado otro cliente");
+			}
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El Detallepedido no existe");
 		}

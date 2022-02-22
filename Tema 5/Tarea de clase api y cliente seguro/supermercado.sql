@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2022 a las 22:31:05
+-- Tiempo de generación: 22-02-2022 a las 23:47:35
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 7.4.21
 
@@ -62,7 +62,10 @@ CREATE TABLE `detallepedido` (
 
 INSERT INTO `detallepedido` (`iddetallepedido`, `fkidpedido`, `cantidad`, `preciounidad`, `fkidproducto`) VALUES
 (1, 1, 1, 0.9, 1),
-(2, 2, 10, 0.5, 2);
+(2, 2, 10, 0.5, 2),
+(7, 1, 10, 0.5, 1),
+(8, 3, 0, 1, 7),
+(9, 3, 6, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -85,8 +88,9 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idpedido`, `fkidcliente`, `fecha`, `pagado`, `enviado`, `entregado`, `direccion_entrega`) VALUES
-(1, 1, 23434542354, b'0', b'1', b'1', 'C/ Plaza Mayor, 5'),
-(2, 2, 345345654354, b'1', b'1', b'0', 'C/ Molina, 7');
+(1, 2, 23414400000, b'0', b'0', b'0', 'C/ 555321'),
+(2, 2, 345345654354, b'1', b'1', b'0', 'C/ Molina, 7'),
+(3, 1, 1237507200000, b'0', b'1', b'1', 'C/ 555321');
 
 -- --------------------------------------------------------
 
@@ -107,7 +111,9 @@ CREATE TABLE `productos` (
 
 INSERT INTO `productos` (`idproducto`, `nombre`, `preciounidad`, `stock`) VALUES
 (1, 'Pera', 0.9, 20),
-(2, 'Plátano', 0.5, 20);
+(2, 'Plátano', 0.5, 20),
+(5, 'Zapato', 1, 1),
+(7, 'Mascarilla', 1, 75);
 
 --
 -- Índices para tablas volcadas
@@ -150,25 +156,25 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `detallepedido`
 --
 ALTER TABLE `detallepedido`
-  MODIFY `iddetallepedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `iddetallepedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idpedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idpedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
